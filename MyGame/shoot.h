@@ -6,9 +6,12 @@
 class shoot : public entity
 {
 public:
-	float movementSpeed = 2;
+	float movementSpeed = 15;
 	int attackDamage = 5;
 	int direction = 0; // 1 - up, 2 - down, 3 - left, 4 - right
+	bool destroy = false;
+	int couterLifetime = 0;
+	int lifeTime = 50;
 
 	shoot();
 	void update();

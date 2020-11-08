@@ -25,6 +25,7 @@
     <ClCompile Include="player.cpp" />
     <ClCompile Include="random.cpp" />
     <ClCompile Include="shoot.cpp" />
+    <ClCompile Include="textDisplay.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="enemy.h" />
@@ -32,6 +33,7 @@
     <ClInclude Include="player.h" />
     <ClInclude Include="random.h" />
     <ClInclude Include="shoot.h" />
+    <ClInclude Include="textDisplay.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
