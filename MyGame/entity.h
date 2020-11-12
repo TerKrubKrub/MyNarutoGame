@@ -17,6 +17,7 @@ class entity
 {
 public:
 	sf::RectangleShape rect;
+	sf::CircleShape circle;
 	sf::Sprite sprite;
 	sf::Text text;
 

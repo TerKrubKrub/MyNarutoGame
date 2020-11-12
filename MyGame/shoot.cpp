@@ -5,7 +5,8 @@ shoot::shoot()
 	rect.setSize(sf::Vector2f(25, 25));
 	rect.setPosition(0, 0);
 	rect.setFillColor(sf::Color::Green);
-	//sprite.setTextureRect(sf::IntRect(0, 0, 32, 32));
+	sprite.setTextureRect(sf::IntRect(0, 0, 373, 373));
+	sprite.setScale(1/14.8f, 1/15.12f);
 }
 void shoot::update()
 {
@@ -31,4 +32,12 @@ void shoot::update()
 	{
 		destroy = true;
 	}
+	
+	counterAnimation++;
+	if (counterAnimation >= 2)
+	{
+		counterAnimation = 0;
+	}
+
+	sprite.setPosition(rect.getPosition());
 }

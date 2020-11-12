@@ -7,6 +7,8 @@ using namespace std;
 #include "enemy.h"
 #include "random.h"
 #include "textDisplay.h"
+#include "pickup.h"
+
 int main()
 {
     // Variables
@@ -17,37 +19,23 @@ int main()
     int counter2 = 0;
     int counter3 = 0;
 
-
     sf::RenderWindow window(sf::VideoMode(1000, 800), "MY GAME");
     window.setFramerateLimit(60);
-    sf::Texture textureCat;
-    if (!textureCat.loadFromFile("cat.jpg"))
-    {
-        cout << "Failed" << endl;
-    }
-    sf::Sprite spriteCat(textureCat);
-    sf::Texture texturePlayer;
-    if (!texturePlayer.loadFromFile("Sprite.png")) return 0;
-    sf::Sprite spritePlayer(texturePlayer);
-    spritePlayer.setPosition(window.getSize().x / 2, window.getSize().y / 2);
-    spritePlayer.setTextureRect(sf::IntRect(0, 0, 32, 32));
 
     sf::Texture textureEnemy;
-    if (!textureEnemy.loadFromFile("enemySpriteSheet.png")) return 0;
+    if(!textureEnemy.loadFromFile("Resources/enemySpriteSheet.png")); EXIT_FAILURE;
 
-    // Set the Icon
-    sf::Image icon;
-    icon.loadFromFile("cat.jpg");
-    window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
+    sf::Texture texturePlayer;
+    if(!texturePlayer.loadFromFile("Resources/Sprite.png")); EXIT_FAILURE;
 
     sf::Font font;
-    if (!font.loadFromFile("font.otf"))
-    {
-        cout << "Failed" << endl;
-    }
+    if(!font.loadFromFile("Resources/font.otf")); EXIT_FAILURE;
 
-    sf::Text text("Hello World", font, 50);
-    text.setPosition(500, 500);
+    sf::Texture textureCoin;
+    if(!textureCoin.loadFromFile("Resources/coinSprite.png")); EXIT_FAILURE;
+
+    sf::Texture textureRasengan;
+    if(!textureRasengan.loadFromFile("Resources/rasengan.png")) EXIT_FAILURE;
 
     // Class Object
     class player Player1;
@@ -59,6 +47,7 @@ int main()
 
     // Shoot Object
     class shoot shoot1;
+    shoot1.sprite.setTexture(textureRasengan);
 
     // Enemy Vector Array
     vector<enemy>::const_iterator iter4;
@@ -71,8 +60,6 @@ int main()
     enemy1.rect.setPosition(600, 200);
     enemyArray.push_back(enemy1);
 
-
-
     // Text Vector Array
     vector<textDisplay>::const_iterator iter8;
     vector<textDisplay> textDisplayArray;
@@ -80,6 +67,22 @@ int main()
     // Text Display Object
     class textDisplay textDisplay1;
     textDisplay1.text.setFont(font);
+
+    // Text Coins
+    sf::Text coinsCount("Coins : ", font, 25);
+    coinsCount.setFillColor(sf::Color::White);
+    coinsCount.setPosition(800, 30);
+
+    // Coin Vector Array
+    vector<pickup>::const_iterator iter11;
+    vector<pickup> pickupArray;
+
+    // Pickup Object
+    class pickup pickup1;
+    pickup1.sprite.setTexture(textureCoin);
+    pickupArray.push_back(pickup1);
+    
+
 
     //Start the game loop
     while (window.isOpen())
@@ -99,6 +102,25 @@ int main()
         sf::Time elapsed = clock.getElapsedTime();
         sf::Time elapsed2 = clock2.getElapsedTime();
         sf::Time elapsed3 = clock3.getElapsedTime();
+
+
+        // Player collides Pickup Items
+        counter = 0;
+        for (iter11 = pickupArray.begin(); iter11 != pickupArray.end(); iter11++)
+        {
+            if (Player1.rect.getGlobalBounds().intersects(pickupArray[counter].rect.getGlobalBounds()))
+            {
+                if (pickupArray[counter].isCoin == true)
+                {
+                    Player1.coins += pickupArray[counter].coinValue;
+                }
+
+                pickupArray[counter].destroy = true;
+            }
+
+            counter++;
+        }
+
 
         if (elapsed2.asSeconds() >= 0.5)
         {
@@ -151,7 +173,6 @@ int main()
                         enemyArray[counter2].rect.getPosition().y - enemyArray[counter2].rect.getSize().y/2);
                     textDisplayArray.push_back(textDisplay1);
 
-
                     enemyArray[counter2].hp -= shootArray[counter].attackDamage;
                     if (enemyArray[counter2].hp <= 0)
                     {
@@ -163,6 +184,28 @@ int main()
             counter++;
         }
 
+        // Draw Pickup Items
+        counter = 0;
+        for (iter11 = pickupArray.begin(); iter11 != pickupArray.end(); iter11++)
+        {
+            pickupArray[counter].update(); // Update Shoot
+            //window.draw(pickupArray[counter].rect);
+            window.draw(pickupArray[counter].sprite);
+            counter++;
+        }
+
+        // Delete Pickup Items
+        counter = 0;
+        for (iter11 = pickupArray.begin(); iter11 != pickupArray.end(); iter11++)
+        {
+            if (pickupArray[counter].destroy == true)
+            {
+                pickupArray.erase(iter11);
+                break;
+            }
+            counter++;
+        }
+
         // Delete Dead Enemy
         counter = 0;
         for (iter4 = enemyArray.begin(); iter4 != enemyArray.end(); iter4++)
@@ -170,6 +213,13 @@ int main()
             if (enemyArray[counter].alive == false)
             {
                 cout << "Enemy has been dead" << endl;
+
+                if (generateRandom(2) == 1)
+                {
+                    pickup1.rect.setPosition(enemyArray[counter].rect.getPosition());
+                    pickupArray.push_back(pickup1);
+                }
+
                 enemyArray.erase(iter4);
                 break;
             }
@@ -213,6 +263,7 @@ int main()
                     Player1.sprite.getPosition().y + 16 - shoot1.rect.getSize().y/2);
                 shoot1.direction = Player1.direction;
                 shootArray.push_back(shoot1);
+
             }
         }
 
@@ -221,7 +272,8 @@ int main()
         for (iter = shootArray.begin(); iter != shootArray.end(); iter++)
         {
             shootArray[counter].update(); // Update Shoot
-            window.draw(shootArray[counter].rect);
+            //window.draw(shootArray[counter].rect);
+            window.draw(shootArray[counter].sprite);
             counter++;
         }
 
@@ -251,6 +303,10 @@ int main()
         // Draw Text
         //window.draw(text);
 
+        // Draw Coins
+        coinsCount.setString("Coins : " + to_string(Player1.coins));
+        window.draw(coinsCount);
+
         // Draw Text
         counter = 0;
         for (iter8 = textDisplayArray.begin(); iter8 != textDisplayArray.end(); iter8++)
@@ -260,7 +316,6 @@ int main()
 
             counter++;
         }
-
         window.display();
     }
     return 0;

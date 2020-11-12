@@ -50,7 +50,7 @@ void enemy::updateMovement()
     counter++;
     if (counter >= movementLength)
     {
-        direction = generateRandom(15);
+        direction = generateRandom(10);
         counter = 0;
     }
 }
