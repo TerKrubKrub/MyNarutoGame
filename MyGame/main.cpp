@@ -302,7 +302,6 @@ int main()
         //Update Player
         Player1.update(deltaTime);
         Player1.updateMovement(deltaTime);
-        cout << "x = " << Player1.GetPosition().x << " " << "y = " << Player1.GetPosition().y << endl;
         // Draw Player
         window.draw(Player1.sprite);
 
