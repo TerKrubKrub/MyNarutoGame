@@ -19,11 +19,11 @@ void enemy::updateMovement()
 {
     if (direction == 1)
     {
-        rect.move(0, -movementSpeed); //Up
+        //rect.move(0, -movementSpeed); //Up
     }
     else if (direction == 2)
     {
-        rect.move(0, movementSpeed); //Down
+        //rect.move(0, movementSpeed); //Down
     }
     else if (direction == 3) //Left
     {

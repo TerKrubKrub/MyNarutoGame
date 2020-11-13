@@ -15,14 +15,16 @@ public:
 	int coins = 0;
 
 	player();
-	void update();
-	void updateMovement();
-
+	void update(float deltaTime);
+	void updateMovement(float deltaTime);
+	void OnCollision(sf::Vector2f direction1);
 	sf::Vector2f GetPosition() { return rect.getPosition(); }
 	Collider GetCollider() { return Collider(rect); }
 
 private:
-	//sf::RectangleShape body;
+	sf::Vector2f velocity;
+	bool canJump;
+	float jumpHeight = 130.0f;
 };
 
 #endif

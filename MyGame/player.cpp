@@ -3,23 +3,27 @@
 player::player()
 {
     sprite.setTextureRect(sf::IntRect(0, 0, 32, 32));
-    rect.setPosition(20, 20);
+    //rect.setPosition(20, 20);
     rect.setSize(sf::Vector2f(32, 32));
     rect.setOrigin(rect.getSize() / 2.0f);
     sprite.setOrigin(sprite.getGlobalBounds().width / 2.0f, sprite.getGlobalBounds().height / 2.0f);
 }
-void player::update()
+void player::update(float deltaTime)
 {
     if (rect.getPosition().x < 0) rect.setPosition(0, rect.getPosition().y);
     if (rect.getPosition().y < 0) rect.setPosition(rect.getPosition().x, 0);
     if (rect.getPosition().y > 767) rect.setPosition(rect.getPosition().x, 767);
+    rect.move(velocity * deltaTime);
     sprite.setPosition(rect.getPosition());
 	//else sprite.setPosition(rect.getPosition());
 }
 
-void player::updateMovement()
+void player::updateMovement(float deltaTime)
 {
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+    velocity.x = 0.0f;
+    
+
+    /*if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
     {
         rect.move(0, -movementSpeed);
         sprite.setTextureRect(sf::IntRect(counterWalking * 32, 32 * 3, 32, 32));
@@ -32,9 +36,10 @@ void player::updateMovement()
         sprite.setTextureRect(sf::IntRect(counterWalking * 32, 0, 32, 32));
         direction = 2;
         //cout << "Down Pressed" << endl;
-    }
+    }*/
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
     {
+        velocity.x -= movementSpeed;
         rect.move(-movementSpeed, 0);
         sprite.setTextureRect(sf::IntRect(counterWalking * 32, 32 * 1, 32, 32));
         direction = 3;
@@ -42,17 +47,49 @@ void player::updateMovement()
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
     {
+        velocity.x += movementSpeed;
         rect.move(movementSpeed, 0);
         sprite.setTextureRect(sf::IntRect(counterWalking * 32, 32 * 2, 32, 32));
         direction = 4;
         //cout << "Right Pressed" << endl;
     }
+    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && canJump)
+    {
+        canJump = false;
+
+        velocity.y = -sqrtf(2.0f * 981.0f * jumpHeight);
+        //square root ( 2.0f * gravity * jumpHeight );
+    }
+
+    velocity.y += 981.0f * deltaTime;
+
+
     counterWalking++;
     if (counterWalking == 2) counterWalking = 0;
-    if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-    {
 
-        //cout << "Mouse Left Click" << endl;
+}
+
+void player::OnCollision(sf::Vector2f direction1)
+{
+    if (direction1.x < 0.0f)
+    {
+        //Collision on the Left
+        velocity.x = 0.0f;
     }
-    //cout << "x = " << sprite.getPosition().x << " y = " << sprite.getPosition().y << endl;
+    else if (direction1.x > 0.0f)
+    {
+        //Collision on the Right
+        velocity.x = 0.0f;
+    }
+    if (direction1.y < 0.0f)
+    {
+        //Collision on the bottom
+        velocity.y = 0.0f;
+        canJump = true;
+    }
+    else if (direction1.y > 0.0f)
+    {
+        //Collision on the top
+        velocity.y = 0.0f;
+    }
 }

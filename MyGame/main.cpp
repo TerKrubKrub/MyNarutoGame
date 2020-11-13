@@ -21,7 +21,7 @@ int main()
     int counter2 = 0;
     int counter3 = 0;
 
-    sf::RenderWindow window(sf::VideoMode(1280, 720), "MY GAME");
+    sf::RenderWindow window(sf::VideoMode(1000, 720), "MY GAME");
     window.setFramerateLimit(60);
 
     sf::Texture textureEnemy;
@@ -39,8 +39,14 @@ int main()
     sf::Texture textureRasengan;
     if(!textureRasengan.loadFromFile("Resources/rasengan.png")) EXIT_FAILURE;
 
-    Platform platform1(nullptr, sf::Vector2f(400.0f, 200.0f), sf::Vector2f(500.0f, 500.0f));
-    Platform platform2(nullptr, sf::Vector2f(400.0f, 200.0f), sf::Vector2f(500.0f, 0.0f));
+    vector<Platform> platforms;
+
+    platforms.push_back(Platform(nullptr, sf::Vector2f(400.0f, 20.0f), sf::Vector2f(500.0f, 300.0f)));
+    //platforms.push_back(Platform(nullptr, sf::Vector2f(400.0f, 200.0f), sf::Vector2f(500.0f, 0.0f)));
+    platforms.push_back(Platform(nullptr, sf::Vector2f(1000.0f, 200.0f), sf::Vector2f(500.0f, 500.0f)));
+    //Platform platform1(nullptr, sf::Vector2f(400.0f, 200.0f), sf::Vector2f(500.0f, 200.0f));
+    //Platform platform2(nullptr, sf::Vector2f(400.0f, 200.0f), sf::Vector2f(500.0f, 0.0f));
+    //Platform platform3(nullptr, sf::Vector2f(1000.0f, 200.0f), sf::Vector2f(500.0f, 5000.0f));
 
     // Class Object
     class player Player1;
@@ -62,7 +68,9 @@ int main()
     class enemy enemy1;
     enemy1.sprite.setTexture(textureEnemy);
 
-    enemy1.rect.setPosition(600, 200);
+    enemy1.rect.setPosition(600, 260);
+    enemyArray.push_back(enemy1);
+    enemy1.rect.setPosition(500, 370);
     enemyArray.push_back(enemy1);
 
     // Text Vector Array
@@ -87,11 +95,12 @@ int main()
     pickup1.sprite.setTexture(textureCoin);
     pickupArray.push_back(pickup1);
     
-
+    float deltaTime = 0.0f;
 
     //Start the game loop
     while (window.isOpen())
     {
+        deltaTime = clock3.restart().asSeconds();
         // Process events
         sf::Event event;
         while (window.pollEvent(event))
@@ -261,8 +270,8 @@ int main()
             if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
             {
                 cout << "Left Clicked" << endl;
-                shoot1.rect.setPosition(Player1.sprite.getPosition().x + 16 - shoot1.rect.getSize().x/2,
-                    Player1.sprite.getPosition().y + 16 - shoot1.rect.getSize().y/2);
+                shoot1.rect.setPosition(Player1.sprite.getPosition().x - shoot1.rect.getSize().x/2,
+                    Player1.sprite.getPosition().y - shoot1.rect.getSize().y/2);
                 shoot1.direction = Player1.direction;
                 shootArray.push_back(shoot1);
 
@@ -291,9 +300,9 @@ int main()
         }
 
         //Update Player
-        Player1.update();
-        Player1.updateMovement();
-
+        Player1.update(deltaTime);
+        Player1.updateMovement(deltaTime);
+        cout << "x = " << Player1.GetPosition().x << " " << "y = " << Player1.GetPosition().y << endl;
         // Draw Player
         window.draw(Player1.sprite);
 
@@ -311,11 +320,15 @@ int main()
             counter++;
         }
 
-        platform1.GetCollider().CheckCollision(Player1.GetCollider(), 0.0f);
-        platform2.GetCollider().CheckCollision(Player1.GetCollider(), 1.0f);
+        sf::Vector2f direction1;
 
-        platform1.Draw(window);
-        platform2.Draw(window);
+        for (Platform& platform : platforms)
+            if (platform.GetCollider().CheckCollision(Player1.GetCollider(), direction1, 1.0f))
+                Player1.OnCollision(direction1);
+
+        for (Platform& platform : platforms)
+            platform.Draw(window);
+
         window.display();
     }
     return 0;
