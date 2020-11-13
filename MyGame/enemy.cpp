@@ -42,11 +42,7 @@ void enemy::updateMovement()
     }
     counterWalking++;
     if (counterWalking == 1) counterWalking = 0;
-    if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
-    {
 
-        cout << "Mouse Left Click" << endl;
-    }
     counter++;
     if (counter >= movementLength)
     {

@@ -2,6 +2,7 @@
 #define PLAYER
 
 #include "entity.h"
+#include "Collider.h"
 
 class player : public entity
 {
@@ -17,6 +18,11 @@ public:
 	void update();
 	void updateMovement();
 
+	sf::Vector2f GetPosition() { return rect.getPosition(); }
+	Collider GetCollider() { return Collider(rect); }
+
+private:
+	//sf::RectangleShape body;
 };
 
 #endif

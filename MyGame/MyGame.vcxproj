@@ -19,19 +19,23 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Collider.cpp" />
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="entity.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pickup.cpp" />
+    <ClCompile Include="Platform.cpp" />
     <ClCompile Include="player.cpp" />
     <ClCompile Include="random.cpp" />
     <ClCompile Include="shoot.cpp" />
     <ClCompile Include="textDisplay.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Collider.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="entity.h" />
     <ClInclude Include="pickup.h" />
+    <ClInclude Include="Platform.h" />
     <ClInclude Include="player.h" />
     <ClInclude Include="random.h" />
     <ClInclude Include="shoot.h" />

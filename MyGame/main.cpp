@@ -8,6 +8,8 @@ using namespace std;
 #include "random.h"
 #include "textDisplay.h"
 #include "pickup.h"
+#include "Platform.h"
+#include "Collider.h"
 
 int main()
 {
@@ -19,7 +21,7 @@ int main()
     int counter2 = 0;
     int counter3 = 0;
 
-    sf::RenderWindow window(sf::VideoMode(1000, 800), "MY GAME");
+    sf::RenderWindow window(sf::VideoMode(1280, 720), "MY GAME");
     window.setFramerateLimit(60);
 
     sf::Texture textureEnemy;
@@ -36,6 +38,9 @@ int main()
 
     sf::Texture textureRasengan;
     if(!textureRasengan.loadFromFile("Resources/rasengan.png")) EXIT_FAILURE;
+
+    Platform platform1(nullptr, sf::Vector2f(400.0f, 200.0f), sf::Vector2f(500.0f, 500.0f));
+    Platform platform2(nullptr, sf::Vector2f(400.0f, 200.0f), sf::Vector2f(500.0f, 0.0f));
 
     // Class Object
     class player Player1;
@@ -139,14 +144,12 @@ int main()
                     textDisplayArray.push_back(textDisplay1);
 
                     Player1.hp -= enemyArray[counter].attackDamage;
+                    cout << Player1.hp << endl;
                 }
 
                 counter++;
             }
         }
-
-        cout << Player1.hp << endl;
-
 
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Y))
@@ -248,7 +251,6 @@ int main()
                 textDisplayArray.erase(iter8);
                 break;
             }
-
             counter++;
         }
 
@@ -256,9 +258,9 @@ int main()
         if (elapsed.asSeconds() >= 0.1)
         {
             clock.restart();
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space))
+            if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
             {
-                cout << "Spacebar Pressed" << endl;
+                cout << "Left Clicked" << endl;
                 shoot1.rect.setPosition(Player1.sprite.getPosition().x + 16 - shoot1.rect.getSize().x/2,
                     Player1.sprite.getPosition().y + 16 - shoot1.rect.getSize().y/2);
                 shoot1.direction = Player1.direction;
@@ -292,16 +294,8 @@ int main()
         Player1.update();
         Player1.updateMovement();
 
-        // Draw Sprite Cat
-        //window.draw(spriteCat);
-
-        // Draw Sprite Player
-        //.draw(spritePlayer);
-
         // Draw Player
         window.draw(Player1.sprite);
-        // Draw Text
-        //window.draw(text);
 
         // Draw Coins
         coinsCount.setString("Coins : " + to_string(Player1.coins));
@@ -316,6 +310,12 @@ int main()
 
             counter++;
         }
+
+        platform1.GetCollider().CheckCollision(Player1.GetCollider(), 0.0f);
+        platform2.GetCollider().CheckCollision(Player1.GetCollider(), 1.0f);
+
+        platform1.Draw(window);
+        platform2.Draw(window);
         window.display();
     }
     return 0;

@@ -11,6 +11,7 @@
 #include <deque>
 #include <cmath>
 #include <iostream>
+
 using namespace std;
 
 class entity

@@ -3,14 +3,16 @@
 player::player()
 {
     sprite.setTextureRect(sf::IntRect(0, 0, 32, 32));
-    rect.setPosition(400, 200);
+    rect.setPosition(20, 20);
     rect.setSize(sf::Vector2f(32, 32));
+    rect.setOrigin(rect.getSize() / 2.0f);
+    sprite.setOrigin(sprite.getGlobalBounds().width / 2.0f, sprite.getGlobalBounds().height / 2.0f);
 }
 void player::update()
 {
-    if (rect.getPosition().x < 0) rect.setPosition(0, sprite.getPosition().y);
-    if (rect.getPosition().y < 0) rect.setPosition(sprite.getPosition().x, 0);
-    if (rect.getPosition().y > 767) rect.setPosition(sprite.getPosition().x, 767);
+    if (rect.getPosition().x < 0) rect.setPosition(0, rect.getPosition().y);
+    if (rect.getPosition().y < 0) rect.setPosition(rect.getPosition().x, 0);
+    if (rect.getPosition().y > 767) rect.setPosition(rect.getPosition().x, 767);
     sprite.setPosition(rect.getPosition());
 	//else sprite.setPosition(rect.getPosition());
 }
