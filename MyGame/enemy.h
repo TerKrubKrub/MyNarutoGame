@@ -20,8 +20,8 @@ public:
 	void update(float deltaTime);
 	void updateMovement(float deltaTime);
 	void OnCollision(sf::Vector2f direction1);
-	sf::Vector2f GetPosition() { return rect.getPosition(); }
-	Collider GetCollider() { return Collider(rect); }
+	sf::Vector2f GetPosition() { return sprite.getPosition(); }
+	Collider GetCollider() { return Collider(sprite); }
 
 private:
 	sf::Vector2f velocity;

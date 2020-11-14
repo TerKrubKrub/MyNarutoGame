@@ -42,15 +42,15 @@ int main()
     sf::Texture textureBackground;
     if (!textureBackground.loadFromFile("Resources/background.jpg")) EXIT_FAILURE;
 
+    sf::Texture platform1;
+    if (!platform1.loadFromFile("Resources/platform1.png")) EXIT_FAILURE;
+
     sf::RectangleShape backGround;
     backGround.setTexture(&textureBackground);
     backGround.setSize(sf::Vector2f(window.getSize()));
 
     vector<Platform> platforms;
-
-    platforms.push_back(Platform(nullptr, sf::Vector2f(400.0f, 20.0f), sf::Vector2f(500.0f, 300.0f)));
-    platforms.push_back(Platform(nullptr, sf::Vector2f(2000.0f, 200.0f), sf::Vector2f(500.0f, 680.0f)));
-
+    platforms.push_back(Platform(&platform1, sf::Vector2f(200.0f, 600.0f)));
 
     // Class Object
     class player Player1;
@@ -97,7 +97,7 @@ int main()
     // Pickup Object
     class pickup pickup1;
     pickup1.sprite.setTexture(textureCoin);
-    pickupArray.push_back(pickup1);
+    //pickupArray.push_back(pickup1);
     
     float deltaTime = 0.0f;
 
@@ -129,7 +129,7 @@ int main()
         counter = 0;
         for (iter11 = pickupArray.begin(); iter11 != pickupArray.end(); iter11++)
         {
-            if (Player1.rect.getGlobalBounds().intersects(pickupArray[counter].rect.getGlobalBounds()))
+            if (Player1.sprite.getGlobalBounds().intersects(pickupArray[counter].sprite.getGlobalBounds()))
             {
                 if (pickupArray[counter].isCoin == true)
                 {
@@ -150,7 +150,7 @@ int main()
             counter = 0;
             for (iter4 = enemyArray.begin(); iter4 != enemyArray.end(); iter4++)
             {
-                if (Player1.sprite.getGlobalBounds().intersects(enemyArray[counter].rect.getGlobalBounds()))
+                if (Player1.sprite.getGlobalBounds().intersects(enemyArray[counter].sprite.getGlobalBounds()))
                 {
                     // Text Display
                     textDisplay1.text.setString(to_string(enemyArray[counter].attackDamage));
@@ -169,7 +169,7 @@ int main()
 
         if (sf::Keyboard::isKeyPressed(sf::Keyboard::Y))
         {
-            enemy1.rect.setPosition(generateRandom(window.getSize().x), generateRandom(window.getSize().y));
+            enemy1.sprite.setPosition(generateRandom(window.getSize().x), generateRandom(window.getSize().y));
             enemyArray.push_back(enemy1);
         }
 
@@ -180,15 +180,15 @@ int main()
             counter2 = 0;
             for (iter4 = enemyArray.begin(); iter4 != enemyArray.end(); iter4++)
             {
-                if (shootArray[counter].rect.getGlobalBounds().intersects(enemyArray[counter2].rect.getGlobalBounds()))
+                if (shootArray[counter].rect.getGlobalBounds().intersects(enemyArray[counter2].sprite.getGlobalBounds()))
                 {
                     //cout << "Collision" << endl;
                     shootArray[counter].destroy = true;
 
                     // Text Display
                     textDisplay1.text.setString(to_string(shootArray[counter].attackDamage));
-                    textDisplay1.text.setPosition(enemyArray[counter2].rect.getPosition().x + enemyArray[counter2].rect.getSize().x/2, 
-                        enemyArray[counter2].rect.getPosition().y - enemyArray[counter2].rect.getSize().y/2);
+                    textDisplay1.text.setPosition(enemyArray[counter2].sprite.getPosition().x + enemyArray[counter2].sprite.getGlobalBounds().width/2,
+                        enemyArray[counter2].sprite.getPosition().y - enemyArray[counter2].sprite.getGlobalBounds().height/2.0f);
                     textDisplayArray.push_back(textDisplay1);
 
                     enemyArray[counter2].hp -= shootArray[counter].attackDamage;
@@ -206,8 +206,6 @@ int main()
         counter = 0;
         for (iter11 = pickupArray.begin(); iter11 != pickupArray.end(); iter11++)
         {
-            pickupArray[counter].update(); // Update Shoot
-            //window.draw(pickupArray[counter].rect);
             window.draw(pickupArray[counter].sprite);
             counter++;
         }
@@ -234,7 +232,7 @@ int main()
 
                 if (generateRandom(2) == 1)
                 {
-                    pickup1.rect.setPosition(enemyArray[counter].rect.getPosition());
+                    pickup1.sprite.setPosition(enemyArray[counter].sprite.getPosition());
                     pickupArray.push_back(pickup1);
                 }
 
