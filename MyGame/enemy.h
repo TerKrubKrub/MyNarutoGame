@@ -2,6 +2,7 @@
 #define ENEMY
 
 #include "entity.h"
+#include "Collider.h"
 
 class enemy : public entity
 {
@@ -16,9 +17,14 @@ public:
 	bool alive = true;
 
 	enemy();
-	void update();
-	void updateMovement();
+	void update(float deltaTime);
+	void updateMovement(float deltaTime);
+	void OnCollision(sf::Vector2f direction1);
+	sf::Vector2f GetPosition() { return rect.getPosition(); }
+	Collider GetCollider() { return Collider(rect); }
 
+private:
+	sf::Vector2f velocity;
 };
 
 #endif

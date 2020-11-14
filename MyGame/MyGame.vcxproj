@@ -22,6 +22,7 @@
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="enemy.cpp" />
     <ClCompile Include="entity.cpp" />
+    <ClCompile Include="Hp.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pickup.cpp" />
     <ClCompile Include="Platform.cpp" />
@@ -34,6 +35,7 @@
     <ClInclude Include="Collider.h" />
     <ClInclude Include="enemy.h" />
     <ClInclude Include="entity.h" />
+    <ClInclude Include="Hp.h" />
     <ClInclude Include="pickup.h" />
     <ClInclude Include="Platform.h" />
     <ClInclude Include="player.h" />

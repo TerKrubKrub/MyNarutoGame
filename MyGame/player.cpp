@@ -16,6 +16,7 @@ void player::update(float deltaTime)
     rect.move(velocity * deltaTime);
     sprite.setPosition(rect.getPosition());
 	//else sprite.setPosition(rect.getPosition());
+    this->updateMovement(deltaTime);
 }
 
 void player::updateMovement(float deltaTime)

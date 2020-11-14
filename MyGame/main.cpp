@@ -21,7 +21,7 @@ int main()
     int counter2 = 0;
     int counter3 = 0;
 
-    sf::RenderWindow window(sf::VideoMode(1000, 720), "MY GAME");
+    sf::RenderWindow window(sf::VideoMode(1000, 600), "MY GAME");
     window.setFramerateLimit(60);
 
     sf::Texture textureEnemy;
@@ -39,14 +39,18 @@ int main()
     sf::Texture textureRasengan;
     if(!textureRasengan.loadFromFile("Resources/rasengan.png")) EXIT_FAILURE;
 
+    sf::Texture textureBackground;
+    if (!textureBackground.loadFromFile("Resources/background.jpg")) EXIT_FAILURE;
+
+    sf::RectangleShape backGround;
+    backGround.setTexture(&textureBackground);
+    backGround.setSize(sf::Vector2f(window.getSize()));
+
     vector<Platform> platforms;
 
     platforms.push_back(Platform(nullptr, sf::Vector2f(400.0f, 20.0f), sf::Vector2f(500.0f, 300.0f)));
-    //platforms.push_back(Platform(nullptr, sf::Vector2f(400.0f, 200.0f), sf::Vector2f(500.0f, 0.0f)));
-    platforms.push_back(Platform(nullptr, sf::Vector2f(1000.0f, 200.0f), sf::Vector2f(500.0f, 500.0f)));
-    //Platform platform1(nullptr, sf::Vector2f(400.0f, 200.0f), sf::Vector2f(500.0f, 200.0f));
-    //Platform platform2(nullptr, sf::Vector2f(400.0f, 200.0f), sf::Vector2f(500.0f, 0.0f));
-    //Platform platform3(nullptr, sf::Vector2f(1000.0f, 200.0f), sf::Vector2f(500.0f, 5000.0f));
+    platforms.push_back(Platform(nullptr, sf::Vector2f(2000.0f, 200.0f), sf::Vector2f(500.0f, 680.0f)));
+
 
     // Class Object
     class player Player1;
@@ -68,9 +72,9 @@ int main()
     class enemy enemy1;
     enemy1.sprite.setTexture(textureEnemy);
 
-    enemy1.rect.setPosition(600, 260);
+    enemy1.sprite.setPosition(600, 260);
     enemyArray.push_back(enemy1);
-    enemy1.rect.setPosition(500, 370);
+    enemy1.sprite.setPosition(500, 370);
     enemyArray.push_back(enemy1);
 
     // Text Vector Array
@@ -112,10 +116,13 @@ int main()
 
         window.clear();
 
+
         // Clock
         sf::Time elapsed = clock.getElapsedTime();
         sf::Time elapsed2 = clock2.getElapsedTime();
         sf::Time elapsed3 = clock3.getElapsedTime();
+
+        sf::Vector2f direction1;
 
 
         // Player collides Pickup Items
@@ -134,7 +141,6 @@ int main()
 
             counter++;
         }
-
 
         if (elapsed2.asSeconds() >= 0.5)
         {
@@ -284,26 +290,67 @@ int main()
         {
             shootArray[counter].update(); // Update Shoot
             //window.draw(shootArray[counter].rect);
-            window.draw(shootArray[counter].sprite);
+            //window.draw(shootArray[counter].sprite);
             counter++;
         }
+        //Enemy Collide with Platforms
+        /*for (Platform& platform : platforms)
+        {
+            counter = 0;
+            for (iter4 = enemyArray.begin(); iter4 != enemyArray.end(); iter4++)
+            {
+                if (platform.GetCollider().CheckCollision(enemyArray[counter].GetCollider(), direction1, 1.0f))
+                    enemyArray[counter].OnCollision(direction1);
+                counter++;
+            }
+        }*/
 
-        //Draw Enemy
+        for (Platform& platform : platforms)
+        {
+            if (platform.GetCollider().CheckCollision(Player1.GetCollider(), direction1, 1.0f))
+                Player1.OnCollision(direction1);
+            counter = 0;
+            for (iter4 = enemyArray.begin(); iter4 != enemyArray.end(); iter4++)
+            {
+                if (platform.GetCollider().CheckCollision(enemyArray[counter].GetCollider(), direction1, 1.0f))
+                    enemyArray[counter].OnCollision(direction1);
+                counter++;
+            }
+        }
+
+        //Update Enemy
         counter = 0;
         for (iter4 = enemyArray.begin(); iter4 != enemyArray.end(); iter4++)
         {
-            enemyArray[counter].update(); // Update Shoot
-            enemyArray[counter].updateMovement();
+            enemyArray[counter].update(deltaTime); // Update Enemy
             //window.draw(enemyArray[counter].rect);
+            //window.draw(enemyArray[counter].sprite);
+            counter++;
+        }
+      
+
+        //Update Player
+        Player1.update(deltaTime);
+
+        for (Platform& platform : platforms)
+            platform.Draw(window);
+        //window.draw(backGround);
+        // Draw Player
+        window.draw(Player1.sprite);
+
+        counter = 0;
+        for (iter4 = enemyArray.begin(); iter4 != enemyArray.end(); iter4++)
+        {
             window.draw(enemyArray[counter].sprite);
             counter++;
         }
 
-        //Update Player
-        Player1.update(deltaTime);
-        Player1.updateMovement(deltaTime);
-        // Draw Player
-        window.draw(Player1.sprite);
+        counter = 0;
+        for (iter = shootArray.begin(); iter != shootArray.end(); iter++)
+        {
+            window.draw(shootArray[counter].sprite);
+            counter++;
+        }
 
         // Draw Coins
         coinsCount.setString("Coins : " + to_string(Player1.coins));
@@ -318,16 +365,6 @@ int main()
 
             counter++;
         }
-
-        sf::Vector2f direction1;
-
-        for (Platform& platform : platforms)
-            if (platform.GetCollider().CheckCollision(Player1.GetCollider(), direction1, 1.0f))
-                Player1.OnCollision(direction1);
-
-        for (Platform& platform : platforms)
-            platform.Draw(window);
-
         window.display();
     }
     return 0;
