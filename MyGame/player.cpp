@@ -59,9 +59,12 @@ void player::updateMovement(float deltaTime)
 
     velocity.y += 981.0f * deltaTime;
 
-
-    counterWalking++;
-    if (counterWalking == 2) counterWalking = 0;
+    if (clock.getElapsedTime().asSeconds() >= 0.1)
+    {
+        clock.restart();
+        counterWalking++;
+        if (counterWalking == 2) counterWalking = 0;
+    }
 
 }
 
