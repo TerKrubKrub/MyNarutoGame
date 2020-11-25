@@ -17,8 +17,8 @@ public:
 	bool alive = true;
 
 	enemy();
-	void update(float deltaTime);
-	void updateMovement(float deltaTime);
+	void update(float dt);
+	void updateMovement(float dt);
 	void OnCollision(sf::Vector2f direction1);
 	sf::Vector2f GetPosition() { return sprite.getPosition(); }
 	Collider GetCollider() { return Collider(sprite); }

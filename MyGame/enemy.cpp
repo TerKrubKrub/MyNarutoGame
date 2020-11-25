@@ -7,13 +7,13 @@ enemy::enemy()
     sprite.setOrigin(sprite.getGlobalBounds().width / 2.0f, sprite.getGlobalBounds().height / 2.0f);
 }
 
-void enemy::update(float deltaTime)
+void enemy::update(float dt)
 {
-    sprite.move(velocity * deltaTime);
-    this->updateMovement(deltaTime);
+    sprite.move(velocity * dt);
+    this->updateMovement(dt);
 }
 
-void enemy::updateMovement(float deltaTime)
+void enemy::updateMovement(float dt)
 {
     velocity.x = 0.0f;
 
@@ -43,7 +43,7 @@ void enemy::updateMovement(float deltaTime)
     }
 
 
-    velocity.y += 981.0f * deltaTime;
+    velocity.y += 981.0f * dt;
 
     
     if (counterWalking == 1) counterWalking = 0;

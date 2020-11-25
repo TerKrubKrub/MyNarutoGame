@@ -1,8 +1,12 @@
 #ifndef ENTITY
 #define ENTITY
 
+#include "SFML/System.hpp"
+#include "SFML/Window.hpp"
 #include "SFML/Graphics.hpp"
 #include "SFML/Audio.hpp"
+#include "SFML/Network.hpp"
+
 #include <random>
 #include <stdlib.h>
 #include <functional>
@@ -11,6 +15,8 @@
 #include <deque>
 #include <cmath>
 #include <iostream>
+#include <map>
+#include <string>
 
 using namespace std;
 

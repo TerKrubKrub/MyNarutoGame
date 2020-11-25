@@ -25,22 +25,22 @@ int main()
     window.setFramerateLimit(60);
 
     sf::Texture textureEnemy;
-    if(!textureEnemy.loadFromFile("Resources/enemySpriteSheet.png")); EXIT_FAILURE;
+    if(!textureEnemy.loadFromFile("Resources/enemySpriteSheet.png")) EXIT_FAILURE;
 
     sf::Texture texturePlayer;
-    if(!texturePlayer.loadFromFile("Resources/Sprite.png")); EXIT_FAILURE;
+    if(!texturePlayer.loadFromFile("Resources/Sprite1.png")) EXIT_FAILURE;
 
     sf::Font font;
-    if(!font.loadFromFile("Resources/font.otf")); EXIT_FAILURE;
+    if(!font.loadFromFile("Resources/font.otf")) EXIT_FAILURE;
 
     sf::Texture textureCoin;
-    if(!textureCoin.loadFromFile("Resources/coinSprite.png")); EXIT_FAILURE;
+    if(!textureCoin.loadFromFile("Resources/coinSprite.png")) EXIT_FAILURE;
 
     sf::Texture textureRasengan;
     if(!textureRasengan.loadFromFile("Resources/rasengan.png")) EXIT_FAILURE;
 
     sf::Texture textureBackground;
-    if (!textureBackground.loadFromFile("Resources/background.jpg")) EXIT_FAILURE;
+    if (!textureBackground.loadFromFile("Resources/background.gif")) EXIT_FAILURE;
 
     sf::Texture platform1;
     if (!platform1.loadFromFile("Resources/platform1.png")) EXIT_FAILURE;
@@ -50,7 +50,7 @@ int main()
     backGround.setSize(sf::Vector2f(window.getSize()));
 
     vector<Platform> platforms;
-    platforms.push_back(Platform(&platform1, sf::Vector2f(200.0f, 600.0f)));
+    platforms.push_back(Platform(&platform1, sf::Vector2f(200.0f, 590.0f)));
 
     // Class Object
     class player Player1;
@@ -87,7 +87,7 @@ int main()
 
     // Text Coins
     sf::Text coinsCount("Coins : ", font, 25);
-    coinsCount.setFillColor(sf::Color::White);
+    coinsCount.setFillColor(sf::Color::Blue);
     coinsCount.setPosition(800, 30);
 
     // Coin Vector Array
@@ -99,12 +99,12 @@ int main()
     pickup1.sprite.setTexture(textureCoin);
     //pickupArray.push_back(pickup1);
     
-    float deltaTime = 0.0f;
+    float dt = 0.0f;
 
     //Start the game loop
     while (window.isOpen())
     {
-        deltaTime = clock3.restart().asSeconds();
+        dt = clock3.restart().asSeconds();
         // Process events
         sf::Event event;
         while (window.pollEvent(event))
@@ -202,13 +202,7 @@ int main()
             counter++;
         }
 
-        // Draw Pickup Items
-        counter = 0;
-        for (iter11 = pickupArray.begin(); iter11 != pickupArray.end(); iter11++)
-        {
-            window.draw(pickupArray[counter].sprite);
-            counter++;
-        }
+        
 
         // Delete Pickup Items
         counter = 0;
@@ -320,7 +314,7 @@ int main()
         counter = 0;
         for (iter4 = enemyArray.begin(); iter4 != enemyArray.end(); iter4++)
         {
-            enemyArray[counter].update(deltaTime); // Update Enemy
+            enemyArray[counter].update(dt); // Update Enemy
             //window.draw(enemyArray[counter].rect);
             //window.draw(enemyArray[counter].sprite);
             counter++;
@@ -328,13 +322,21 @@ int main()
       
 
         //Update Player
-        Player1.update(deltaTime);
+        Player1.update(dt);
 
         for (Platform& platform : platforms)
             platform.Draw(window);
-        //window.draw(backGround);
+        window.draw(backGround);
         // Draw Player
         window.draw(Player1.sprite);
+
+        // Draw Pickup Items
+        counter = 0;
+        for (iter11 = pickupArray.begin(); iter11 != pickupArray.end(); iter11++)
+        {
+            window.draw(pickupArray[counter].sprite);
+            counter++;
+        }
 
         counter = 0;
         for (iter4 = enemyArray.begin(); iter4 != enemyArray.end(); iter4++)

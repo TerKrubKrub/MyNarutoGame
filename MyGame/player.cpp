@@ -2,52 +2,41 @@
 
 player::player()
 {
-    sprite.setTextureRect(sf::IntRect(0, 0, 32, 32));
+    sprite.setTextureRect(sf::IntRect(6, 147, 37, 67));
     sprite.setOrigin(sprite.getGlobalBounds().width / 2.0f, sprite.getGlobalBounds().height / 2.0f);
+    direction = 4;
 }
-void player::update(float deltaTime)
+void player::update(float dt)
 {
-    if (rect.getPosition().x < 0) rect.setPosition(0, rect.getPosition().y);
-    if (rect.getPosition().y < 0) rect.setPosition(rect.getPosition().x, 0);
-    if (rect.getPosition().y > 767) rect.setPosition(rect.getPosition().x, 767);
-    sprite.move(velocity * deltaTime);
-    this->updateMovement(deltaTime);
+    if (sprite.getPosition().x < 0) sprite.setPosition(0, sprite.getPosition().y);
+    sprite.move(velocity * dt);
+    this->updateMovement(dt);
 }
 
-void player::updateMovement(float deltaTime)
+void player::updateMovement(float dt)
 {
+    if (direction == 3)
+        sprite.setTextureRect(sf::IntRect(260 + (counterWalking * 41), 147, 35, 67));
+    if (direction == 4)
+        sprite.setTextureRect(sf::IntRect(6 + (counterWalking * 41), 147, 35, 67));
+
     velocity.x = 0.0f;
-    
 
-    /*if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
-    {
-        rect.move(0, -movementSpeed);
-        sprite.setTextureRect(sf::IntRect(counterWalking * 32, 32 * 3, 32, 32));
-        direction = 1;
-        //cout << "Up Pressed" << endl;
-    }
-    if (sf::Keyboard::isKeyPressed(sf::Keyboard::S))
-    {
-        rect.move(0, movementSpeed);
-        sprite.setTextureRect(sf::IntRect(counterWalking * 32, 0, 32, 32));
-        direction = 2;
-        //cout << "Down Pressed" << endl;
-    }*/
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
     {
+        if (counterWalking >= 2) counterWalking = 0;
+        sprite.setTextureRect(sf::IntRect(540 + (counterWalking * 61), 280, 57, 48));
         velocity.x -= movementSpeed;
         sprite.move(-movementSpeed, 0);
-        sprite.setTextureRect(sf::IntRect(counterWalking * 32, 32 * 1, 32, 32));
         direction = 3;
-        //cout << "Left Pressed" << endl;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
     {
+        if (counterWalking >= 2) counterWalking = 0;
+        sprite.setTextureRect(sf::IntRect(272 + (counterWalking * 61), 280, 57, 48));
         velocity.x += movementSpeed;
         sprite.move(movementSpeed, 0);
-        sprite.setTextureRect(sf::IntRect(counterWalking * 32, 32 * 2, 32, 32));
         direction = 4;
-        //cout << "Right Pressed" << endl;
     }
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::Space) && canJump)
     {
@@ -57,12 +46,14 @@ void player::updateMovement(float deltaTime)
         //square root ( 2.0f * gravity * jumpHeight );
     }
 
-    velocity.y += 981.0f * deltaTime;
+    velocity.y += 981.0f * dt;
 
-
-    counterWalking++;
-    if (counterWalking == 2) counterWalking = 0;
-
+    if (clock.getElapsedTime().asSeconds() >= 0.2)
+    {
+        clock.restart();
+        counterWalking++;
+        if (counterWalking == 5) counterWalking = 0;
+    }
 }
 
 void player::OnCollision(sf::Vector2f direction1)

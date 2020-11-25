@@ -6,7 +6,7 @@ shoot::shoot()
 	rect.setPosition(0, 0);
 	rect.setFillColor(sf::Color::Green);
 	sprite.setTextureRect(sf::IntRect(0, 0, 373, 373));
-	sprite.setScale(1/14.8f, 1/15.12f);
+	sprite.setScale(1/20.f, 1/20.f);
 }
 void shoot::update()
 {
