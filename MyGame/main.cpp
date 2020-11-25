@@ -265,7 +265,7 @@ int main()
         if (elapsed.asSeconds() >= 0.1)
         {
             clock.restart();
-            if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::J))
             {
                 cout << "Left Clicked" << endl;
                 shoot1.rect.setPosition(Player1.sprite.getPosition().x - shoot1.rect.getSize().x/2,
