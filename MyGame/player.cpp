@@ -3,7 +3,7 @@
 player::player()
 {
     sprite.setTextureRect(sf::IntRect(6, 147, 37, 67));
-    sprite.setOrigin(sprite.getGlobalBounds().width / 2.0f, sprite.getGlobalBounds().height / 2.0f);
+    //sprite.setOrigin(sprite.getGlobalBounds().width / 2.0f, sprite.getGlobalBounds().height / 2.0f);
     direction = 4;
 }
 void player::update(float dt)
@@ -25,7 +25,7 @@ void player::updateMovement(float dt)
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::A))
     {
         if (counterWalking >= 2) counterWalking = 0;
-        sprite.setTextureRect(sf::IntRect(540 + (counterWalking * 61), 280, 57, 48));
+        sprite.setTextureRect(sf::IntRect(540 + (counterWalking * 61), 261, 57, 67));
         velocity.x -= movementSpeed;
         sprite.move(-movementSpeed, 0);
         direction = 3;
@@ -33,7 +33,7 @@ void player::updateMovement(float dt)
     if (sf::Keyboard::isKeyPressed(sf::Keyboard::D))
     {
         if (counterWalking >= 2) counterWalking = 0;
-        sprite.setTextureRect(sf::IntRect(272 + (counterWalking * 61), 280, 57, 48));
+        sprite.setTextureRect(sf::IntRect(272 + (counterWalking * 61), 261, 57, 67));
         velocity.x += movementSpeed;
         sprite.move(movementSpeed, 0);
         direction = 4;

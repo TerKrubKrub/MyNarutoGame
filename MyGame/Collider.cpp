@@ -9,15 +9,29 @@ Collider::~Collider()
 {
 }
 
+float Collider::getWidth()
+{
+	return body.getGlobalBounds().width;
+}
+
+float Collider::getHeight()
+{
+	return body.getGlobalBounds().height;
+}
+
 bool Collider::CheckCollision(Collider other, sf::Vector2f& direction, float push)
 {
 	sf::Vector2f otherPosition = other.GetPosition();
 	sf::Vector2f otherHalfSize = other.GetHalfSize();
 	sf::Vector2f thisPosition = GetPosition();
 	sf::Vector2f thisHalfSize = GetHalfSize();
+	float otherWidth = other.getWidth();
+	float otherHeight = other.getHeight();
+	float thisWidth = getWidth();
+	float thisHeight = getHeight();
 
-	float deltaX = otherPosition.x - thisPosition.x;
-	float deltaY = otherPosition.y - thisPosition.y;
+	float deltaX = (otherPosition.x + (otherWidth / 2.f)) - (thisPosition.x + (thisWidth / 2.f));
+	float deltaY = (otherPosition.y + (otherHeight / 2.f)) - (thisPosition.y + (thisHeight / 2.f));
 
 	float intersectX = abs(deltaX) - (otherHalfSize.x + thisHalfSize.x);
 	float intersectY = abs(deltaY) - (otherHalfSize.y + thisHalfSize.y);

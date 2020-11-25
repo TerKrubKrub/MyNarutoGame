@@ -6,10 +6,7 @@
 
 class player : public entity
 {
-private:
-	sf::Clock clock;
 public:
-
 	float movementSpeed = 5;
 	int attackDamage = 1;
 	int counterWalking = 0;

@@ -24,6 +24,10 @@ int main()
     sf::RenderWindow window(sf::VideoMode(1000, 600), "MY GAME");
     window.setFramerateLimit(60);
 
+    sf::View view1;
+    view1.setSize(window.getSize().x, window.getSize().y);
+    view1.setCenter(window.getSize().x / 2, window.getSize().y / 2);
+
     sf::Texture textureEnemy;
     if(!textureEnemy.loadFromFile("Resources/enemySpriteSheet.png")) EXIT_FAILURE;
 
@@ -40,17 +44,17 @@ int main()
     if(!textureRasengan.loadFromFile("Resources/rasengan.png")) EXIT_FAILURE;
 
     sf::Texture textureBackground;
-    if (!textureBackground.loadFromFile("Resources/background.gif")) EXIT_FAILURE;
+    if (!textureBackground.loadFromFile("Resources/background.png")) EXIT_FAILURE;
 
     sf::Texture platform1;
     if (!platform1.loadFromFile("Resources/platform1.png")) EXIT_FAILURE;
 
     sf::RectangleShape backGround;
     backGround.setTexture(&textureBackground);
-    backGround.setSize(sf::Vector2f(window.getSize()));
+    backGround.setSize(sf::Vector2f(textureBackground.getSize().x * 1000 / 560, window.getSize().y));
 
     vector<Platform> platforms;
-    platforms.push_back(Platform(&platform1, sf::Vector2f(200.0f, 590.0f)));
+    platforms.push_back(Platform(&platform1, sf::Vector2f(0.0f, 565.0f)));
 
     // Class Object
     class player Player1;
@@ -88,7 +92,7 @@ int main()
     // Text Coins
     sf::Text coinsCount("Coins : ", font, 25);
     coinsCount.setFillColor(sf::Color::Blue);
-    coinsCount.setPosition(800, 30);
+    coinsCount.setPosition(view1.getCenter().x + window.getSize().x / 2 - 200, 20);
 
     // Coin Vector Array
     vector<pickup>::const_iterator iter11;
@@ -154,8 +158,8 @@ int main()
                 {
                     // Text Display
                     textDisplay1.text.setString(to_string(enemyArray[counter].attackDamage));
-                    textDisplay1.text.setPosition(Player1.sprite.getPosition().x + Player1.rect.getSize().x / 2,
-                        Player1.sprite.getPosition().y - Player1.rect.getSize().y / 2);
+                    textDisplay1.text.setPosition(Player1.sprite.getPosition().x + Player1.sprite.getGlobalBounds().width / 2,
+                        Player1.sprite.getPosition().y - Player1.sprite.getGlobalBounds().height / 2);
                     textDisplayArray.push_back(textDisplay1);
 
                     Player1.hp -= enemyArray[counter].attackDamage;
@@ -180,7 +184,7 @@ int main()
             counter2 = 0;
             for (iter4 = enemyArray.begin(); iter4 != enemyArray.end(); iter4++)
             {
-                if (shootArray[counter].rect.getGlobalBounds().intersects(enemyArray[counter2].sprite.getGlobalBounds()))
+                if (shootArray[counter].sprite.getGlobalBounds().intersects(enemyArray[counter2].sprite.getGlobalBounds()))
                 {
                     //cout << "Collision" << endl;
                     shootArray[counter].destroy = true;
@@ -242,7 +246,6 @@ int main()
         {
             if (shootArray[counter].destroy == true)
             {
-                //cout << "worked" << endl;
                 shootArray.erase(iter);
                 break;
             }
@@ -268,8 +271,8 @@ int main()
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::J))
             {
                 cout << "Left Clicked" << endl;
-                shoot1.rect.setPosition(Player1.sprite.getPosition().x - shoot1.rect.getSize().x/2,
-                    Player1.sprite.getPosition().y - shoot1.rect.getSize().y/2);
+                shoot1.sprite.setPosition(Player1.sprite.getPosition().x + Player1.sprite.getGlobalBounds().width,
+                    Player1.sprite.getPosition().y + Player1.sprite.getGlobalBounds().height / 2);
                 shoot1.direction = Player1.direction;
                 shootArray.push_back(shoot1);
 
@@ -281,21 +284,15 @@ int main()
         for (iter = shootArray.begin(); iter != shootArray.end(); iter++)
         {
             shootArray[counter].update(); // Update Shoot
-            //window.draw(shootArray[counter].rect);
-            //window.draw(shootArray[counter].sprite);
             counter++;
         }
-        //Enemy Collide with Platforms
-        /*for (Platform& platform : platforms)
+
+        if (Player1.GetPosition().x >= window.getSize().x/2)
         {
-            counter = 0;
-            for (iter4 = enemyArray.begin(); iter4 != enemyArray.end(); iter4++)
-            {
-                if (platform.GetCollider().CheckCollision(enemyArray[counter].GetCollider(), direction1, 1.0f))
-                    enemyArray[counter].OnCollision(direction1);
-                counter++;
-            }
-        }*/
+            view1.setCenter(Player1.GetPosition().x, window.getSize().y/2);
+            coinsCount.setPosition(view1.getCenter().x + window.getSize().x / 2 - 200, 20);
+        }
+        window.setView(view1);
 
         for (Platform& platform : platforms)
         {
