@@ -270,14 +270,23 @@ int main()
             clock.restart();
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::J))
             {
-                cout << "Left Clicked" << endl;
-                shoot1.sprite.setPosition(Player1.sprite.getPosition().x + Player1.sprite.getGlobalBounds().width,
-                    Player1.sprite.getPosition().y + Player1.sprite.getGlobalBounds().height / 2);
-                shoot1.direction = Player1.direction;
-                shootArray.push_back(shoot1);
-
+                if (Player1.direction == 3)
+                {
+                    shoot1.sprite.setPosition(Player1.sprite.getPosition().x,
+                        Player1.sprite.getPosition().y + Player1.sprite.getGlobalBounds().height / 2);
+                    shoot1.direction = Player1.direction;
+                    shootArray.push_back(shoot1);
+                }
+                if (Player1.direction == 4)
+                {
+                    shoot1.sprite.setPosition(Player1.sprite.getPosition().x + Player1.sprite.getGlobalBounds().width,
+                        Player1.sprite.getPosition().y + Player1.sprite.getGlobalBounds().height / 2);
+                    shoot1.direction = Player1.direction;
+                    shootArray.push_back(shoot1);
+                }
             }
         }
+
 
         //Draw Shoot
         counter = 0;

@@ -3,7 +3,6 @@
 player::player()
 {
     sprite.setTextureRect(sf::IntRect(6, 147, 37, 67));
-    //sprite.setOrigin(sprite.getGlobalBounds().width / 2.0f, sprite.getGlobalBounds().height / 2.0f);
     direction = 4;
 }
 void player::update(float dt)
