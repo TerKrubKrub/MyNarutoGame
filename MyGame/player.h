@@ -11,8 +11,9 @@ public:
 	int attackDamage = 1;
 	int counterWalking = 0;
 	int direction = 0; // 1 - up, 2 - down, 3 - left, 4 - right
-	int hp = 10;
+	int hp = 100;
 	int coins = 0;
+	int mana = 0;
 
 	player();
 	void update(float dt);

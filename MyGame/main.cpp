@@ -14,9 +14,11 @@ using namespace std;
 int main()
 {
     // Variables
+    sf::Clock clockdt;
     sf::Clock clock;
-    sf::Clock clock2;
-    sf::Clock clock3;
+    sf::Clock clockCollideEnemy;
+    sf::Clock clockmana;
+
     int counter = 0;
     int counter2 = 0;
     int counter3 = 0;
@@ -105,10 +107,30 @@ int main()
     
     float dt = 0.0f;
 
+    sf::RectangleShape playerHp;
+    playerHp.setFillColor(sf::Color::Red);
+    playerHp.setPosition(20, 30);
+
+    sf::RectangleShape playerHpSlot;
+    playerHpSlot.setSize(sf::Vector2f(Player1.hp * 2, 20));
+    playerHpSlot.setPosition(20, 30);
+    playerHpSlot.setOutlineColor(sf::Color::Black);
+    playerHpSlot.setOutlineThickness(1);
+
+    sf::RectangleShape playerMana;
+    playerMana.setFillColor(sf::Color::Cyan);
+    playerMana.setPosition(250, 30);
+
+    sf::RectangleShape playerManaSlot;
+    playerManaSlot.setSize(sf::Vector2f(200, 20));
+    playerManaSlot.setPosition(250, 30);
+    playerManaSlot.setOutlineColor(sf::Color::Black);
+    playerManaSlot.setOutlineThickness(1);
+
     //Start the game loop
     while (window.isOpen())
     {
-        dt = clock3.restart().asSeconds();
+        dt = clockdt.restart().asSeconds();
         // Process events
         sf::Event event;
         while (window.pollEvent(event))
@@ -123,8 +145,6 @@ int main()
 
         // Clock
         sf::Time elapsed = clock.getElapsedTime();
-        sf::Time elapsed2 = clock2.getElapsedTime();
-        sf::Time elapsed3 = clock3.getElapsedTime();
 
         sf::Vector2f direction1;
 
@@ -146,9 +166,9 @@ int main()
             counter++;
         }
 
-        if (elapsed2.asSeconds() >= 0.5)
+        if (clockCollideEnemy.getElapsedTime().asSeconds() >= 0.5)
         {
-            clock2.restart();
+            clockCollideEnemy.restart();
 
             // Enemy Collides with Player
             counter = 0;
@@ -264,31 +284,41 @@ int main()
             counter++;
         }
 
+        if (clockmana.getElapsedTime().asSeconds() >= 1)
+        {
+            clockmana.restart();
+            if(Player1.mana < 100) Player1.mana += 5;
+        }
+
         // Fires Missle
         if (elapsed.asSeconds() >= 0.1)
         {
             clock.restart();
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::J))
+            if (Player1.mana >= 10)
             {
-                if (Player1.direction == 3)
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::J))
                 {
-                    shoot1.sprite.setPosition(Player1.sprite.getPosition().x,
-                        Player1.sprite.getPosition().y + Player1.sprite.getGlobalBounds().height / 2);
-                    shoot1.direction = Player1.direction;
-                    shootArray.push_back(shoot1);
-                }
-                if (Player1.direction == 4)
-                {
-                    shoot1.sprite.setPosition(Player1.sprite.getPosition().x + Player1.sprite.getGlobalBounds().width,
-                        Player1.sprite.getPosition().y + Player1.sprite.getGlobalBounds().height / 2);
-                    shoot1.direction = Player1.direction;
-                    shootArray.push_back(shoot1);
+                    Player1.mana -= 10;
+                    if (Player1.direction == 3)
+                    {
+                        shoot1.sprite.setPosition(Player1.sprite.getPosition().x,
+                            Player1.sprite.getPosition().y + Player1.sprite.getGlobalBounds().height / 2);
+                        shoot1.direction = Player1.direction;
+                        shootArray.push_back(shoot1);
+                    }
+                    if (Player1.direction == 4)
+                    {
+                        shoot1.sprite.setPosition(Player1.sprite.getPosition().x + Player1.sprite.getGlobalBounds().width,
+                            Player1.sprite.getPosition().y + Player1.sprite.getGlobalBounds().height / 2);
+                        shoot1.direction = Player1.direction;
+                        shootArray.push_back(shoot1);
+                    }
                 }
             }
         }
 
 
-        //Draw Shoot
+        // Update Shoot
         counter = 0;
         for (iter = shootArray.begin(); iter != shootArray.end(); iter++)
         {
@@ -296,10 +326,15 @@ int main()
             counter++;
         }
 
+        // Update UI
         if (Player1.GetPosition().x >= window.getSize().x/2)
         {
             view1.setCenter(Player1.GetPosition().x, window.getSize().y/2);
             coinsCount.setPosition(view1.getCenter().x + window.getSize().x / 2 - 200, 20);
+            playerHp.setPosition(view1.getCenter().x - window.getSize().x / 2 + 20, 30);
+            playerHpSlot.setPosition(view1.getCenter().x - window.getSize().x / 2 + 20, 30);
+            playerMana.setPosition(view1.getCenter().x - window.getSize().x / 2 + 250, 30);
+            playerManaSlot.setPosition(view1.getCenter().x - window.getSize().x / 2 + 250, 30);
         }
         window.setView(view1);
 
@@ -320,19 +355,24 @@ int main()
         counter = 0;
         for (iter4 = enemyArray.begin(); iter4 != enemyArray.end(); iter4++)
         {
-            enemyArray[counter].update(dt); // Update Enemy
-            //window.draw(enemyArray[counter].rect);
-            //window.draw(enemyArray[counter].sprite);
+            enemyArray[counter].update(dt);
             counter++;
         }
       
-
         //Update Player
         Player1.update(dt);
 
         for (Platform& platform : platforms)
             platform.Draw(window);
         window.draw(backGround);
+
+        // Update UI
+        playerHp.setSize(sf::Vector2f(Player1.hp * 2, 20));
+        playerMana.setSize(sf::Vector2f(Player1.mana * 2, 20));
+        coinsCount.setString("Coins : " + to_string(Player1.coins));
+
+        ////////////////////////////////////////////////////////********* DRAW EVERYTHING *******/////////////////////////////////////////////////////////////////////
+
         // Draw Player
         window.draw(Player1.sprite);
 
@@ -358,9 +398,12 @@ int main()
             counter++;
         }
 
-        // Draw Coins
-        coinsCount.setString("Coins : " + to_string(Player1.coins));
+        // Draw UI
         window.draw(coinsCount);
+        window.draw(playerHpSlot);
+        window.draw(playerHp);
+        window.draw(playerManaSlot);
+        window.draw(playerMana);
 
         // Draw Text
         counter = 0;
