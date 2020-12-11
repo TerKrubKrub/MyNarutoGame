@@ -18,19 +18,23 @@ void enemy::updateMovement(float dt)
 
     if (direction == 1)
     {
-        //rect.move(0, -movementSpeed); //Up
+        sprite.setTextureRect(sf::IntRect(200 + (50 * 0) + (50 * counterWalking), 0, 18, 25));
     }
-    else if (direction == 2)
+    if (direction == 2)
     {
-        //rect.move(0, movementSpeed); //Down
+        sprite.setTextureRect(sf::IntRect(200 + (50 * 2) + (50 * counterWalking), 0, 18, 25));
     }
-    else if (direction == 3) //Left
+    if (direction == 3) //Left
     {
         velocity.x -= movementSpeed;
         sprite.move(-movementSpeed, 0);
         sprite.setTextureRect(sf::IntRect(200 + (50 * 0) + (50 * counterWalking), 0, 18, 25));
     }
-    else if (direction == 4) //Right
+    else
+    {
+
+    }
+    if (direction == 4) //Right
     {
         velocity.x += movementSpeed;
         sprite.move(movementSpeed, 0);

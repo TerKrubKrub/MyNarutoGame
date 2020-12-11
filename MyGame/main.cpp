@@ -287,6 +287,7 @@ int main()
     // Shoot Vector Array
     vector<shoot>::const_iterator iter;
     vector<shoot> shootArray;
+    vector<shoot> enemyshootArray;
 
     // Shoot Object
     class shoot shoot1;
@@ -517,19 +518,7 @@ int main()
                     break;
                 }
                 counter++;
-            }
-
-            // Delete Shoot
-            counter = 0;
-            for (iter = shootArray.begin(); iter != shootArray.end(); iter++)
-            {
-                if (shootArray[counter].destroy == true)
-                {
-                    shootArray.erase(iter);
-                    break;
-                }
-                counter++;
-            }
+            }           
 
             // Delete Text Display
             counter = 0;
@@ -549,7 +538,7 @@ int main()
                 if (Player1.mana < 100) Player1.mana += 5;
             }
 
-            // Fires Missle
+            // Shoot
             if (elapsed.asSeconds() >= 0.1)
             {
                 clock.restart();
@@ -576,12 +565,73 @@ int main()
                 }
             }
 
+            if (elapsed.asSeconds() >= 0.1)
+            {
+                clock.restart();
+                counter = 0;
+                for (iter4 = enemyArray.begin(); iter4 != enemyArray.end(); iter4++)
+                {
+                    // Player from left
+                    if (enemyArray[counter].sprite.getPosition().x - Player1.GetPosition().x >= 0 && enemyArray[counter].sprite.getPosition().x - Player1.GetPosition().x < 500 && abs(enemyArray[counter].sprite.getPosition().y - Player1.GetPosition().y) <= 100)
+                    {
+                        enemyArray[counter].direction = 3;
+                        enemyArray[counter].counter = 0;
+                        if (enemyArray[counter].sprite.getPosition().x - Player1.GetPosition().x < 250)
+                            enemyArray[counter].direction = 1;
+                        if (generateRandom(10) == 1)
+                        {
+                            shoot1.sprite.setPosition(enemyArray[counter].GetPosition().x + enemyArray[counter].sprite.getGlobalBounds().width / 2,
+                                enemyArray[counter].GetPosition().y + enemyArray[counter].sprite.getGlobalBounds().height / 2);
+                            shoot1.direction = 3;
+                            enemyshootArray.push_back(shoot1);
+                        }
+                    }
+
+                    // Player from right
+                    if (Player1.GetPosition().x - enemyArray[counter].sprite.getPosition().x >= 0 && Player1.GetPosition().x - enemyArray[counter].sprite.getPosition().x < 500 && abs(enemyArray[counter].sprite.getPosition().y - Player1.GetPosition().y) <= 100)
+                    {
+                        enemyArray[counter].direction = 4;
+                        enemyArray[counter].counter = 0;
+                        if (Player1.GetPosition().x - enemyArray[counter].sprite.getPosition().x < 250)
+                        {
+                            enemyArray[counter].direction = 2;
+                        }
+                        if (generateRandom(10) == 1)
+                        {
+                            shoot1.sprite.setPosition(enemyArray[counter].GetPosition().x + enemyArray[counter].sprite.getGlobalBounds().width / 2,
+                                enemyArray[counter].GetPosition().y + enemyArray[counter].sprite.getGlobalBounds().height / 2);
+                            shoot1.direction = 4;
+                            enemyshootArray.push_back(shoot1);
+                        }
+                    }
+                    counter++;
+                }
+            }
 
             // Update Shoot
             counter = 0;
             for (iter = shootArray.begin(); iter != shootArray.end(); iter++)
             {
                 shootArray[counter].update(); // Update Shoot
+                counter++;
+            }
+
+            counter = 0;
+            for (iter = enemyshootArray.begin(); iter != enemyshootArray.end(); iter++)
+            {
+                enemyshootArray[counter].update(); // Update Shoot
+                counter++;
+            }
+
+            // Delete Shoot
+            counter = 0;
+            for (iter = shootArray.begin(); iter != shootArray.end(); iter++)
+            {
+                if (shootArray[counter].destroy == true)
+                {
+                    shootArray.erase(iter);
+                    break;
+                }
                 counter++;
             }
 
@@ -653,6 +703,7 @@ int main()
                 counter++;
             }
 
+            // Draw Enemy
             counter = 0;
             for (iter4 = enemyArray.begin(); iter4 != enemyArray.end(); iter4++)
             {
@@ -660,10 +711,18 @@ int main()
                 counter++;
             }
 
+            // Draw shoot
             counter = 0;
             for (iter = shootArray.begin(); iter != shootArray.end(); iter++)
             {
                 window.draw(shootArray[counter].sprite);
+                counter++;
+            }
+
+            counter = 0;
+            for (iter = enemyshootArray.begin(); iter != enemyshootArray.end(); iter++)
+            {
+                window.draw(enemyshootArray[counter].sprite);
                 counter++;
             }
 
@@ -683,8 +742,8 @@ int main()
 
                 counter++;
             }
-            cout << "Player.y = " << Player1.GetPosition().y << endl;
-            cout << "x = " << window.mapPixelToCoords(sf::Mouse::getPosition(window)).x << " y = " << window.mapPixelToCoords(sf::Mouse::getPosition(window)).y << endl;
+            //cout << "Player.y = " << Player1.GetPosition().y << endl;
+            //cout << "x = " << window.mapPixelToCoords(sf::Mouse::getPosition(window)).x << " y = " << window.mapPixelToCoords(sf::Mouse::getPosition(window)).y << endl;
             window.display();
         }
     }
