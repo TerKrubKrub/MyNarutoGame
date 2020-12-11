@@ -54,6 +54,10 @@ int main()
     sf::Texture textureBackground;
     if (!textureBackground.loadFromFile("Resources/backGroundmap1.png")) EXIT_FAILURE;
 
+    sf::RectangleShape backGround;
+    backGround.setTexture(&textureBackground);
+    backGround.setSize(sf::Vector2f(textureBackground.getSize().x * 2.5, textureBackground.getSize().y * 600 / 223));
+
     sf::Texture platform1;
     if (!platform1.loadFromFile("Resources/Platforms/1.png")) EXIT_FAILURE;
 
@@ -144,9 +148,65 @@ int main()
     sf::Texture platform30;
     if (!platform30.loadFromFile("Resources/Platforms/30.png")) EXIT_FAILURE;
 
-    sf::RectangleShape backGround;
-    backGround.setTexture(&textureBackground);
-    backGround.setSize(sf::Vector2f(textureBackground.getSize().x * 2.5, textureBackground.getSize().y * 600 / 223));
+    sf::Texture platform31;
+    if (!platform31.loadFromFile("Resources/Platforms/31.png")) EXIT_FAILURE;
+
+    sf::Texture platform32;
+    if (!platform32.loadFromFile("Resources/Platforms/32.png")) EXIT_FAILURE;
+
+    sf::Texture platform33;
+    if (!platform33.loadFromFile("Resources/Platforms/33.png")) EXIT_FAILURE;
+
+    sf::Texture platform34;
+    if (!platform34.loadFromFile("Resources/Platforms/34.png")) EXIT_FAILURE;
+
+    sf::Texture platform35;
+    if (!platform35.loadFromFile("Resources/Platforms/35.png")) EXIT_FAILURE;
+
+    sf::Texture platform36;
+    if (!platform36.loadFromFile("Resources/Platforms/36.png")) EXIT_FAILURE;
+
+    sf::Texture platform37;
+    if (!platform37.loadFromFile("Resources/Platforms/37.png")) EXIT_FAILURE;
+
+    sf::Texture platform38;
+    if (!platform38.loadFromFile("Resources/Platforms/38.png")) EXIT_FAILURE;
+
+    sf::Texture platform39;
+    if (!platform39.loadFromFile("Resources/Platforms/39.png")) EXIT_FAILURE;
+
+    sf::Texture platform40;
+    if (!platform40.loadFromFile("Resources/Platforms/40.png")) EXIT_FAILURE;
+
+    sf::Texture platform41;
+    if (!platform41.loadFromFile("Resources/Platforms/41.png")) EXIT_FAILURE;
+
+    sf::Texture platform42;
+    if (!platform42.loadFromFile("Resources/Platforms/42.png")) EXIT_FAILURE;
+
+    sf::Texture platform43;
+    if (!platform43.loadFromFile("Resources/Platforms/43.png")) EXIT_FAILURE;
+
+    sf::Texture platform44;
+    if (!platform44.loadFromFile("Resources/Platforms/44.png")) EXIT_FAILURE;
+
+    sf::Texture platform45;
+    if (!platform45.loadFromFile("Resources/Platforms/45.png")) EXIT_FAILURE;
+
+    sf::Texture platform46;
+    if (!platform46.loadFromFile("Resources/Platforms/46.png")) EXIT_FAILURE;
+
+    sf::Texture platform47;
+    if (!platform47.loadFromFile("Resources/Platforms/47.png")) EXIT_FAILURE;
+
+    sf::Texture platform48;
+    if (!platform48.loadFromFile("Resources/Platforms/48.png")) EXIT_FAILURE;
+
+    sf::Texture platform49;
+    if (!platform49.loadFromFile("Resources/Platforms/49.png")) EXIT_FAILURE;
+
+    sf::Texture platform50;
+    if (!platform50.loadFromFile("Resources/Platforms/50.png")) EXIT_FAILURE;
 
     vector<Platform> platforms;
     platforms.push_back(Platform(&platform1, sf::Vector2f(0.0f, 495.0f)));
@@ -182,6 +242,32 @@ int main()
     platforms.push_back(Platform(&platform28, sf::Vector2f(5920.0f, 408.96f)));
     platforms.push_back(Platform(&platform29, sf::Vector2f(6480.0f, 322.87f)));
     platforms.push_back(Platform(&platform30, sf::Vector2f(6720.0f, 193.72f)));
+    platforms.push_back(Platform(&platform31, sf::Vector2f(6880.0f, 150.67f)));
+    platforms.push_back(Platform(&platform32, sf::Vector2f(7620.0f, 45.74f)));
+    platforms.push_back(Platform(&platform33, sf::Vector2f(7040.0f, 0.0f)));
+    platforms.push_back(Platform(&platform34, sf::Vector2f(7160.0f, 1140.8f)));
+    platforms.push_back(Platform(&platform35, sf::Vector2f(7040.0f, 791.03f)));
+    platforms.push_back(Platform(&platform36, sf::Vector2f(7120.0f, 1442.15f)));
+    platforms.push_back(Platform(&platform37, sf::Vector2f(7200.0f, 1485.20f)));
+    platforms.push_back(Platform(&platform38, sf::Vector2f(7240.0f, 1528.25f)));
+    platforms.push_back(Platform(&platform39, sf::Vector2f(7280.0f, 1571.3f)));
+    platforms.push_back(Platform(&platform39, sf::Vector2f(7320.0f, 1614.35f)));
+    platforms.push_back(Platform(&platform39, sf::Vector2f(7360.0f, 1657.4f)));
+    platforms.push_back(Platform(&platform39, sf::Vector2f(7400.0f, 1700.44f)));
+    platforms.push_back(Platform(&platform39, sf::Vector2f(7440.0f, 1743.50f)));
+    platforms.push_back(Platform(&platform39, sf::Vector2f(7480.0f, 1786.55f)));
+    platforms.push_back(Platform(&platform40, sf::Vector2f(7580.0f, 1345.29f)));
+    platforms.push_back(Platform(&platform41, sf::Vector2f(7520.0f, 2087.89f)));
+    platforms.push_back(Platform(&platform42, sf::Vector2f(7240.0f, 2346.19f)));
+    platforms.push_back(Platform(&platform42, sf::Vector2f(7400.0f, 2260.09f)));
+    platforms.push_back(Platform(&platform43, sf::Vector2f(7120.0f, 1826.9f)));
+    platforms.push_back(Platform(&platform44, sf::Vector2f(7175.0f, 2432.29f)));
+    platforms.push_back(Platform(&platform45, sf::Vector2f(7080.0f, 1991.03f)));
+    platforms.push_back(Platform(&platform46, sf::Vector2f(7120.0f, 3078.027f)));
+    platforms.push_back(Platform(&platform47, sf::Vector2f(7680.0f, 2991.93f)));
+    platforms.push_back(Platform(&platform48, sf::Vector2f(8000.0f, 2905.83f)));
+    platforms.push_back(Platform(&platform49, sf::Vector2f(9640.0f, 3078.027f)));
+    platforms.push_back(Platform(&platform50, sf::Vector2f(10200.0f, 2771.30f)));
 
     // Ladders
     vector<Ladders> ladders;
@@ -189,6 +275,10 @@ int main()
     ladders.push_back(Ladders(sf::Vector2f(40.0f, 344.40f), sf::Vector2f(2960.0f, 495.06f)));
     ladders.push_back(Ladders(sf::Vector2f(40.0f, 285.29f), sf::Vector2f(2680.0f, 1143.49f)));
     ladders.push_back(Ladders(sf::Vector2f(40.0f, 473.54f), sf::Vector2f(4600.0f, 495.06f)));
+    ladders.push_back(Ladders(sf::Vector2f(40.0f, 301.345f), sf::Vector2f(7120.0f, 1140.8f)));
+    ladders.push_back(Ladders(sf::Vector2f(40.0f, 301.345f), sf::Vector2f(7520.0f, 1786.54f)));
+    ladders.push_back(Ladders(sf::Vector2f(40.0f, 726.457f), sf::Vector2f(7560.0f, 150.67f)));
+    ladders.push_back(Ladders(sf::Vector2f(40.0f, 301.345f), sf::Vector2f(7120.0f, 2432.28f)));
 
     // Class Object
     class player Player1;
@@ -495,21 +585,6 @@ int main()
                 counter++;
             }
 
-            //Update Player
-            Player1.update(dt);
-
-            // Update UI
-            //if (Player1.GetPosition().x >= window.getSize().x / 2)
-            //{
-                view1.setCenter(Player1.GetPosition().x, Player1.GetPosition().y - window.getSize().y / 7);
-                coinsCount.setPosition(view1.getCenter().x + window.getSize().x / 2 - 200, 20);
-                playerHp.setPosition(view1.getCenter().x - window.getSize().x / 2 + 20, 30);
-                playerHpSlot.setPosition(view1.getCenter().x - window.getSize().x / 2 + 20, 30);
-                playerMana.setPosition(view1.getCenter().x - window.getSize().x / 2 + 250, 30);
-                playerManaSlot.setPosition(view1.getCenter().x - window.getSize().x / 2 + 250, 30);
-            //}
-            window.setView(view1);
-
             for (Platform& platform : platforms)
             {
                 if (platform.GetCollider().CheckCollision(Player1.GetCollider(), direction1, 1.0f))
@@ -534,6 +609,19 @@ int main()
                     }
                 }
             }
+
+            //Update Player
+            Player1.update(dt);
+
+            // Update UI
+            view1.setCenter(Player1.GetPosition().x, Player1.GetPosition().y - window.getSize().y / 7);
+            coinsCount.setPosition(view1.getCenter().x + window.getSize().x / 2 - 200, 20);
+            playerHp.setPosition(view1.getCenter().x - window.getSize().x / 2 + 20, 30);
+            playerHpSlot.setPosition(view1.getCenter().x - window.getSize().x / 2 + 20, 30);
+            playerMana.setPosition(view1.getCenter().x - window.getSize().x / 2 + 250, 30);
+            playerManaSlot.setPosition(view1.getCenter().x - window.getSize().x / 2 + 250, 30);
+
+            window.setView(view1);
 
             //Update Enemy
             counter = 0;

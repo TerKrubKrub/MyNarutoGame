@@ -4,7 +4,6 @@
 enemy::enemy()
 {
     sprite.setTextureRect(sf::IntRect(200 + (50 * 0), 0, 18, 25));
-    //sprite.setOrigin(sprite.getGlobalBounds().width / 2.0f, sprite.getGlobalBounds().height / 2.0f);
 }
 
 void enemy::update(float dt)
