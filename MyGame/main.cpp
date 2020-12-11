@@ -11,6 +11,7 @@ using namespace std;
 #include "Platform.h"
 #include "Collider.h"
 #include "MainMenu.h"
+#include "Ladders.h"
 
 int main()
 {
@@ -51,17 +52,99 @@ int main()
     if (!textureRasengan.loadFromFile("Resources/rasengan.png")) EXIT_FAILURE;
 
     sf::Texture textureBackground;
-    if (!textureBackground.loadFromFile("Resources/background.png")) EXIT_FAILURE;
+    if (!textureBackground.loadFromFile("Resources/backGroundmap1.png")) EXIT_FAILURE;
 
     sf::Texture platform1;
-    if (!platform1.loadFromFile("Resources/platform1.png")) EXIT_FAILURE;
+    if (!platform1.loadFromFile("Resources/Platforms/1.png")) EXIT_FAILURE;
+
+    sf::Texture platform2;
+    if (!platform2.loadFromFile("Resources/Platforms/2.png")) EXIT_FAILURE;
+
+    sf::Texture platform3;
+    if (!platform3.loadFromFile("Resources/Platforms/3.png")) EXIT_FAILURE;
+
+    sf::Texture platform4;
+    if (!platform4.loadFromFile("Resources/Platforms/4.png")) EXIT_FAILURE;
+
+    sf::Texture platform5;
+    if (!platform5.loadFromFile("Resources/Platforms/5.png")) EXIT_FAILURE;
+
+    sf::Texture platform6;
+    if (!platform6.loadFromFile("Resources/Platforms/6.png")) EXIT_FAILURE;
+
+    sf::Texture platform7;
+    if (!platform7.loadFromFile("Resources/Platforms/7.png")) EXIT_FAILURE;
+
+    sf::Texture platform8;
+    if (!platform8.loadFromFile("Resources/Platforms/8.png")) EXIT_FAILURE;
+
+    sf::Texture platform9;
+    if (!platform9.loadFromFile("Resources/Platforms/9.png")) EXIT_FAILURE;
+
+    sf::Texture platform10;
+    if (!platform10.loadFromFile("Resources/Platforms/10.png")) EXIT_FAILURE;
+
+    sf::Texture platform11;
+    if (!platform11.loadFromFile("Resources/Platforms/11.png")) EXIT_FAILURE;
+
+    sf::Texture platform12;
+    if (!platform12.loadFromFile("Resources/Platforms/12.png")) EXIT_FAILURE;
+
+    sf::Texture platform13;
+    if (!platform13.loadFromFile("Resources/Platforms/13.png")) EXIT_FAILURE;
+
+    sf::Texture platform14;
+    if (!platform14.loadFromFile("Resources/Platforms/14.png")) EXIT_FAILURE;
+
+    sf::Texture platform15;
+    if (!platform15.loadFromFile("Resources/Platforms/15.png")) EXIT_FAILURE;
+
+    sf::Texture platform16;
+    if (!platform16.loadFromFile("Resources/Platforms/16.png")) EXIT_FAILURE;
+
+    sf::Texture platform17;
+    if (!platform17.loadFromFile("Resources/Platforms/17.png")) EXIT_FAILURE;
+
+    sf::Texture platform18;
+    if (!platform18.loadFromFile("Resources/Platforms/18.png")) EXIT_FAILURE;
+
+    sf::Texture platform19;
+    if (!platform19.loadFromFile("Resources/Platforms/19.png")) EXIT_FAILURE;
+
+    sf::Texture platform20;
+    if (!platform20.loadFromFile("Resources/Platforms/20.png")) EXIT_FAILURE;
 
     sf::RectangleShape backGround;
     backGround.setTexture(&textureBackground);
-    backGround.setSize(sf::Vector2f(textureBackground.getSize().x * 1000 / 560, window.getSize().y));
+    backGround.setSize(sf::Vector2f(textureBackground.getSize().x * 2.5, textureBackground.getSize().y * 600 / 223));
 
     vector<Platform> platforms;
-    platforms.push_back(Platform(&platform1, sf::Vector2f(0.0f, 565.0f)));
+    platforms.push_back(Platform(&platform1, sf::Vector2f(0.0f, 495.0f)));
+    platforms.push_back(Platform(&platform2, sf::Vector2f(640.0f, 450.0f)));
+    platforms.push_back(Platform(&platform3, sf::Vector2f(998.0f, 450.0f)));
+    platforms.push_back(Platform(&platform4, sf::Vector2f(1200.0f, 410.0f)));
+    platforms.push_back(Platform(&platform5, sf::Vector2f(2957.0f, 495.0f)));
+    platforms.push_back(Platform(&platform6, sf::Vector2f(3012.5f, 0.0f)));
+    platforms.push_back(Platform(&platform7, sf::Vector2f(2920.0f, 839.46f)));
+    platforms.push_back(Platform(&platform8, sf::Vector2f(3120.0f, 750.0f)));
+    platforms.push_back(Platform(&platform9, sf::Vector2f(2720.0f, 1140.8f)));
+    platforms.push_back(Platform(&platform10, sf::Vector2f(2960.0f, 1097.75f)));
+    platforms.push_back(Platform(&platform10, sf::Vector2f(2800.0f, 1097.75f)));
+    platforms.push_back(Platform(&platform10, sf::Vector2f(2760.0f, 922.87f)));
+    platforms.push_back(Platform(&platform11, sf::Vector2f(2560.0f, 914.79f)));
+    platforms.push_back(Platform(&platform12, sf::Vector2f(2640.0f, 1528.25f)));
+    platforms.push_back(Platform(&platform13, sf::Vector2f(2715.0f, 1700.44f)));
+    platforms.push_back(Platform(&platform14, sf::Vector2f(2760.0f, 1786.54f)));
+    platforms.push_back(Platform(&platform15, sf::Vector2f(2960.0f, 1700.44f)));
+    platforms.push_back(Platform(&platform16, sf::Vector2f(3600.0f, 1614.34f)));
+    platforms.push_back(Platform(&platform17, sf::Vector2f(3920.0f, 1700.0f)));
+    platforms.push_back(Platform(&platform18, sf::Vector2f(4000.0f, 1614.0f)));
+    platforms.push_back(Platform(&platform19, sf::Vector2f(4320.0f, 1528.25f)));
+    platforms.push_back(Platform(&platform20, sf::Vector2f(5020.0f, 949.77f)));
+
+    // Ladders
+    vector<Ladders> ladders;
+    ladders.push_back(Ladders(sf::Vector2f(40.0f, 387.44f), sf::Vector2f(4960, 1140.80)));
 
     // Class Object
     class player Player1;
@@ -368,16 +451,19 @@ int main()
                 counter++;
             }
 
+            //Update Player
+            Player1.update(dt);
+
             // Update UI
-            if (Player1.GetPosition().x >= window.getSize().x / 2)
-            {
-                view1.setCenter(Player1.GetPosition().x, window.getSize().y / 2);
+            //if (Player1.GetPosition().x >= window.getSize().x / 2)
+            //{
+                view1.setCenter(Player1.GetPosition().x, Player1.GetPosition().y - window.getSize().y / 6);
                 coinsCount.setPosition(view1.getCenter().x + window.getSize().x / 2 - 200, 20);
                 playerHp.setPosition(view1.getCenter().x - window.getSize().x / 2 + 20, 30);
                 playerHpSlot.setPosition(view1.getCenter().x - window.getSize().x / 2 + 20, 30);
                 playerMana.setPosition(view1.getCenter().x - window.getSize().x / 2 + 250, 30);
                 playerManaSlot.setPosition(view1.getCenter().x - window.getSize().x / 2 + 250, 30);
-            }
+            //}
             window.setView(view1);
 
             for (Platform& platform : platforms)
@@ -393,6 +479,18 @@ int main()
                 }
             }
 
+            for (Ladders& ladder : ladders)
+            {
+                if (Player1.sprite.getGlobalBounds().intersects(ladder.rect.getGlobalBounds()))
+                {
+                    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+                    {
+                        Player1.velocity.y = 0;
+                        Player1.sprite.move(0, -Player1.movementSpeed);
+                    }
+                }
+            }
+
             //Update Enemy
             counter = 0;
             for (iter4 = enemyArray.begin(); iter4 != enemyArray.end(); iter4++)
@@ -401,19 +499,16 @@ int main()
                 counter++;
             }
 
-            //Update Player
-            Player1.update(dt);
-
-            for (Platform& platform : platforms)
-                platform.Draw(window);
-            window.draw(backGround);
-
             // Update UI
             playerHp.setSize(sf::Vector2f(Player1.hp * 2, 20));
             playerMana.setSize(sf::Vector2f(Player1.mana * 2, 20));
             coinsCount.setString("Coins : " + to_string(Player1.coins));
 
             ////////////////////////////////////////////////////////********* DRAW EVERYTHING *******/////////////////////////////////////////////////////////////////////
+
+            for (Platform& platform : platforms)
+                platform.Draw(window);
+            window.draw(backGround);
 
             // Draw Player
             window.draw(Player1.sprite);
@@ -441,11 +536,11 @@ int main()
             }
 
             // Draw UI
-            window.draw(coinsCount);
+            /*window.draw(coinsCount);
             window.draw(playerHpSlot);
             window.draw(playerHp);
             window.draw(playerManaSlot);
-            window.draw(playerMana);
+            window.draw(playerMana);*/
 
             // Draw Text
             counter = 0;
@@ -456,6 +551,8 @@ int main()
 
                 counter++;
             }
+            cout << "Player.y = " << Player1.GetPosition().y << endl;
+            cout << "x = " << window.mapPixelToCoords(sf::Mouse::getPosition(window)).x << " y = " << window.mapPixelToCoords(sf::Mouse::getPosition(window)).y << endl;
             window.display();
         }
     }

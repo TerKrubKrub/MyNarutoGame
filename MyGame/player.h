@@ -14,6 +14,7 @@ public:
 	int hp = 100;
 	int coins = 0;
 	int mana = 0;
+	sf::Vector2f velocity;
 
 	player();
 	void update(float dt);
@@ -24,7 +25,6 @@ public:
 
 private:
 	sf::Clock clock;
-	sf::Vector2f velocity;
 	bool canJump;
 	float jumpHeight = 130.0f;
 };
