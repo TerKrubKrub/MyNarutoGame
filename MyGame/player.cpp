@@ -2,7 +2,7 @@
 
 player::player()
 {
-    sprite.setPosition(4900, 960);
+    sprite.setPosition(4900, 1452);
     sprite.setTextureRect(sf::IntRect(6, 147, 37, 67));
     direction = 4;
 }

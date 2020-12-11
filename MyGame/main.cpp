@@ -114,6 +114,36 @@ int main()
     sf::Texture platform20;
     if (!platform20.loadFromFile("Resources/Platforms/20.png")) EXIT_FAILURE;
 
+    sf::Texture platform21;
+    if (!platform21.loadFromFile("Resources/Platforms/21.png")) EXIT_FAILURE;
+
+    sf::Texture platform22;
+    if (!platform22.loadFromFile("Resources/Platforms/22.png")) EXIT_FAILURE;
+
+    sf::Texture platform23;
+    if (!platform23.loadFromFile("Resources/Platforms/23.png")) EXIT_FAILURE;
+
+    sf::Texture platform24;
+    if (!platform24.loadFromFile("Resources/Platforms/24.png")) EXIT_FAILURE;
+
+    sf::Texture platform25;
+    if (!platform25.loadFromFile("Resources/Platforms/25.png")) EXIT_FAILURE;
+
+    sf::Texture platform26;
+    if (!platform26.loadFromFile("Resources/Platforms/26.png")) EXIT_FAILURE;
+
+    sf::Texture platform27;
+    if (!platform27.loadFromFile("Resources/Platforms/27.png")) EXIT_FAILURE;
+
+    sf::Texture platform28;
+    if (!platform28.loadFromFile("Resources/Platforms/28.png")) EXIT_FAILURE;
+
+    sf::Texture platform29;
+    if (!platform29.loadFromFile("Resources/Platforms/29.png")) EXIT_FAILURE;
+
+    sf::Texture platform30;
+    if (!platform30.loadFromFile("Resources/Platforms/30.png")) EXIT_FAILURE;
+
     sf::RectangleShape backGround;
     backGround.setTexture(&textureBackground);
     backGround.setSize(sf::Vector2f(textureBackground.getSize().x * 2.5, textureBackground.getSize().y * 600 / 223));
@@ -141,10 +171,24 @@ int main()
     platforms.push_back(Platform(&platform18, sf::Vector2f(4000.0f, 1614.0f)));
     platforms.push_back(Platform(&platform19, sf::Vector2f(4320.0f, 1528.25f)));
     platforms.push_back(Platform(&platform20, sf::Vector2f(5020.0f, 949.77f)));
+    platforms.push_back(Platform(&platform21, sf::Vector2f(4360.0f, 1140.80f)));
+    platforms.push_back(Platform(&platform22, sf::Vector2f(4600.0f, 1097.75f)));
+    platforms.push_back(Platform(&platform23, sf::Vector2f(4587.5f, 304.03f)));
+    platforms.push_back(Platform(&platform24, sf::Vector2f(4640.0f, 495.06f)));
+    platforms.push_back(Platform(&platform25, sf::Vector2f(4800.0f, 408.96f)));
+    platforms.push_back(Platform(&platform25, sf::Vector2f(4960.0f, 322.87f)));
+    platforms.push_back(Platform(&platform26, sf::Vector2f(5120.0f, 322.87f)));
+    platforms.push_back(Platform(&platform27, sf::Vector2f(5520.0f, 236.77f)));
+    platforms.push_back(Platform(&platform28, sf::Vector2f(5920.0f, 408.96f)));
+    platforms.push_back(Platform(&platform29, sf::Vector2f(6480.0f, 322.87f)));
+    platforms.push_back(Platform(&platform30, sf::Vector2f(6720.0f, 193.72f)));
 
     // Ladders
     vector<Ladders> ladders;
-    ladders.push_back(Ladders(sf::Vector2f(40.0f, 387.44f), sf::Vector2f(4960, 1140.80)));
+    ladders.push_back(Ladders(sf::Vector2f(40.0f, 387.44f), sf::Vector2f(4960.0f, 1140.80f)));
+    ladders.push_back(Ladders(sf::Vector2f(40.0f, 344.40f), sf::Vector2f(2960.0f, 495.06f)));
+    ladders.push_back(Ladders(sf::Vector2f(40.0f, 285.29f), sf::Vector2f(2680.0f, 1143.49f)));
+    ladders.push_back(Ladders(sf::Vector2f(40.0f, 473.54f), sf::Vector2f(4600.0f, 495.06f)));
 
     // Class Object
     class player Player1;
@@ -457,7 +501,7 @@ int main()
             // Update UI
             //if (Player1.GetPosition().x >= window.getSize().x / 2)
             //{
-                view1.setCenter(Player1.GetPosition().x, Player1.GetPosition().y - window.getSize().y / 6);
+                view1.setCenter(Player1.GetPosition().x, Player1.GetPosition().y - window.getSize().y / 7);
                 coinsCount.setPosition(view1.getCenter().x + window.getSize().x / 2 - 200, 20);
                 playerHp.setPosition(view1.getCenter().x - window.getSize().x / 2 + 20, 30);
                 playerHpSlot.setPosition(view1.getCenter().x - window.getSize().x / 2 + 20, 30);
