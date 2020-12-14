@@ -15,6 +15,7 @@ using namespace std;
 
 int main()
 {
+    srand(time(NULL));
     // Variables
     sf::Clock clockdt;
     sf::Clock clock;
@@ -64,19 +65,54 @@ int main()
     sf::Texture texturePricker;
     if (!texturePricker.loadFromFile("Resources/pricker.png")) EXIT_FAILURE;
 
+    sf::Texture texturePricker2;
+    if (!texturePricker2.loadFromFile("Resources/pricker40.png")) EXIT_FAILURE;
+
     sf::Texture textureItems;
     if (!textureItems.loadFromFile("Resources/pickupItem.png")) EXIT_FAILURE;
+
+    sf::Texture textureDoor;
+    if (!textureDoor.loadFromFile("Resources/Door.png")) EXIT_FAILURE;
 
     sf::RectangleShape backGround;
     backGround.setTexture(&textureBackground);
     backGround.setSize(sf::Vector2f(textureBackground.getSize().x * 2.5, textureBackground.getSize().y * 600 / 223));
 
-    sf::SoundBuffer bufferShoot;
-    if (!bufferShoot.loadFromFile("Resources/Sounds/Shoot.wav")) EXIT_FAILURE;
+    sf::RectangleShape door1;
+    door1.setSize(sf::Vector2f(80, 80));
+    door1.setTexture(&textureDoor);
+    door1.setTextureRect(sf::IntRect(0, 0, 160, 160));
+    door1.setPosition(9700, 2998);
+
+    sf::RectangleShape door2;
+    door2.setSize(sf::Vector2f(80, 80));
+    door2.setTexture(&textureDoor);
+    door2.setTextureRect(sf::IntRect(0, 0, 160, 160));
+    door2.setPosition(9860, 2998);
+
+    sf::RectangleShape door3;
+    door3.setSize(sf::Vector2f(80, 80));
+    door3.setTexture(&textureDoor);
+    door3.setTextureRect(sf::IntRect(0, 0, 160, 160));
+    door3.setPosition(10020, 2998);
+
+    sf::Music backgroundSound;
+    if (!backgroundSound.openFromFile("Resources/Sounds/backgroundSound.wav")) EXIT_FAILURE;
+    backgroundSound.setVolume(5.f);
+
+    sf::SoundBuffer bufferShootRasengan;
+    if (!bufferShootRasengan.loadFromFile("Resources/Sounds/Shoot.wav")) EXIT_FAILURE;
+
+    sf::SoundBuffer bufferShootFireball;
+    if (!bufferShootFireball.loadFromFile("Resources/Sounds/Fireball.wav")) EXIT_FAILURE;
 
     sf::Sound shootSound;
-    shootSound.setBuffer(bufferShoot);
+    shootSound.setBuffer(bufferShootRasengan);
     shootSound.setVolume(15.f);
+
+    sf::Sound enemyshootSound;
+    enemyshootSound.setBuffer(bufferShootRasengan);
+    enemyshootSound.setVolume(15.f);
 
     sf::SoundBuffer bufferPickuphp;
     if (!bufferPickuphp.loadFromFile("Resources/Sounds/Pickuphp.wav")) EXIT_FAILURE;
@@ -84,6 +120,13 @@ int main()
     sf::Sound pickupSoundhp;
     pickupSoundhp.setBuffer(bufferPickuphp);
     pickupSoundhp.setVolume(15.f);
+
+    sf::SoundBuffer bufferHit;
+    if (!bufferHit.loadFromFile("Resources/Sounds/Hit.wav")) EXIT_FAILURE;
+
+    sf::Sound hitSound;
+    hitSound.setBuffer(bufferHit);
+    hitSound.setVolume(10.f);
 
     sf::Texture platform1;
     if (!platform1.loadFromFile("Resources/Platforms/1.png")) EXIT_FAILURE;
@@ -235,6 +278,21 @@ int main()
     sf::Texture platform50;
     if (!platform50.loadFromFile("Resources/Platforms/50.png")) EXIT_FAILURE;
 
+    sf::Texture platform51;
+    if (!platform51.loadFromFile("Resources/Platforms/51.png")) EXIT_FAILURE;
+
+    sf::Texture platform52;
+    if (!platform52.loadFromFile("Resources/Platforms/52.png")) EXIT_FAILURE;
+
+    sf::Texture platform53;
+    if (!platform53.loadFromFile("Resources/Platforms/53.png")) EXIT_FAILURE;
+
+    sf::Texture platform54;
+    if (!platform54.loadFromFile("Resources/Platforms/54.png")) EXIT_FAILURE;
+
+    sf::Texture platform55;
+    if (!platform55.loadFromFile("Resources/Platforms/55.png")) EXIT_FAILURE;
+
     vector<Platform> platforms;
     platforms.push_back(Platform(&platform1, sf::Vector2f(0.0f, 495.0f)));
     platforms.push_back(Platform(&platform2, sf::Vector2f(640.0f, 450.0f)));
@@ -295,6 +353,31 @@ int main()
     platforms.push_back(Platform(&platform48, sf::Vector2f(8000.0f, 2905.83f)));
     platforms.push_back(Platform(&platform49, sf::Vector2f(9640.0f, 3078.027f)));
     platforms.push_back(Platform(&platform50, sf::Vector2f(10200.0f, 2771.30f)));
+    platforms.push_back(Platform(&platform51, sf::Vector2f(2800.f, 1311.83f)));
+    platforms.push_back(Platform(&platform51, sf::Vector2f(2880.f, 1374.88f)));
+    platforms.push_back(Platform(&platform51, sf::Vector2f(2960.f, 1417.93f)));
+    platforms.push_back(Platform(&platform51, sf::Vector2f(3160.f, 1461.f)));
+    platforms.push_back(Platform(&platform52, sf::Vector2f(3200.f, 1568.6f)));
+    platforms.push_back(Platform(&platform51, sf::Vector2f(3400.f, 1420.62f)));
+    platforms.push_back(Platform(&platform51, sf::Vector2f(3520.f, 1374.88f)));
+    platforms.push_back(Platform(&platform51, sf::Vector2f(3560.f, 1311.83f)));
+    platforms.push_back(Platform(&platform51, sf::Vector2f(3600.f, 1311.83f)));
+    platforms.push_back(Platform(&platform51, sf::Vector2f(3840.f, 1504.035f)));
+    platforms.push_back(Platform(&platform51, sf::Vector2f(3800.f, 1417.94f)));
+    platforms.push_back(Platform(&platform51, sf::Vector2f(3880.f, 1417.94f)));
+    platforms.push_back(Platform(&platform53, sf::Vector2f(3920.f, 1374.88f)));
+    platforms.push_back(Platform(&platform54, sf::Vector2f(4000.f, 1417.93f)));
+    platforms.push_back(Platform(&platform51, sf::Vector2f(4200.f, 1331.84f)));
+    platforms.push_back(Platform(&platform53, sf::Vector2f(4720.f, 772.197f)));
+    platforms.push_back(Platform(&platform53, sf::Vector2f(4800.f, 772.197f)));
+    platforms.push_back(Platform(&platform54, sf::Vector2f(4880.f, 858.3f)));
+    platforms.push_back(Platform(&platform54, sf::Vector2f(4600.f, 212.556f)));
+    platforms.push_back(Platform(&platform53, sf::Vector2f(4720.f, 212.556f)));
+    platforms.push_back(Platform(&platform55, sf::Vector2f(4800.f, 126.46f)));
+    platforms.push_back(Platform(&platform55, sf::Vector2f(4960.f, 126.46f)));
+    platforms.push_back(Platform(&platform51, sf::Vector2f(5120.f, 86.1f)));
+    platforms.push_back(Platform(&platform53, sf::Vector2f(5160.f, 40.34f)));
+    platforms.push_back(Platform(&platform50, sf::Vector2f(5120.f, 339.f)));
 
     // Ladders
     vector<Ladders> ladders;
@@ -317,12 +400,31 @@ int main()
     prickers.push_back(Ladders(sf::Vector2f(80.0f, 26.9f), sf::Vector2f(7440.0f, 1113.9f)));
     prickers.push_back(Ladders(sf::Vector2f(80.0f, 26.9f), sf::Vector2f(2760.0f, 1759.64f)));
     prickers.push_back(Ladders(sf::Vector2f(80.0f, 26.9f), sf::Vector2f(2840.0f, 1759.64f)));
-    prickers.push_back(Ladders(sf::Vector2f(40.0f, 26.9f), sf::Vector2f(2920.0f, 1759.64f)));
+    prickers.push_back(Ladders(sf::Vector2f(80.0f, 26.9f), sf::Vector2f(7120.f, 3051.12f)));
 
     for (Ladders& pricker : prickers)
     {
         pricker.SetTexture(&texturePricker);
     }
+
+    vector<Ladders> prickers2;
+    prickers2.push_back(Ladders(sf::Vector2f(40.0f, 26.9f), sf::Vector2f(2920.0f, 1759.64f)));
+    prickers2.push_back(Ladders(sf::Vector2f(40.0f, 40.0f), sf::Vector2f(7240.f, 1485.20f)));
+    prickers2.push_back(Ladders(sf::Vector2f(40.0f, 40.0f), sf::Vector2f(7440.f, 1700.45f)));
+    prickers2.push_back(Ladders(sf::Vector2f(40.0f, 40.0f), sf::Vector2f(7400.f, 1657.4f)));
+    prickers2.push_back(Ladders(sf::Vector2f(40.0f, 40.0f), sf::Vector2f(7320.f, 1571.3f)));
+
+    for (Ladders& pricker : prickers2)
+    {
+        pricker.SetTexture(&texturePricker2);
+    }
+
+    vector<Ladders> upSpeeds;
+    upSpeeds.push_back(Ladders(sf::Vector2f(320.f, 13.45f), sf::Vector2f(5120.f, 317.87f)));
+    upSpeeds.push_back(Ladders(sf::Vector2f(400.f, 13.45f), sf::Vector2f(5520.f, 226.77f)));
+    upSpeeds.push_back(Ladders(sf::Vector2f(480.f, 13.45f), sf::Vector2f(5920.f, 398.97f)));
+    upSpeeds.push_back(Ladders(sf::Vector2f(240.f, 13.45f), sf::Vector2f(6480.f, 312.87f)));
+    upSpeeds.push_back(Ladders(sf::Vector2f(160.f, 13.45f), sf::Vector2f(6720.f, 188.72f)));
 
     // Class Object
     class player Player1;
@@ -348,7 +450,7 @@ int main()
     class enemy enemy1;
     enemy1.sprite.setTexture(textureEnemy);
 
-    enemy1.sprite.setPosition(732.5, 403);
+    /*enemy1.sprite.setPosition(732.5, 403);
     enemyArray.push_back(enemy1);
     enemy1.sprite.setPosition(1075, 403);
     enemyArray.push_back(enemy1);
@@ -371,7 +473,7 @@ int main()
     enemy1.sprite.setPosition(4800, 1460);
     enemyArray.push_back(enemy1);
     enemy1.sprite.setPosition(4800, 1460);
-    enemyArray.push_back(enemy1);
+    enemyArray.push_back(enemy1);*/
 
     // Text Vector Array
     vector<textDisplay>::const_iterator iter8;
@@ -426,549 +528,579 @@ int main()
     playerManaSlot.setOutlineThickness(1);
 
     //Main Menu State
-    while (window.isOpen() && State == -1)
+    while (window.isOpen())
     {
         // Process events
         sf::Event event;
-        while (window.pollEvent(event))
+        if (State == -1)
         {
-            // Close window : exit
-            if (event.type == sf::Event::Closed)
-                window.close();
-            if (event.type == sf::Event::KeyReleased)
-            {
-                if (event.key.code == sf::Keyboard::Up or event.key.code == sf::Keyboard::W)
-                {
-                    mainmenu.moveUp();
-                    break;
-                }
-                if (event.key.code == sf::Keyboard::Down or event.key.code == sf::Keyboard::S)
-                {
-                    mainmenu.moveDown();
-                    break;
-                }
-                if (event.key.code == sf::Keyboard::Return)
-                {
-                    State = mainmenu.mainMenuPressed();
-                    break;
-                }
-            }
-        }
-        window.clear();
-        printf("%d", State);
-        mainmenu.Draw(window);
-        window.display();
-    }
-
-    // Start the game loop
-    if (State == 0)
-    {
-        while (window.isOpen())
-        {
-            dt = clockdt.restart().asSeconds();
-            // Process events
-            sf::Event event;
             while (window.pollEvent(event))
             {
                 // Close window : exit
                 if (event.type == sf::Event::Closed)
                     window.close();
-            }
+                if (event.type == sf::Event::KeyReleased)
+                {
+                    if (event.key.code == sf::Keyboard::Up or event.key.code == sf::Keyboard::W)
+                    {
+                        mainmenu.moveUp();
+                        break;
+                    }
+                    if (event.key.code == sf::Keyboard::Down or event.key.code == sf::Keyboard::S)
+                    {
+                        mainmenu.moveDown();
+                        break;
+                    }
+                    if (event.key.code == sf::Keyboard::Return)
+                    {
+                        State = mainmenu.mainMenuPressed();
+                        break;
+                    }
+                }              
+            }     
             window.clear();
-
-            if (Player1.hp <= 0)
+            printf("%d", State);
+            mainmenu.Draw(window);
+            window.display();
+        }
+        
+        // Start the game loop
+        if (State == 0)
+        {
+            for (int i = 0; i < 10; i++)
             {
-                State = 3;
-                window.close();
-                break;
-            }
-            // Clock
-            sf::Time elapsed = clock.getElapsedTime();
-
-            sf::Vector2f direction1;
-
-            // Player collides Pickuphp Items
-            counter = 0;
-            for (iter11 = pickupArray.begin(); iter11 != pickupArray.end(); iter11++)
-            {
-                if (Player1.sprite.getGlobalBounds().intersects(pickupArray[counter].sprite.getGlobalBounds()))
-                {
-                    pickupSoundhp.play();
-                    if (pickupArray[counter].isCol == true)
-                    {
-                        Player1.hp += pickupArray[counter].hp;
-                    }                  
-                    pickupArray[counter].destroy = true;
-                }
-                counter++;
-            }
-
-            counter = 0;
-            for (iter11 = pickupFireArray.begin(); iter11 != pickupFireArray.end(); iter11++)
-            {
-                if (Player1.sprite.getGlobalBounds().intersects(pickupFireArray[counter].sprite.getGlobalBounds()))
-                {
-                    itemFire.restart();
-                    pickupSoundhp.play();
-                    if (pickupFireArray[counter].isCol == true)
-                    {
-                        Player1.attackDamage = pickupFire.powerupDamage;
-                        Player1.powerupFire = true;
-                        shoot1.sprite.setTexture(textureFireball);
-                    }
-                    pickupFireArray[counter].destroy = true;
-                }
-                counter++;
-            }
-
-            counter = 0;
-            for (iter11 = pickupFirerateArray.begin(); iter11 != pickupFirerateArray.end(); iter11++)
-            {
-                if (Player1.sprite.getGlobalBounds().intersects(pickupFirerateArray[counter].sprite.getGlobalBounds()))
-                {
-                    itemFirerate.restart();
-                    pickupSoundhp.play();
-                    if (pickupFirerateArray[counter].isCol == true)
-                    {
-                        Player1.fireRate = pickupFirerate.fireRate;
-                        Player1.powerupFirerate = true;
-                    }
-                    pickupFirerateArray[counter].destroy = true;
-                }
-                counter++;
-            }
-
-            if (Player1.powerupFire == true)
-            {               
-                if (itemFire.getElapsedTime().asSeconds() >= 10)
-                {
-                    Player1.powerupFire = false;
-                    Player1.attackDamage = 5;
-                    shoot1.sprite.setTexture(textureRasengan);
-                }
-            }
-
-            if (Player1.powerupFirerate == true)
-            {
-                if (itemFirerate.getElapsedTime().asSeconds() >= 5)
-                {
-                    Player1.powerupFirerate = false;
-                    Player1.fireRate = 0.5;
-                }
-            }
-            ///////////////////////////////////////////////////////////////////////////////////////
-
-            if (clockCollideEnemy.getElapsedTime().asSeconds() >= 0.5)
-            {
-                clockCollideEnemy.restart();
-
-                // Enemy Collides with Player
-                counter = 0;
-                for (iter4 = enemyArray.begin(); iter4 != enemyArray.end(); iter4++)
-                {
-                    if (Player1.sprite.getGlobalBounds().intersects(enemyArray[counter].sprite.getGlobalBounds()))
-                    {
-                        // Text Display
-                        textDisplay1.text.setString(to_string(enemyArray[counter].attackDamage));
-                        textDisplay1.text.setPosition(Player1.sprite.getPosition().x + Player1.sprite.getGlobalBounds().width / 2,
-                            Player1.sprite.getPosition().y - Player1.sprite.getGlobalBounds().height / 2);
-                        textDisplayArray.push_back(textDisplay1);
-
-                        Player1.hp -= enemyArray[counter].attackDamage;
-                        cout << Player1.hp << endl;
-                    }
-
-                    counter++;
-                }
-            }
-
-
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Y))
-            {
-                enemy1.sprite.setPosition(generateRandom(window.getSize().x), generateRandom(window.getSize().y));
+                enemy1.sprite.setPosition(generateRandomin(400, 2875), 200);
                 enemyArray.push_back(enemy1);
             }
 
-            // Projectile Collides with Enemy
-            counter = 0;
-            for (iter = shootArray.begin(); iter != shootArray.end(); iter++)
+            for (int i = 0; i < 3; i++)
             {
-                counter2 = 0;
-                for (iter4 = enemyArray.begin(); iter4 != enemyArray.end(); iter4++)
+                enemy1.sprite.setPosition(generateRandomin(3125, 3575), 1627);
+                enemyArray.push_back(enemy1);
+            }
+
+            backgroundSound.play();
+            while (window.isOpen())
+            {        
+                dt = clockdt.restart().asSeconds();
+                // Process events
+                sf::Event event;
+                while (window.pollEvent(event))
                 {
-                    if (shootArray[counter].sprite.getGlobalBounds().intersects(enemyArray[counter2].sprite.getGlobalBounds()))
+                    // Close window : exit
+                    if (event.type == sf::Event::Closed)
+                        window.close();
+                }
+                window.clear();
+
+                if (Player1.hp <= 0)
+                {
+                    State = 3;
+                    window.close();
+                    break;
+                }
+                // Clock
+                sf::Time elapsed = clock.getElapsedTime();
+
+                sf::Vector2f direction1;
+
+                for (Platform& platform : platforms)
+                {
+                    if (platform.GetCollider().CheckCollision(Player1.GetCollider(), direction1, 1.0f))
+                        Player1.OnCollision(direction1);
+                    counter = 0;
+                    for (iter4 = enemyArray.begin(); iter4 != enemyArray.end(); iter4++)
                     {
-                        //cout << "Collision" << endl;
-                        shootArray[counter].destroy = true;
+                        if (platform.GetCollider().CheckCollision(enemyArray[counter].GetCollider(), direction1, 1.0f))
+                            enemyArray[counter].OnCollision(direction1);
+                        counter++;
+                    }
+                }
 
-                        // Text Display
-                        textDisplay1.text.setString(to_string(Player1.attackDamage));
-                        textDisplay1.text.setPosition(enemyArray[counter2].sprite.getPosition().x + enemyArray[counter2].sprite.getGlobalBounds().width / 2,
-                            enemyArray[counter2].sprite.getPosition().y - enemyArray[counter2].sprite.getGlobalBounds().height / 2.0f);
-                        textDisplayArray.push_back(textDisplay1);
-
-                        enemyArray[counter2].hp -= Player1.attackDamage;
-                        if (enemyArray[counter2].hp <= 0)
+                for (Ladders& ladder : ladders)
+                {
+                    if (Player1.sprite.getGlobalBounds().intersects(ladder.rect.getGlobalBounds()))
+                    {
+                        if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
                         {
-                            enemyArray[counter2].alive = false;
+                            Player1.velocity.y = 0;
+                            Player1.sprite.move(0, -Player1.movementSpeed);
                         }
                     }
-                    counter2++;
-                }
-                counter++;
-            }
-
-            // Projectile Collides with Player
-            counter = 0;
-            for (iter = enemyshootArray.begin(); iter != enemyshootArray.end(); iter++)
-            {
-                if (enemyshootArray[counter].sprite.getGlobalBounds().intersects(Player1.sprite.getGlobalBounds()))
-                {
-                    enemyshootArray[counter].destroy = true;
-                    Player1.hp -= enemyshootArray[counter].attackDamage;
-                }
-                counter++;
-            }
-
-            // Delete Pickup Items
-            counter = 0;
-            for (iter11 = pickupArray.begin(); iter11 != pickupArray.end(); iter11++)
-            {
-                if (pickupArray[counter].destroy == true)
-                {
-                    pickupArray.erase(iter11);
-                    break;
-                }
-                counter++;
-            }
-
-            counter = 0;
-            for (iter11 = pickupFireArray.begin(); iter11 != pickupFireArray.end(); iter11++)
-            {
-                if (pickupFireArray[counter].destroy == true)
-                {
-                    pickupFireArray.erase(iter11);
-                    break;
-                }
-                counter++;
-            }
-
-            counter = 0;
-            for (iter11 = pickupFirerateArray.begin(); iter11 != pickupFirerateArray.end(); iter11++)
-            {
-                if (pickupFirerateArray[counter].destroy == true)
-                {
-                    pickupFirerateArray.erase(iter11);
-                    break;
-                }
-                counter++;
-            }
-
-            // Delete Dead Enemy
-            counter = 0;
-            for (iter4 = enemyArray.begin(); iter4 != enemyArray.end(); iter4++)
-            {
-                if (enemyArray[counter].alive == false)
-                {
-                    cout << "Enemy has been dead" << endl;
-                    score += 10;
-                    if (generateRandom(2) == 1)
+                    counter = 0;
+                    for (iter4 = enemyArray.begin(); iter4 != enemyArray.end(); iter4++)
                     {
-                        pickup1.sprite.setPosition(enemyArray[counter].sprite.getPosition());
-                        pickupArray.push_back(pickup1);
-                    }
-                    if (generateRandom(3) == 1)
-                    {
-                        pickupFire.sprite.setPosition(enemyArray[counter].sprite.getPosition().x - 10, enemyArray[counter].sprite.getPosition().y);
-                        pickupFireArray.push_back(pickupFire);
-                    }
-                    if (generateRandom(3) == 1)
-                    {
-                        pickupFirerate.sprite.setPosition(enemyArray[counter].sprite.getPosition().x + 10, enemyArray[counter].sprite.getPosition().y);
-                        pickupFirerateArray.push_back(pickupFirerate);
-                    }
-                    enemyArray.erase(iter4);
-                    break;
-                }
-                counter++;
-            }           
-
-            // Delete Text Display
-            counter = 0;
-            for (iter8 = textDisplayArray.begin(); iter8 != textDisplayArray.end(); iter8++)
-            {
-                if (textDisplayArray[counter].destroy == true)
-                {
-                    textDisplayArray.erase(iter8);
-                    break;
-                }
-                counter++;
-            }
-
-            if (clockmana.getElapsedTime().asSeconds() >= 1)
-            {
-                clockmana.restart();
-                if (Player1.mana < 100) Player1.mana += 5;
-            }
-
-            // Shoot                   
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::J))
-            {
-                if (clock.getElapsedTime().asSeconds() >= Player1.fireRate)
-                {
-                    clock.restart();     
-                    shootSound.play();
-                    //Player1.mana -= 10;
-                    if (Player1.direction == 3)
-                    {
-                        shoot1.sprite.setPosition(Player1.sprite.getPosition().x,
-                            Player1.sprite.getPosition().y + Player1.sprite.getGlobalBounds().height / 2);
-                        shoot1.direction = Player1.direction;
-                        shootArray.push_back(shoot1);
-                    }
-                    if (Player1.direction == 4)
-                    {
-                        shoot1.sprite.setPosition(Player1.sprite.getPosition().x + Player1.sprite.getGlobalBounds().width,
-                            Player1.sprite.getPosition().y + Player1.sprite.getGlobalBounds().height / 2);
-                        shoot1.direction = Player1.direction;
-                        shootArray.push_back(shoot1);
+                        if (enemyArray[counter].sprite.getGlobalBounds().intersects(ladder.rect.getGlobalBounds()))
+                        {
+                            enemyArray[counter].sprite.setPosition(ladder.rect.getPosition().x + enemyArray[counter].sprite.getGlobalBounds().width, ladder.rect.getPosition().y + enemyArray[counter].sprite.getGlobalBounds().height);
+                        }
+                        counter++;
                     }
                 }
-            }
 
-            if (clockEnemy.getElapsedTime().asSeconds() >= 0.1)
-            {
-                clockEnemy.restart();
+                for (Ladders& pricker : prickers)
+                {
+                    if (Player1.sprite.getGlobalBounds().intersects(pricker.rect.getGlobalBounds()))
+                    {
+                        Player1.hp -= 100;
+                    }
+                }
+
+                for (Ladders& pricker : prickers2)
+                {
+                    if (Player1.sprite.getGlobalBounds().intersects(pricker.rect.getGlobalBounds()))
+                    {
+                        Player1.hp -= 100;
+                    }
+                }
+
+                // Player collides Pickuphp Items
                 counter = 0;
-                for (iter4 = enemyArray.begin(); iter4 != enemyArray.end(); iter4++)
+                for (iter11 = pickupArray.begin(); iter11 != pickupArray.end(); iter11++)
                 {
-                    // Player from left
-                    if (enemyArray[counter].sprite.getPosition().x - Player1.GetPosition().x >= 0 && enemyArray[counter].sprite.getPosition().x - Player1.GetPosition().x < 550 && abs(enemyArray[counter].sprite.getPosition().y - Player1.GetPosition().y) <= 100)
+                    if (Player1.sprite.getGlobalBounds().intersects(pickupArray[counter].sprite.getGlobalBounds()))
                     {
-                        enemyArray[counter].direction = 3;
-                        enemyArray[counter].counter = 0;
-                        if (enemyArray[counter].sprite.getPosition().x - Player1.GetPosition().x < 350)
-                            enemyArray[counter].direction = 1;
-                        if (generateRandom(10) == 1)
+                        pickupSoundhp.play();
+                        if (pickupArray[counter].isCol == true)
                         {
-                            shootEnemy.sprite.setPosition(enemyArray[counter].GetPosition().x + enemyArray[counter].sprite.getGlobalBounds().width / 2,
-                                enemyArray[counter].GetPosition().y + enemyArray[counter].sprite.getGlobalBounds().height / 2);
-                            shootEnemy.direction = 3;
-                            enemyshootArray.push_back(shootEnemy);
-                            shootSound.play();
+                            Player1.hp += pickupArray[counter].hp;
                         }
-                    }
-
-                    // Player from right
-                    if (Player1.GetPosition().x - enemyArray[counter].sprite.getPosition().x >= 0 && Player1.GetPosition().x - enemyArray[counter].sprite.getPosition().x < 550 && abs(enemyArray[counter].sprite.getPosition().y - Player1.GetPosition().y) <= 100)
-                    {
-                        enemyArray[counter].direction = 4;
-                        enemyArray[counter].counter = 0;
-                        if (Player1.GetPosition().x - enemyArray[counter].sprite.getPosition().x < 350)
-                        {
-                            enemyArray[counter].direction = 2;
-                        }
-                        if (generateRandom(10) == 1)
-                        {
-                            shootEnemy.sprite.setPosition(enemyArray[counter].GetPosition().x + enemyArray[counter].sprite.getGlobalBounds().width / 2,
-                                enemyArray[counter].GetPosition().y + enemyArray[counter].sprite.getGlobalBounds().height / 2);
-                            shootEnemy.direction = 4;
-                            enemyshootArray.push_back(shootEnemy);
-                            shootSound.play();
-                        }
+                        pickupArray[counter].destroy = true;
                     }
                     counter++;
                 }
-            }
 
-            // Update Shoot
-            counter = 0;
-            for (iter = shootArray.begin(); iter != shootArray.end(); iter++)
-            {
-                shootArray[counter].update(); // Update Shoot
-                counter++;
-            }
-
-            counter = 0;
-            for (iter = enemyshootArray.begin(); iter != enemyshootArray.end(); iter++)
-            {
-                enemyshootArray[counter].update(); // Update Shoot
-                counter++;
-            }
-
-            for (Platform& platform : platforms)
-            {
-                if (platform.GetCollider().CheckCollision(Player1.GetCollider(), direction1, 1.0f))
-                    Player1.OnCollision(direction1);
                 counter = 0;
-                for (iter4 = enemyArray.begin(); iter4 != enemyArray.end(); iter4++)
+                for (iter11 = pickupFireArray.begin(); iter11 != pickupFireArray.end(); iter11++)
                 {
-                    if (platform.GetCollider().CheckCollision(enemyArray[counter].GetCollider(), direction1, 1.0f))
-                        enemyArray[counter].OnCollision(direction1);
-                    counter++;
-                }
-            }
-
-            // Delete Shoot
-            counter = 0;
-            for (iter = shootArray.begin(); iter != shootArray.end(); iter++)
-            {
-                if (shootArray[counter].destroy == true)
-                {
-                    shootArray.erase(iter);
-                    break;
-                }
-                counter++;
-            }
-
-            counter = 0;
-            for (iter = enemyshootArray.begin(); iter != enemyshootArray.end(); iter++)
-            {
-                if (enemyshootArray[counter].destroy == true)
-                {
-                    enemyshootArray.erase(iter);
-                    break;
-                }
-                counter++;
-            }
-
-            for (Ladders& ladder : ladders)
-            {
-                if (Player1.sprite.getGlobalBounds().intersects(ladder.rect.getGlobalBounds()))
-                {
-                    if (sf::Keyboard::isKeyPressed(sf::Keyboard::W))
+                    if (Player1.sprite.getGlobalBounds().intersects(pickupFireArray[counter].sprite.getGlobalBounds()))
                     {
-                        Player1.velocity.y = 0;
-                        Player1.sprite.move(0, -Player1.movementSpeed);
-                    }
-                }
-                counter = 0;
-                for (iter4 = enemyArray.begin(); iter4 != enemyArray.end(); iter4++)
-                {
-                    if (enemyArray[counter].sprite.getGlobalBounds().intersects(ladder.rect.getGlobalBounds()))
-                    {
-                        enemyArray[counter].sprite.setPosition(ladder.rect.getPosition().x + enemyArray[counter].sprite.getGlobalBounds().width, ladder.rect.getPosition().y + enemyArray[counter].sprite.getGlobalBounds().height);
+                        itemFire.restart();
+                        pickupSoundhp.play();
+                        if (pickupFireArray[counter].isCol == true)
+                        {
+                            shootSound.setBuffer(bufferShootFireball);
+                            Player1.attackDamage = pickupFire.powerupDamage;
+                            Player1.powerupFire = true;
+                            shoot1.sprite.setTexture(textureFireball);
+                        }
+                        pickupFireArray[counter].destroy = true;
                     }
                     counter++;
                 }
-            }
 
-            for (Ladders& pricker : prickers)
-            {
-                if (Player1.sprite.getGlobalBounds().intersects(pricker.rect.getGlobalBounds()))
+                counter = 0;
+                for (iter11 = pickupFirerateArray.begin(); iter11 != pickupFirerateArray.end(); iter11++)
                 {
-                    Player1.hp -= 100;
+                    if (Player1.sprite.getGlobalBounds().intersects(pickupFirerateArray[counter].sprite.getGlobalBounds()))
+                    {
+                        itemFirerate.restart();
+                        pickupSoundhp.play();
+                        if (pickupFirerateArray[counter].isCol == true)
+                        {
+                            Player1.fireRate = pickupFirerate.fireRate;
+                            Player1.powerupFirerate = true;
+                        }
+                        pickupFirerateArray[counter].destroy = true;
+                    }
+                    counter++;
                 }
+
+                if (Player1.powerupFire == true)
+                {
+                    if (itemFire.getElapsedTime().asSeconds() >= 10)
+                    {
+                        shootSound.setBuffer(bufferShootRasengan);
+                        Player1.powerupFire = false;
+                        Player1.attackDamage = 5;
+                        shoot1.sprite.setTexture(textureRasengan);
+                    }
+                }
+
+                if (Player1.powerupFirerate == true)
+                {
+                    if (itemFirerate.getElapsedTime().asSeconds() >= 5)
+                    {
+                        Player1.powerupFirerate = false;
+                        Player1.fireRate = 0.5;
+                    }
+                }
+                ///////////////////////////////////////////////////////////////////////////////////////
+
+                if (clockCollideEnemy.getElapsedTime().asSeconds() >= 0.2)
+                {
+                    clockCollideEnemy.restart();
+
+                    // Enemy Collides with Player
+                    counter = 0;
+                    for (iter4 = enemyArray.begin(); iter4 != enemyArray.end(); iter4++)
+                    {
+                        if (Player1.sprite.getGlobalBounds().intersects(enemyArray[counter].sprite.getGlobalBounds()))
+                        {
+                            // Text Display
+                            textDisplay1.text.setString(to_string(enemyArray[counter].attackDamage));
+                            textDisplay1.text.setPosition(Player1.sprite.getPosition().x + Player1.sprite.getGlobalBounds().width / 2,
+                                Player1.sprite.getPosition().y - Player1.sprite.getGlobalBounds().height / 2);
+                            textDisplayArray.push_back(textDisplay1);
+
+                            Player1.hp -= enemyArray[counter].attackDamage;
+                            cout << Player1.hp << endl;
+                        }
+
+                        counter++;
+                    }
+                }
+
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Y))
+                {
+                    enemy1.sprite.setPosition(generateRandom(window.getSize().x), generateRandom(window.getSize().y));
+                    enemyArray.push_back(enemy1);
+                }
+
+                // Projectile Collides with Enemy
+                counter = 0;
+                for (iter = shootArray.begin(); iter != shootArray.end(); iter++)
+                {
+                    counter2 = 0;
+                    for (iter4 = enemyArray.begin(); iter4 != enemyArray.end(); iter4++)
+                    {
+                        if (shootArray[counter].sprite.getGlobalBounds().intersects(enemyArray[counter2].sprite.getGlobalBounds()))
+                        {
+                            //cout << "Collision" << endl;
+                            shootArray[counter].destroy = true;
+                            hitSound.play();
+
+                            // Text Display
+                            textDisplay1.text.setString(to_string(Player1.attackDamage));
+                            textDisplay1.text.setPosition(enemyArray[counter2].sprite.getPosition().x + enemyArray[counter2].sprite.getGlobalBounds().width / 2,
+                                enemyArray[counter2].sprite.getPosition().y - enemyArray[counter2].sprite.getGlobalBounds().height / 2.0f);
+                            textDisplayArray.push_back(textDisplay1);
+
+                            enemyArray[counter2].hp -= Player1.attackDamage;
+                            if (enemyArray[counter2].hp <= 0)
+                            {
+                                enemyArray[counter2].alive = false;
+                            }
+                        }
+                        counter2++;
+                    }
+                    counter++;
+                }
+
+                // Projectile Collides with Player
+                counter = 0;
+                for (iter = enemyshootArray.begin(); iter != enemyshootArray.end(); iter++)
+                {
+                    if (enemyshootArray[counter].sprite.getGlobalBounds().intersects(Player1.sprite.getGlobalBounds()))
+                    {
+                        hitSound.play();
+                        score -= 1;
+                        enemyshootArray[counter].destroy = true;
+                        Player1.hp -= enemyshootArray[counter].attackDamage;
+                    }
+                    counter++;
+                }
+
+                // Delete Pickup Items
+                counter = 0;
+                for (iter11 = pickupArray.begin(); iter11 != pickupArray.end(); iter11++)
+                {
+                    if (pickupArray[counter].destroy == true)
+                    {
+                        pickupArray.erase(iter11);
+                        break;
+                    }
+                    counter++;
+                }
+
+                counter = 0;
+                for (iter11 = pickupFireArray.begin(); iter11 != pickupFireArray.end(); iter11++)
+                {
+                    if (pickupFireArray[counter].destroy == true)
+                    {
+                        pickupFireArray.erase(iter11);
+                        break;
+                    }
+                    counter++;
+                }
+
+                counter = 0;
+                for (iter11 = pickupFirerateArray.begin(); iter11 != pickupFirerateArray.end(); iter11++)
+                {
+                    if (pickupFirerateArray[counter].destroy == true)
+                    {
+                        pickupFirerateArray.erase(iter11);
+                        break;
+                    }
+                    counter++;
+                }
+
+                // Delete Dead Enemy
+                counter = 0;
+                for (iter4 = enemyArray.begin(); iter4 != enemyArray.end(); iter4++)
+                {
+                    if (enemyArray[counter].alive == false)
+                    {
+                        cout << "Enemy has been dead" << endl;
+                        score += 10;
+                        if (generateRandom(2) == 1)
+                        {
+                            pickup1.sprite.setPosition(enemyArray[counter].sprite.getPosition());
+                            pickupArray.push_back(pickup1);
+                        }
+                        if (generateRandom(4) == 1)
+                        {
+                            pickupFire.sprite.setPosition(enemyArray[counter].sprite.getPosition().x - 10, enemyArray[counter].sprite.getPosition().y);
+                            pickupFireArray.push_back(pickupFire);
+                        }
+                        if (generateRandom(4) == 1)
+                        {
+                            pickupFirerate.sprite.setPosition(enemyArray[counter].sprite.getPosition().x + 10, enemyArray[counter].sprite.getPosition().y);
+                            pickupFirerateArray.push_back(pickupFirerate);
+                        }
+                        enemyArray.erase(iter4);
+                        break;
+                    }
+                    counter++;
+                }
+
+                // Delete Text Display
+                counter = 0;
+                for (iter8 = textDisplayArray.begin(); iter8 != textDisplayArray.end(); iter8++)
+                {
+                    if (textDisplayArray[counter].destroy == true)
+                    {
+                        textDisplayArray.erase(iter8);
+                        break;
+                    }
+                    counter++;
+                }
+
+                if (clockmana.getElapsedTime().asSeconds() >= 1)
+                {
+                    clockmana.restart();
+                    if (Player1.mana < 100) Player1.mana += 5;
+                }
+
+                // Shoot                   
+                if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+                {
+                    if (clock.getElapsedTime().asSeconds() >= Player1.fireRate)
+                    {
+                        clock.restart();
+                        shootSound.play();
+                        if (Player1.direction == 3)
+                        {
+                            shoot1.sprite.setPosition(Player1.sprite.getPosition().x,
+                                Player1.sprite.getPosition().y + Player1.sprite.getGlobalBounds().height / 2);
+                            shoot1.direction = Player1.direction;
+                            shootArray.push_back(shoot1);
+                        }
+                        if (Player1.direction == 4)
+                        {
+                            shoot1.sprite.setPosition(Player1.sprite.getPosition().x + Player1.sprite.getGlobalBounds().width,
+                                Player1.sprite.getPosition().y + Player1.sprite.getGlobalBounds().height / 2);
+                            shoot1.direction = Player1.direction;
+                            shootArray.push_back(shoot1);
+                        }
+                    }
+                }
+
+                if (clockEnemy.getElapsedTime().asSeconds() >= 0.1)
+                {
+                    clockEnemy.restart();
+                    counter = 0;
+                    for (iter4 = enemyArray.begin(); iter4 != enemyArray.end(); iter4++)
+                    {
+                        // Player from left
+                        if (enemyArray[counter].sprite.getPosition().x - Player1.GetPosition().x >= 0 && enemyArray[counter].sprite.getPosition().x - Player1.GetPosition().x < 550 && abs(enemyArray[counter].sprite.getPosition().y - Player1.GetPosition().y) <= 100)
+                        {
+                            enemyArray[counter].direction = 3;
+                            enemyArray[counter].counter = 0;
+                            if (enemyArray[counter].sprite.getPosition().x - Player1.GetPosition().x < 350)
+                                enemyArray[counter].direction = 1;
+                            if (generateRandom(10) == 1)
+                            {
+                                shootEnemy.sprite.setPosition(enemyArray[counter].GetPosition().x + enemyArray[counter].sprite.getGlobalBounds().width / 2,
+                                    enemyArray[counter].GetPosition().y + enemyArray[counter].sprite.getGlobalBounds().height / 2);
+                                shootEnemy.direction = 3;
+                                enemyshootArray.push_back(shootEnemy);
+                                enemyshootSound.play();
+                            }
+                        }
+
+                        // Player from right
+                        if (Player1.GetPosition().x - enemyArray[counter].sprite.getPosition().x >= 0 && Player1.GetPosition().x - enemyArray[counter].sprite.getPosition().x < 550 && abs(enemyArray[counter].sprite.getPosition().y - Player1.GetPosition().y) <= 100)
+                        {
+                            enemyArray[counter].direction = 4;
+                            enemyArray[counter].counter = 0;
+                            if (Player1.GetPosition().x - enemyArray[counter].sprite.getPosition().x < 350)
+                            {
+                                enemyArray[counter].direction = 2;
+                            }
+                            if (generateRandom(10) == 1)
+                            {
+                                shootEnemy.sprite.setPosition(enemyArray[counter].GetPosition().x + enemyArray[counter].sprite.getGlobalBounds().width / 2,
+                                    enemyArray[counter].GetPosition().y + enemyArray[counter].sprite.getGlobalBounds().height / 2);
+                                shootEnemy.direction = 4;
+                                enemyshootArray.push_back(shootEnemy);
+                                enemyshootSound.play();
+                            }
+                        }
+                        counter++;
+                    }
+                }
+
+                // Update Shoot
+                counter = 0;
+                for (iter = shootArray.begin(); iter != shootArray.end(); iter++)
+                {
+                    shootArray[counter].update(); // Update Shoot
+                    counter++;
+                }
+
+                counter = 0;
+                for (iter = enemyshootArray.begin(); iter != enemyshootArray.end(); iter++)
+                {
+                    enemyshootArray[counter].update(); // Update Shoot
+                    counter++;
+                }              
+
+                // Delete Shoot
+                counter = 0;
+                for (iter = shootArray.begin(); iter != shootArray.end(); iter++)
+                {
+                    if (shootArray[counter].destroy == true)
+                    {
+                        shootArray.erase(iter);
+                        break;
+                    }
+                    counter++;
+                }
+
+                counter = 0;
+                for (iter = enemyshootArray.begin(); iter != enemyshootArray.end(); iter++)
+                {
+                    if (enemyshootArray[counter].destroy == true)
+                    {
+                        enemyshootArray.erase(iter);
+                        break;
+                    }
+                    counter++;
+                }                
+
+                //Update Player
+                Player1.update(dt);
+                cout << Player1.movementSpeed << endl;
+                // Update UI
+                view1.setCenter(Player1.GetPosition().x, Player1.GetPosition().y - window.getSize().y / 7);
+                coinsCount.setPosition(view1.getCenter().x + window.getSize().x / 2 - 200, 20);
+                playerHp.setPosition(view1.getCenter().x - window.getSize().x / 2 + 20, 30);
+                playerHpSlot.setPosition(view1.getCenter().x - window.getSize().x / 2 + 20, 30);
+                playerMana.setPosition(view1.getCenter().x - window.getSize().x / 2 + 250, 30);
+                playerManaSlot.setPosition(view1.getCenter().x - window.getSize().x / 2 + 250, 30);
+
+                window.setView(view1);
+
+                //Update Enemy
+                counter = 0;
+                for (iter4 = enemyArray.begin(); iter4 != enemyArray.end(); iter4++)
+                {
+                    enemyArray[counter].update(dt);
+                    counter++;
+                }
+
+                // Update UI
+                playerHp.setSize(sf::Vector2f(Player1.hp * 2, 20));
+                playerMana.setSize(sf::Vector2f(Player1.mana * 2, 20));
+                coinsCount.setString("Coins : " + to_string(Player1.coins));
+
+                ////////////////////////////////////////////////////////********* DRAW EVERYTHING *******/////////////////////////////////////////////////////////////////////
+
+                for (Platform& platform : platforms)
+                    platform.Draw(window);
+
+                window.draw(backGround);
+                window.draw(door1);
+                window.draw(door2);
+                window.draw(door3);
+
+                for (Ladders& pricker : prickers)
+                    pricker.Draw(window);
+
+                for (Ladders& pricker : prickers2)
+                    pricker.Draw(window);
+
+                // Draw Player
+                window.draw(Player1.sprite);
+                // Draw Pickup Items
+                counter = 0;
+                for (iter11 = pickupArray.begin(); iter11 != pickupArray.end(); iter11++)
+                {
+                    window.draw(pickupArray[counter].sprite);
+                    counter++;
+                }
+
+                counter = 0;
+                for (iter11 = pickupFireArray.begin(); iter11 != pickupFireArray.end(); iter11++)
+                {
+                    window.draw(pickupFireArray[counter].sprite);
+                    counter++;
+                }
+
+                counter = 0;
+                for (iter11 = pickupFirerateArray.begin(); iter11 != pickupFirerateArray.end(); iter11++)
+                {
+                    window.draw(pickupFirerateArray[counter].sprite);
+                    counter++;
+                }
+
+                // Draw Enemy
+                counter = 0;
+                for (iter4 = enemyArray.begin(); iter4 != enemyArray.end(); iter4++)
+                {
+                    window.draw(enemyArray[counter].sprite);
+                    counter++;
+                }
+
+                // Draw shoot
+                counter = 0;
+                for (iter = shootArray.begin(); iter != shootArray.end(); iter++)
+                {
+                    window.draw(shootArray[counter].sprite);
+                    counter++;
+                }
+
+                counter = 0;
+                for (iter = enemyshootArray.begin(); iter != enemyshootArray.end(); iter++)
+                {
+                    window.draw(enemyshootArray[counter].sprite);
+                    counter++;
+                }
+
+                // Draw UI
+                /*window.draw(coinsCount);
+                window.draw(playerHpSlot);
+                window.draw(playerHp);
+                window.draw(playerManaSlot);
+                window.draw(playerMana);*/
+
+                // Draw Text
+                counter = 0;
+                for (iter8 = textDisplayArray.begin(); iter8 != textDisplayArray.end(); iter8++)
+                {
+                    textDisplayArray[counter].update();
+                    window.draw(textDisplayArray[counter].text);
+
+                    counter++;
+                }
+                //cout << "Player.y = " << Player1.GetPosition().y << endl;
+                cout << "x = " << window.mapPixelToCoords(sf::Mouse::getPosition(window)).x << " y = " << window.mapPixelToCoords(sf::Mouse::getPosition(window)).y << endl;
+                window.display();
             }
-
-            //Update Player
-            Player1.update(dt);
-
-            // Update UI
-            view1.setCenter(Player1.GetPosition().x, Player1.GetPosition().y - window.getSize().y / 7);
-            coinsCount.setPosition(view1.getCenter().x + window.getSize().x / 2 - 200, 20);
-            playerHp.setPosition(view1.getCenter().x - window.getSize().x / 2 + 20, 30);
-            playerHpSlot.setPosition(view1.getCenter().x - window.getSize().x / 2 + 20, 30);
-            playerMana.setPosition(view1.getCenter().x - window.getSize().x / 2 + 250, 30);
-            playerManaSlot.setPosition(view1.getCenter().x - window.getSize().x / 2 + 250, 30);
-
-            window.setView(view1);
-
-            //Update Enemy
-            counter = 0;
-            for (iter4 = enemyArray.begin(); iter4 != enemyArray.end(); iter4++)
-            {
-                enemyArray[counter].update(dt);
-                counter++;
-            }
-
-            // Update UI
-            playerHp.setSize(sf::Vector2f(Player1.hp * 2, 20));
-            playerMana.setSize(sf::Vector2f(Player1.mana * 2, 20));
-            coinsCount.setString("Coins : " + to_string(Player1.coins));
-
-            ////////////////////////////////////////////////////////********* DRAW EVERYTHING *******/////////////////////////////////////////////////////////////////////
-
-            for (Platform& platform : platforms)
-                platform.Draw(window);
-            window.draw(backGround);
-            for (Ladders& pricker : prickers)
-                pricker.Draw(window);
-
-            // Draw Player
-            window.draw(Player1.sprite);
-
-            // Draw Pickup Items
-            counter = 0;
-            for (iter11 = pickupArray.begin(); iter11 != pickupArray.end(); iter11++)
-            {
-                window.draw(pickupArray[counter].sprite);
-                counter++;
-            }
-
-            counter = 0;
-            for (iter11 = pickupFireArray.begin(); iter11 != pickupFireArray.end(); iter11++)
-            {
-                window.draw(pickupFireArray[counter].sprite);
-                counter++;
-            }
-
-            counter = 0;
-            for (iter11 = pickupFirerateArray.begin(); iter11 != pickupFirerateArray.end(); iter11++)
-            {
-                window.draw(pickupFirerateArray[counter].sprite);
-                counter++;
-            }
-
-            // Draw Enemy
-            counter = 0;
-            for (iter4 = enemyArray.begin(); iter4 != enemyArray.end(); iter4++)
-            {
-                window.draw(enemyArray[counter].sprite);
-                counter++;
-            }
-
-            // Draw shoot
-            counter = 0;
-            for (iter = shootArray.begin(); iter != shootArray.end(); iter++)
-            {
-                window.draw(shootArray[counter].sprite);
-                counter++;
-            }
-
-            counter = 0;
-            for (iter = enemyshootArray.begin(); iter != enemyshootArray.end(); iter++)
-            {
-                window.draw(enemyshootArray[counter].sprite);
-                counter++;
-            }
-
-            // Draw UI
-            /*window.draw(coinsCount);
-            window.draw(playerHpSlot);
-            window.draw(playerHp);
-            window.draw(playerManaSlot);
-            window.draw(playerMana);*/
-
-            // Draw Text
-            counter = 0;
-            for (iter8 = textDisplayArray.begin(); iter8 != textDisplayArray.end(); iter8++)
-            {
-                textDisplayArray[counter].update();
-                window.draw(textDisplayArray[counter].text);
-
-                counter++;
-            }
-            //cout << "Player.y = " << Player1.GetPosition().y << endl;
-            cout << "x = " << window.mapPixelToCoords(sf::Mouse::getPosition(window)).x << " y = " << window.mapPixelToCoords(sf::Mouse::getPosition(window)).y << endl;
-            window.display();
         }
     }
 
     // End Game
-    if (State == 3)
-    {
-        main();
-    }
     return 0;
 }

@@ -18,5 +18,6 @@ using namespace std;
 int generateRandom(int max);
 int generateRandom0(int max);
 bool generateRandomBool();
+int generateRandomin(int min, int max);
 
 #endif

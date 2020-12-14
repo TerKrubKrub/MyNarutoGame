@@ -23,3 +23,15 @@ bool generateRandomBool()
 	if (myRandom == 1) return true;
 	else return false;
 }
+
+int generateRandomin(int min, int max)
+{
+	//int randomNumber = rand();
+	int random = (rand() % max) + 1;
+	while (random < min)
+	{
+		random = (rand() % max) + 1;
+	}
+	int myRandom = random;
+	return myRandom;
+}

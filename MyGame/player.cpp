@@ -2,13 +2,17 @@
 
 player::player()
 {
-    sprite.setPosition(50, 403);
+    sprite.setPosition(10, 30);
     sprite.setTextureRect(sf::IntRect(6, 147, 37, 67));
     direction = 4;
 }
 void player::update(float dt)
 {
     if (sprite.getPosition().x < 0) sprite.setPosition(0, sprite.getPosition().y);
+    if (sprite.getPosition().x >= 5120 && sprite.getPosition().x <= 6900)
+    {
+        if (sprite.getPosition().y >= 600) hp = 0;
+    }
     sprite.move(velocity * dt);
     this->updateMovement(dt);
 }
