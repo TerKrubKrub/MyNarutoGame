@@ -6,10 +6,11 @@
 class pickup : public entity
 {
 public:
-	bool isCoin = true;
-	int coinValue = 5;
+	bool isCol = true;
+	int hp = 5;
 	bool destroy = false;
-
+	int powerupDamage = 10;
+	float fireRate = 0.2;
 
 	pickup();
 	void update();

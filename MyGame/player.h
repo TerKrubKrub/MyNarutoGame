@@ -8,12 +8,15 @@ class player : public entity
 {
 public:
 	float movementSpeed = 5;
-	int attackDamage = 1;
+	int attackDamage = 5;
 	int counterWalking = 0;
 	int direction = 0; // 1 - up, 2 - down, 3 - left, 4 - right
 	int hp = 100;
 	int coins = 0;
 	int mana = 0;
+	float fireRate = 0.5f;
+	bool powerupFirerate = false;
+	bool powerupFire = false;
 	sf::Vector2f velocity;
 
 	player();

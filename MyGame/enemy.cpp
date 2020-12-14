@@ -55,7 +55,7 @@ void enemy::updateMovement(float dt)
     counter++;
     if (counter >= movementLength)
     {
-        direction = generateRandom(10);
+        direction = generateRandom(5);
         counter = 0;
     }
 }

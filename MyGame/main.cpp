@@ -20,13 +20,17 @@ int main()
     sf::Clock clock;
     sf::Clock clockCollideEnemy;
     sf::Clock clockmana;
+    sf::Clock clockEnemy;
+    sf::Clock itemFire;
+    sf::Clock itemFirerate;
 
+    int score = 0;
     float dt = 0.0f;
     int counter = 0;
     int counter2 = 0;
     int counter3 = 0;
 
-    sf::RenderWindow window(sf::VideoMode(1000, 600), "MY GAME");
+    sf::RenderWindow window(sf::VideoMode(1000, 600), "JIRAKAN KOOLLASING 63010136");
     window.setFramerateLimit(60);
 
     class MainMenu mainmenu(window.getSize().x, window.getSize().y);
@@ -45,18 +49,41 @@ int main()
     sf::Font font;
     if (!font.loadFromFile("Resources/font.otf")) EXIT_FAILURE;
 
-    sf::Texture textureCoin;
-    if (!textureCoin.loadFromFile("Resources/coinSprite.png")) EXIT_FAILURE;
+    sf::Texture textureMedkit;
+    if (!textureMedkit.loadFromFile("Resources/medkit.png")) EXIT_FAILURE;
 
     sf::Texture textureRasengan;
     if (!textureRasengan.loadFromFile("Resources/rasengan.png")) EXIT_FAILURE;
 
+    sf::Texture textureFireball;
+    if (!textureFireball.loadFromFile("Resources/fireBall.png")) EXIT_FAILURE;
+
     sf::Texture textureBackground;
     if (!textureBackground.loadFromFile("Resources/backGroundmap1.png")) EXIT_FAILURE;
+
+    sf::Texture texturePricker;
+    if (!texturePricker.loadFromFile("Resources/pricker.png")) EXIT_FAILURE;
+
+    sf::Texture textureItems;
+    if (!textureItems.loadFromFile("Resources/pickupItem.png")) EXIT_FAILURE;
 
     sf::RectangleShape backGround;
     backGround.setTexture(&textureBackground);
     backGround.setSize(sf::Vector2f(textureBackground.getSize().x * 2.5, textureBackground.getSize().y * 600 / 223));
+
+    sf::SoundBuffer bufferShoot;
+    if (!bufferShoot.loadFromFile("Resources/Sounds/Shoot.wav")) EXIT_FAILURE;
+
+    sf::Sound shootSound;
+    shootSound.setBuffer(bufferShoot);
+    shootSound.setVolume(15.f);
+
+    sf::SoundBuffer bufferPickuphp;
+    if (!bufferPickuphp.loadFromFile("Resources/Sounds/Pickuphp.wav")) EXIT_FAILURE;
+
+    sf::Sound pickupSoundhp;
+    pickupSoundhp.setBuffer(bufferPickuphp);
+    pickupSoundhp.setVolume(15.f);
 
     sf::Texture platform1;
     if (!platform1.loadFromFile("Resources/Platforms/1.png")) EXIT_FAILURE;
@@ -280,6 +307,23 @@ int main()
     ladders.push_back(Ladders(sf::Vector2f(40.0f, 726.457f), sf::Vector2f(7560.0f, 150.67f)));
     ladders.push_back(Ladders(sf::Vector2f(40.0f, 301.345f), sf::Vector2f(7120.0f, 2432.28f)));
 
+    // Pricker
+    vector<Ladders> prickers;
+    prickers.push_back(Ladders(sf::Vector2f(80.0f, 26.9f), sf::Vector2f(2880.0f, 1113.9f)));
+    prickers.push_back(Ladders(sf::Vector2f(80.0f, 26.9f), sf::Vector2f(3040.0f, 1113.9f)));
+    prickers.push_back(Ladders(sf::Vector2f(80.0f, 26.9f), sf::Vector2f(2720.0f, 1113.9f)));
+    prickers.push_back(Ladders(sf::Vector2f(80.0f, 26.9f), sf::Vector2f(3760.0f, 1759.64f)));
+    prickers.push_back(Ladders(sf::Vector2f(80.0f, 26.9f), sf::Vector2f(7520.0f, 1113.9f)));
+    prickers.push_back(Ladders(sf::Vector2f(80.0f, 26.9f), sf::Vector2f(7440.0f, 1113.9f)));
+    prickers.push_back(Ladders(sf::Vector2f(80.0f, 26.9f), sf::Vector2f(2760.0f, 1759.64f)));
+    prickers.push_back(Ladders(sf::Vector2f(80.0f, 26.9f), sf::Vector2f(2840.0f, 1759.64f)));
+    prickers.push_back(Ladders(sf::Vector2f(40.0f, 26.9f), sf::Vector2f(2920.0f, 1759.64f)));
+
+    for (Ladders& pricker : prickers)
+    {
+        pricker.SetTexture(&texturePricker);
+    }
+
     // Class Object
     class player Player1;
     Player1.sprite.setTexture(texturePlayer);
@@ -293,6 +337,9 @@ int main()
     class shoot shoot1;
     shoot1.sprite.setTexture(textureRasengan);
 
+    class shoot shootEnemy;
+    shootEnemy.sprite.setTexture(textureRasengan);
+
     // Enemy Vector Array
     vector<enemy>::const_iterator iter4;
     vector<enemy> enemyArray;
@@ -301,9 +348,29 @@ int main()
     class enemy enemy1;
     enemy1.sprite.setTexture(textureEnemy);
 
-    enemy1.sprite.setPosition(600, 260);
+    enemy1.sprite.setPosition(732.5, 403);
     enemyArray.push_back(enemy1);
-    enemy1.sprite.setPosition(500, 370);
+    enemy1.sprite.setPosition(1075, 403);
+    enemyArray.push_back(enemy1);
+    enemy1.sprite.setPosition(1300, 350);
+    enemyArray.push_back(enemy1);
+    enemy1.sprite.setPosition(1700, 350);
+    enemyArray.push_back(enemy1);
+    enemy1.sprite.setPosition(2200, 440);
+    enemyArray.push_back(enemy1);
+    enemy1.sprite.setPosition(2500, 450);
+    enemyArray.push_back(enemy1);
+    enemy1.sprite.setPosition(2810, 1040);
+    enemyArray.push_back(enemy1);
+    enemy1.sprite.setPosition(3370, 1640);
+    enemyArray.push_back(enemy1);
+    enemy1.sprite.setPosition(4130, 1550);
+    enemyArray.push_back(enemy1);
+    enemy1.sprite.setPosition(4130, 1550);
+    enemyArray.push_back(enemy1);
+    enemy1.sprite.setPosition(4800, 1460);
+    enemyArray.push_back(enemy1);
+    enemy1.sprite.setPosition(4800, 1460);
     enemyArray.push_back(enemy1);
 
     // Text Vector Array
@@ -322,11 +389,21 @@ int main()
     // Coin Vector Array
     vector<pickup>::const_iterator iter11;
     vector<pickup> pickupArray;
+    vector<pickup> pickupFireArray;
+    vector<pickup> pickupFirerateArray;
 
     // Pickup Object
     class pickup pickup1;
-    pickup1.sprite.setTexture(textureCoin);
-    //pickupArray.push_back(pickup1);
+    pickup1.sprite.setTexture(textureMedkit);
+    pickup1.sprite.setTextureRect(sf::IntRect(0, 0, 128, 128));
+
+    pickup pickupFire;
+    pickupFire.sprite.setTexture(textureItems);
+    pickupFire.sprite.setTextureRect(sf::IntRect(0, 0, 106, 106));
+
+    pickup pickupFirerate;
+    pickupFirerate.sprite.setTexture(textureItems);
+    pickupFirerate.sprite.setTextureRect(sf::IntRect(107, 0, 106, 106));
 
     sf::RectangleShape playerHp;
     playerHp.setFillColor(sf::Color::Red);
@@ -401,8 +478,8 @@ int main()
 
             if (Player1.hp <= 0)
             {
-                //State = 3;
-                //window.close();
+                State = 3;
+                window.close();
                 break;
             }
             // Clock
@@ -410,23 +487,76 @@ int main()
 
             sf::Vector2f direction1;
 
-
-            // Player collides Pickup Items
+            // Player collides Pickuphp Items
             counter = 0;
             for (iter11 = pickupArray.begin(); iter11 != pickupArray.end(); iter11++)
             {
                 if (Player1.sprite.getGlobalBounds().intersects(pickupArray[counter].sprite.getGlobalBounds()))
                 {
-                    if (pickupArray[counter].isCoin == true)
+                    pickupSoundhp.play();
+                    if (pickupArray[counter].isCol == true)
                     {
-                        Player1.coins += pickupArray[counter].coinValue;
-                    }
-
+                        Player1.hp += pickupArray[counter].hp;
+                    }                  
                     pickupArray[counter].destroy = true;
                 }
-
                 counter++;
             }
+
+            counter = 0;
+            for (iter11 = pickupFireArray.begin(); iter11 != pickupFireArray.end(); iter11++)
+            {
+                if (Player1.sprite.getGlobalBounds().intersects(pickupFireArray[counter].sprite.getGlobalBounds()))
+                {
+                    itemFire.restart();
+                    pickupSoundhp.play();
+                    if (pickupFireArray[counter].isCol == true)
+                    {
+                        Player1.attackDamage = pickupFire.powerupDamage;
+                        Player1.powerupFire = true;
+                        shoot1.sprite.setTexture(textureFireball);
+                    }
+                    pickupFireArray[counter].destroy = true;
+                }
+                counter++;
+            }
+
+            counter = 0;
+            for (iter11 = pickupFirerateArray.begin(); iter11 != pickupFirerateArray.end(); iter11++)
+            {
+                if (Player1.sprite.getGlobalBounds().intersects(pickupFirerateArray[counter].sprite.getGlobalBounds()))
+                {
+                    itemFirerate.restart();
+                    pickupSoundhp.play();
+                    if (pickupFirerateArray[counter].isCol == true)
+                    {
+                        Player1.fireRate = pickupFirerate.fireRate;
+                        Player1.powerupFirerate = true;
+                    }
+                    pickupFirerateArray[counter].destroy = true;
+                }
+                counter++;
+            }
+
+            if (Player1.powerupFire == true)
+            {               
+                if (itemFire.getElapsedTime().asSeconds() >= 10)
+                {
+                    Player1.powerupFire = false;
+                    Player1.attackDamage = 5;
+                    shoot1.sprite.setTexture(textureRasengan);
+                }
+            }
+
+            if (Player1.powerupFirerate == true)
+            {
+                if (itemFirerate.getElapsedTime().asSeconds() >= 5)
+                {
+                    Player1.powerupFirerate = false;
+                    Player1.fireRate = 0.5;
+                }
+            }
+            ///////////////////////////////////////////////////////////////////////////////////////
 
             if (clockCollideEnemy.getElapsedTime().asSeconds() >= 0.5)
             {
@@ -472,18 +602,30 @@ int main()
                         shootArray[counter].destroy = true;
 
                         // Text Display
-                        textDisplay1.text.setString(to_string(shootArray[counter].attackDamage));
+                        textDisplay1.text.setString(to_string(Player1.attackDamage));
                         textDisplay1.text.setPosition(enemyArray[counter2].sprite.getPosition().x + enemyArray[counter2].sprite.getGlobalBounds().width / 2,
                             enemyArray[counter2].sprite.getPosition().y - enemyArray[counter2].sprite.getGlobalBounds().height / 2.0f);
                         textDisplayArray.push_back(textDisplay1);
 
-                        enemyArray[counter2].hp -= shootArray[counter].attackDamage;
+                        enemyArray[counter2].hp -= Player1.attackDamage;
                         if (enemyArray[counter2].hp <= 0)
                         {
                             enemyArray[counter2].alive = false;
                         }
                     }
                     counter2++;
+                }
+                counter++;
+            }
+
+            // Projectile Collides with Player
+            counter = 0;
+            for (iter = enemyshootArray.begin(); iter != enemyshootArray.end(); iter++)
+            {
+                if (enemyshootArray[counter].sprite.getGlobalBounds().intersects(Player1.sprite.getGlobalBounds()))
+                {
+                    enemyshootArray[counter].destroy = true;
+                    Player1.hp -= enemyshootArray[counter].attackDamage;
                 }
                 counter++;
             }
@@ -500,6 +642,28 @@ int main()
                 counter++;
             }
 
+            counter = 0;
+            for (iter11 = pickupFireArray.begin(); iter11 != pickupFireArray.end(); iter11++)
+            {
+                if (pickupFireArray[counter].destroy == true)
+                {
+                    pickupFireArray.erase(iter11);
+                    break;
+                }
+                counter++;
+            }
+
+            counter = 0;
+            for (iter11 = pickupFirerateArray.begin(); iter11 != pickupFirerateArray.end(); iter11++)
+            {
+                if (pickupFirerateArray[counter].destroy == true)
+                {
+                    pickupFirerateArray.erase(iter11);
+                    break;
+                }
+                counter++;
+            }
+
             // Delete Dead Enemy
             counter = 0;
             for (iter4 = enemyArray.begin(); iter4 != enemyArray.end(); iter4++)
@@ -507,13 +671,22 @@ int main()
                 if (enemyArray[counter].alive == false)
                 {
                     cout << "Enemy has been dead" << endl;
-
+                    score += 10;
                     if (generateRandom(2) == 1)
                     {
                         pickup1.sprite.setPosition(enemyArray[counter].sprite.getPosition());
                         pickupArray.push_back(pickup1);
                     }
-
+                    if (generateRandom(3) == 1)
+                    {
+                        pickupFire.sprite.setPosition(enemyArray[counter].sprite.getPosition().x - 10, enemyArray[counter].sprite.getPosition().y);
+                        pickupFireArray.push_back(pickupFire);
+                    }
+                    if (generateRandom(3) == 1)
+                    {
+                        pickupFirerate.sprite.setPosition(enemyArray[counter].sprite.getPosition().x + 10, enemyArray[counter].sprite.getPosition().y);
+                        pickupFirerateArray.push_back(pickupFirerate);
+                    }
                     enemyArray.erase(iter4);
                     break;
                 }
@@ -538,70 +711,70 @@ int main()
                 if (Player1.mana < 100) Player1.mana += 5;
             }
 
-            // Shoot
-            if (elapsed.asSeconds() >= 0.1)
+            // Shoot                   
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::J))
             {
-                clock.restart();
-                if (Player1.mana >= 10)
+                if (clock.getElapsedTime().asSeconds() >= Player1.fireRate)
                 {
-                    if (sf::Keyboard::isKeyPressed(sf::Keyboard::J))
+                    clock.restart();     
+                    shootSound.play();
+                    //Player1.mana -= 10;
+                    if (Player1.direction == 3)
                     {
-                        Player1.mana -= 10;
-                        if (Player1.direction == 3)
-                        {
-                            shoot1.sprite.setPosition(Player1.sprite.getPosition().x,
-                                Player1.sprite.getPosition().y + Player1.sprite.getGlobalBounds().height / 2);
-                            shoot1.direction = Player1.direction;
-                            shootArray.push_back(shoot1);
-                        }
-                        if (Player1.direction == 4)
-                        {
-                            shoot1.sprite.setPosition(Player1.sprite.getPosition().x + Player1.sprite.getGlobalBounds().width,
-                                Player1.sprite.getPosition().y + Player1.sprite.getGlobalBounds().height / 2);
-                            shoot1.direction = Player1.direction;
-                            shootArray.push_back(shoot1);
-                        }
+                        shoot1.sprite.setPosition(Player1.sprite.getPosition().x,
+                            Player1.sprite.getPosition().y + Player1.sprite.getGlobalBounds().height / 2);
+                        shoot1.direction = Player1.direction;
+                        shootArray.push_back(shoot1);
+                    }
+                    if (Player1.direction == 4)
+                    {
+                        shoot1.sprite.setPosition(Player1.sprite.getPosition().x + Player1.sprite.getGlobalBounds().width,
+                            Player1.sprite.getPosition().y + Player1.sprite.getGlobalBounds().height / 2);
+                        shoot1.direction = Player1.direction;
+                        shootArray.push_back(shoot1);
                     }
                 }
             }
 
-            if (elapsed.asSeconds() >= 0.1)
+            if (clockEnemy.getElapsedTime().asSeconds() >= 0.1)
             {
-                clock.restart();
+                clockEnemy.restart();
                 counter = 0;
                 for (iter4 = enemyArray.begin(); iter4 != enemyArray.end(); iter4++)
                 {
                     // Player from left
-                    if (enemyArray[counter].sprite.getPosition().x - Player1.GetPosition().x >= 0 && enemyArray[counter].sprite.getPosition().x - Player1.GetPosition().x < 500 && abs(enemyArray[counter].sprite.getPosition().y - Player1.GetPosition().y) <= 100)
+                    if (enemyArray[counter].sprite.getPosition().x - Player1.GetPosition().x >= 0 && enemyArray[counter].sprite.getPosition().x - Player1.GetPosition().x < 550 && abs(enemyArray[counter].sprite.getPosition().y - Player1.GetPosition().y) <= 100)
                     {
                         enemyArray[counter].direction = 3;
                         enemyArray[counter].counter = 0;
-                        if (enemyArray[counter].sprite.getPosition().x - Player1.GetPosition().x < 250)
+                        if (enemyArray[counter].sprite.getPosition().x - Player1.GetPosition().x < 350)
                             enemyArray[counter].direction = 1;
                         if (generateRandom(10) == 1)
                         {
-                            shoot1.sprite.setPosition(enemyArray[counter].GetPosition().x + enemyArray[counter].sprite.getGlobalBounds().width / 2,
+                            shootEnemy.sprite.setPosition(enemyArray[counter].GetPosition().x + enemyArray[counter].sprite.getGlobalBounds().width / 2,
                                 enemyArray[counter].GetPosition().y + enemyArray[counter].sprite.getGlobalBounds().height / 2);
-                            shoot1.direction = 3;
-                            enemyshootArray.push_back(shoot1);
+                            shootEnemy.direction = 3;
+                            enemyshootArray.push_back(shootEnemy);
+                            shootSound.play();
                         }
                     }
 
                     // Player from right
-                    if (Player1.GetPosition().x - enemyArray[counter].sprite.getPosition().x >= 0 && Player1.GetPosition().x - enemyArray[counter].sprite.getPosition().x < 500 && abs(enemyArray[counter].sprite.getPosition().y - Player1.GetPosition().y) <= 100)
+                    if (Player1.GetPosition().x - enemyArray[counter].sprite.getPosition().x >= 0 && Player1.GetPosition().x - enemyArray[counter].sprite.getPosition().x < 550 && abs(enemyArray[counter].sprite.getPosition().y - Player1.GetPosition().y) <= 100)
                     {
                         enemyArray[counter].direction = 4;
                         enemyArray[counter].counter = 0;
-                        if (Player1.GetPosition().x - enemyArray[counter].sprite.getPosition().x < 250)
+                        if (Player1.GetPosition().x - enemyArray[counter].sprite.getPosition().x < 350)
                         {
                             enemyArray[counter].direction = 2;
                         }
                         if (generateRandom(10) == 1)
                         {
-                            shoot1.sprite.setPosition(enemyArray[counter].GetPosition().x + enemyArray[counter].sprite.getGlobalBounds().width / 2,
+                            shootEnemy.sprite.setPosition(enemyArray[counter].GetPosition().x + enemyArray[counter].sprite.getGlobalBounds().width / 2,
                                 enemyArray[counter].GetPosition().y + enemyArray[counter].sprite.getGlobalBounds().height / 2);
-                            shoot1.direction = 4;
-                            enemyshootArray.push_back(shoot1);
+                            shootEnemy.direction = 4;
+                            enemyshootArray.push_back(shootEnemy);
+                            shootSound.play();
                         }
                     }
                     counter++;
@@ -623,18 +796,6 @@ int main()
                 counter++;
             }
 
-            // Delete Shoot
-            counter = 0;
-            for (iter = shootArray.begin(); iter != shootArray.end(); iter++)
-            {
-                if (shootArray[counter].destroy == true)
-                {
-                    shootArray.erase(iter);
-                    break;
-                }
-                counter++;
-            }
-
             for (Platform& platform : platforms)
             {
                 if (platform.GetCollider().CheckCollision(Player1.GetCollider(), direction1, 1.0f))
@@ -648,6 +809,29 @@ int main()
                 }
             }
 
+            // Delete Shoot
+            counter = 0;
+            for (iter = shootArray.begin(); iter != shootArray.end(); iter++)
+            {
+                if (shootArray[counter].destroy == true)
+                {
+                    shootArray.erase(iter);
+                    break;
+                }
+                counter++;
+            }
+
+            counter = 0;
+            for (iter = enemyshootArray.begin(); iter != enemyshootArray.end(); iter++)
+            {
+                if (enemyshootArray[counter].destroy == true)
+                {
+                    enemyshootArray.erase(iter);
+                    break;
+                }
+                counter++;
+            }
+
             for (Ladders& ladder : ladders)
             {
                 if (Player1.sprite.getGlobalBounds().intersects(ladder.rect.getGlobalBounds()))
@@ -657,6 +841,23 @@ int main()
                         Player1.velocity.y = 0;
                         Player1.sprite.move(0, -Player1.movementSpeed);
                     }
+                }
+                counter = 0;
+                for (iter4 = enemyArray.begin(); iter4 != enemyArray.end(); iter4++)
+                {
+                    if (enemyArray[counter].sprite.getGlobalBounds().intersects(ladder.rect.getGlobalBounds()))
+                    {
+                        enemyArray[counter].sprite.setPosition(ladder.rect.getPosition().x + enemyArray[counter].sprite.getGlobalBounds().width, ladder.rect.getPosition().y + enemyArray[counter].sprite.getGlobalBounds().height);
+                    }
+                    counter++;
+                }
+            }
+
+            for (Ladders& pricker : prickers)
+            {
+                if (Player1.sprite.getGlobalBounds().intersects(pricker.rect.getGlobalBounds()))
+                {
+                    Player1.hp -= 100;
                 }
             }
 
@@ -691,6 +892,8 @@ int main()
             for (Platform& platform : platforms)
                 platform.Draw(window);
             window.draw(backGround);
+            for (Ladders& pricker : prickers)
+                pricker.Draw(window);
 
             // Draw Player
             window.draw(Player1.sprite);
@@ -700,6 +903,20 @@ int main()
             for (iter11 = pickupArray.begin(); iter11 != pickupArray.end(); iter11++)
             {
                 window.draw(pickupArray[counter].sprite);
+                counter++;
+            }
+
+            counter = 0;
+            for (iter11 = pickupFireArray.begin(); iter11 != pickupFireArray.end(); iter11++)
+            {
+                window.draw(pickupFireArray[counter].sprite);
+                counter++;
+            }
+
+            counter = 0;
+            for (iter11 = pickupFirerateArray.begin(); iter11 != pickupFirerateArray.end(); iter11++)
+            {
+                window.draw(pickupFirerateArray[counter].sprite);
                 counter++;
             }
 
@@ -743,7 +960,7 @@ int main()
                 counter++;
             }
             //cout << "Player.y = " << Player1.GetPosition().y << endl;
-            //cout << "x = " << window.mapPixelToCoords(sf::Mouse::getPosition(window)).x << " y = " << window.mapPixelToCoords(sf::Mouse::getPosition(window)).y << endl;
+            cout << "x = " << window.mapPixelToCoords(sf::Mouse::getPosition(window)).x << " y = " << window.mapPixelToCoords(sf::Mouse::getPosition(window)).y << endl;
             window.display();
         }
     }
