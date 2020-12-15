@@ -7,7 +7,7 @@ class pickup : public entity
 {
 public:
 	bool isCol = true;
-	int hp = 5;
+	int hp = 20;
 	bool destroy = false;
 	int powerupDamage = 10;
 	float fireRate = 0.2;

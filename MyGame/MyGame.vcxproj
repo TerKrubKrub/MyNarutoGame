@@ -19,9 +19,9 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="AnimationComponent.cpp" />
     <ClCompile Include="Collider.cpp" />
     <ClCompile Include="enemy.cpp" />
+    <ClCompile Include="enemy2.cpp" />
     <ClCompile Include="entity.cpp" />
     <ClCompile Include="Ladders.cpp" />
     <ClCompile Include="main.cpp" />
@@ -34,9 +34,9 @@
     <ClCompile Include="textDisplay.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="AnimationComponent.h" />
     <ClInclude Include="Collider.h" />
     <ClInclude Include="enemy.h" />
+    <ClInclude Include="enemy2.h" />
     <ClInclude Include="entity.h" />
     <ClInclude Include="Ladders.h" />
     <ClInclude Include="MainMenu.h" />

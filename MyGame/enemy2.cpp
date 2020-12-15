@@ -1,35 +1,35 @@
-#include "enemy.h"
+#include "enemy2.h"
 #include "random.h"
 
-enemy::enemy()
+enemy2::enemy2(int x, int y)
 {
-    sprite.setTextureRect(sf::IntRect(200 + (50 * 0), 0, 18, 25));
-    sprite.setScale(1.25f, 1.25f);
+    sprite.setTextureRect(sf::IntRect(x, y, 87, 104));
+    sprite.setScale(1/2.f, 1/2.f);
 }
 
-void enemy::update(float dt)
+void enemy2::update(int x, int y, float dt)
 {
     sprite.move(velocity * dt);
-    this->updateMovement(dt);
+    this->updateMovement(x, y, dt);
 }
 
-void enemy::updateMovement(float dt)
+void enemy2::updateMovement(int x, int y, float dt)
 {
     velocity.x = 0.0f;
 
     if (direction == 1)
     {
-        sprite.setTextureRect(sf::IntRect(200 + (50 * 0) + (50 * counterWalking), 0, 18, 25));
+        sprite.setTextureRect(sf::IntRect(x , y, 87, 104));
     }
     if (direction == 2)
     {
-        sprite.setTextureRect(sf::IntRect(200 + (50 * 2) + (50 * counterWalking), 0, 18, 25));
+        sprite.setTextureRect(sf::IntRect(x , y + 115, 87, 104));
     }
     if (direction == 3) //Left
     {
         velocity.x -= movementSpeed;
         sprite.move(-movementSpeed, 0);
-        sprite.setTextureRect(sf::IntRect(200 + (50 * 0) + (50 * counterWalking), 0, 18, 25));
+        sprite.setTextureRect(sf::IntRect(x + (100 * counterWalking), y, 87, 104));
     }
     else
     {
@@ -39,7 +39,7 @@ void enemy::updateMovement(float dt)
     {
         velocity.x += movementSpeed;
         sprite.move(movementSpeed, 0);
-        sprite.setTextureRect(sf::IntRect(200 + (50 * 2) + (50 * counterWalking), 0, 18, 25));
+        sprite.setTextureRect(sf::IntRect(x + (100 * counterWalking), y + 115, 87, 104));
     }
     else
     {
@@ -49,9 +49,13 @@ void enemy::updateMovement(float dt)
 
     velocity.y += 981.0f * dt;
 
-    
-    if (counterWalking == 1) counterWalking = 0;
-    counterWalking++;
+    if (clock.getElapsedTime().asSeconds() >= 0.3)
+    {
+        clock.restart();
+        if (counterWalking == 4) 
+            counterWalking = 0;
+        counterWalking++;
+    }
 
     counter++;
     if (counter >= movementLength)
@@ -60,7 +64,7 @@ void enemy::updateMovement(float dt)
         counter = 0;
     }
 }
-void enemy::OnCollision(sf::Vector2f direction1)
+void enemy2::OnCollision(sf::Vector2f direction1)
 {
 
     if (direction1.x < 0.0f)

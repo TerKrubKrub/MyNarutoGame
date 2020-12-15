@@ -12,6 +12,7 @@ using namespace std;
 #include "Collider.h"
 #include "MainMenu.h"
 #include "Ladders.h"
+#include "enemy2.h"
 
 int main()
 {
@@ -43,6 +44,9 @@ int main()
 
     sf::Texture textureEnemy;
     if (!textureEnemy.loadFromFile("Resources/enemySpriteSheet.png")) EXIT_FAILURE;
+
+    sf::Texture textureEnemy2;
+    if (!textureEnemy2.loadFromFile("Resources/enemySprite.png")) EXIT_FAILURE;
 
     sf::Texture texturePlayer;
     if (!texturePlayer.loadFromFile("Resources/Sprite1.png")) EXIT_FAILURE;
@@ -379,6 +383,29 @@ int main()
     platforms.push_back(Platform(&platform53, sf::Vector2f(5160.f, 40.34f)));
     platforms.push_back(Platform(&platform50, sf::Vector2f(5120.f, 339.f)));
 
+
+    sf::Texture enemyplatform1;
+    if (!enemyplatform1.loadFromFile("Resources/Platforms/enemy1.png")) EXIT_FAILURE;
+    vector<Platform> enemyplatforms;
+    enemyplatforms.push_back(Platform(&enemyplatform1, sf::Vector2f(2960.f, 495.067f)));
+    enemyplatforms.push_back(Platform(&enemyplatform1, sf::Vector2f(2930.f, 1603.58f)));
+    enemyplatforms.push_back(Platform(&enemyplatform1, sf::Vector2f(3965.f, 1533.63f)));
+    enemyplatforms.push_back(Platform(&enemyplatform1, sf::Vector2f(4960.f, 1140.8f)));
+    enemyplatforms.push_back(Platform(&enemyplatform1, sf::Vector2f(4600.f, 495.067f)));
+    enemyplatforms.push_back(Platform(&enemyplatform1, sf::Vector2f(5437.5f, 252.9f)));
+    enemyplatforms.push_back(Platform(&enemyplatform1, sf::Vector2f(2960.f, 495.067f)));
+    enemyplatforms.push_back(Platform(&enemyplatform1, sf::Vector2f(5422.f, 148.f)));
+    enemyplatforms.push_back(Platform(&enemyplatform1, sf::Vector2f(5920.f, 131.84f)));
+    enemyplatforms.push_back(Platform(&enemyplatform1, sf::Vector2f(5845.f, 341.7f)));
+    enemyplatforms.push_back(Platform(&enemyplatform1, sf::Vector2f(6400.f, 352.46f)));
+    enemyplatforms.push_back(Platform(&enemyplatform1, sf::Vector2f(6382.5f, 234.08f)));
+    enemyplatforms.push_back(Platform(&enemyplatform1, sf::Vector2f(6720.f, 242.15f)));
+    enemyplatforms.push_back(Platform(&enemyplatform1, sf::Vector2f(7120.f, 1140.8f)));
+    enemyplatforms.push_back(Platform(&enemyplatform1, sf::Vector2f(7120.f, 2432.28f)));
+    enemyplatforms.push_back(Platform(&enemyplatform1, sf::Vector2f(6435.f, 231.4f)));
+    enemyplatforms.push_back(Platform(&enemyplatform1, sf::Vector2f(7360.f, 2230.58f)));
+    enemyplatforms.push_back(Platform(&enemyplatform1, sf::Vector2f(7200.f, 2776.23)));
+
     // Ladders
     vector<Ladders> ladders;
     ladders.push_back(Ladders(sf::Vector2f(40.0f, 387.44f), sf::Vector2f(4960.0f, 1140.80f)));
@@ -401,6 +428,7 @@ int main()
     prickers.push_back(Ladders(sf::Vector2f(80.0f, 26.9f), sf::Vector2f(2760.0f, 1759.64f)));
     prickers.push_back(Ladders(sf::Vector2f(80.0f, 26.9f), sf::Vector2f(2840.0f, 1759.64f)));
     prickers.push_back(Ladders(sf::Vector2f(80.0f, 26.9f), sf::Vector2f(7120.f, 3051.12f)));
+    prickers.push_back(Ladders(sf::Vector2f(80.0f, 26.9f), sf::Vector2f(7220.f, 3051.12f)));
 
     for (Ladders& pricker : prickers)
     {
@@ -418,13 +446,6 @@ int main()
     {
         pricker.SetTexture(&texturePricker2);
     }
-
-    vector<Ladders> upSpeeds;
-    upSpeeds.push_back(Ladders(sf::Vector2f(320.f, 13.45f), sf::Vector2f(5120.f, 317.87f)));
-    upSpeeds.push_back(Ladders(sf::Vector2f(400.f, 13.45f), sf::Vector2f(5520.f, 226.77f)));
-    upSpeeds.push_back(Ladders(sf::Vector2f(480.f, 13.45f), sf::Vector2f(5920.f, 398.97f)));
-    upSpeeds.push_back(Ladders(sf::Vector2f(240.f, 13.45f), sf::Vector2f(6480.f, 312.87f)));
-    upSpeeds.push_back(Ladders(sf::Vector2f(160.f, 13.45f), sf::Vector2f(6720.f, 188.72f)));
 
     // Class Object
     class player Player1;
@@ -446,34 +467,22 @@ int main()
     vector<enemy>::const_iterator iter4;
     vector<enemy> enemyArray;
 
+    vector<enemy2>::const_iterator iter44;
+    vector<enemy2> enemyArray2;
+
     // Enemy Object
     class enemy enemy1;
     enemy1.sprite.setTexture(textureEnemy);
+    
+    class enemy2 enemy0(0, 0);
+    enemy0.sprite.setTexture(textureEnemy2);
 
-    /*enemy1.sprite.setPosition(732.5, 403);
-    enemyArray.push_back(enemy1);
-    enemy1.sprite.setPosition(1075, 403);
-    enemyArray.push_back(enemy1);
-    enemy1.sprite.setPosition(1300, 350);
-    enemyArray.push_back(enemy1);
-    enemy1.sprite.setPosition(1700, 350);
-    enemyArray.push_back(enemy1);
-    enemy1.sprite.setPosition(2200, 440);
-    enemyArray.push_back(enemy1);
-    enemy1.sprite.setPosition(2500, 450);
-    enemyArray.push_back(enemy1);
-    enemy1.sprite.setPosition(2810, 1040);
-    enemyArray.push_back(enemy1);
-    enemy1.sprite.setPosition(3370, 1640);
-    enemyArray.push_back(enemy1);
-    enemy1.sprite.setPosition(4130, 1550);
-    enemyArray.push_back(enemy1);
-    enemy1.sprite.setPosition(4130, 1550);
-    enemyArray.push_back(enemy1);
-    enemy1.sprite.setPosition(4800, 1460);
-    enemyArray.push_back(enemy1);
-    enemy1.sprite.setPosition(4800, 1460);
-    enemyArray.push_back(enemy1);*/
+    class enemy2 enemy01(0, 230);
+    enemy01.sprite.setTexture(textureEnemy2);
+    enemy01.attackDamage = 10;
+    enemy01.hp = 40;
+    enemy01.movementSpeed = 2;
+    enemy01.check = 2;
 
     // Text Vector Array
     vector<textDisplay>::const_iterator iter8;
@@ -484,9 +493,9 @@ int main()
     textDisplay1.text.setFont(font);
 
     // Text Coins
-    sf::Text coinsCount("Coins : ", font, 25);
-    coinsCount.setFillColor(sf::Color::Blue);
-    coinsCount.setPosition(view1.getCenter().x + window.getSize().x / 2 - 200, 20);
+    sf::Text Score("Scores : ", font, 25);
+    Score.setFillColor(sf::Color::Blue);
+    Score.setPosition(view1.getCenter().x + window.getSize().x / 2 - 200, 20);
 
     // Coin Vector Array
     vector<pickup>::const_iterator iter11;
@@ -579,7 +588,54 @@ int main()
                 enemyArray.push_back(enemy1);
             }
 
+            for (int i = 0; i < 4; i++)
+            {
+                enemy1.sprite.setPosition(generateRandomin(4125, 4952), 1442);
+                enemyArray.push_back(enemy1);
+                enemy0.sprite.setPosition(generateRandomin(8400, 8780), 2700);
+                enemyArray2.push_back(enemy0);
+                enemy1.sprite.setPosition(generateRandomin(7550, 7900), 2700);
+                enemyArray.push_back(enemy1);
+                enemy1.sprite.setPosition(generateRandomin(8400, 8700), 2700);
+                enemyArray.push_back(enemy1);
+            }
+
+            for (int i = 0; i < 2; i++)
+            {
+                enemy0.sprite.setPosition(generateRandomin(4657, 4937), 995);
+                enemyArray2.push_back(enemy0);
+                enemy0.sprite.setPosition(generateRandomin(7000, 7500), 80);
+                enemyArray2.push_back(enemy0);  
+                enemy0.sprite.setPosition(generateRandomin(8400, 8780), 2700);
+                enemyArray2.push_back(enemy0);
+                enemy1.sprite.setPosition(generateRandomin(8400, 8700), 2700);
+                enemyArray.push_back(enemy1);
+                enemy01.sprite.setPosition(generateRandomin(8875, 9250), 2658);
+                enemyArray2.push_back(enemy01);
+            }
+
+            enemy0.sprite.setPosition(generateRandomin(7250, 7400), 860);
+            enemyArray2.push_back(enemy0);
+            enemy1.sprite.setPosition(generateRandomin(7250, 7400), 860);
+            enemyArray.push_back(enemy1);
+            enemy1.sprite.setPosition(5100, 240);
+            enemyArray.push_back(enemy1);
+            enemyArray.push_back(enemy1);
+            enemy1.sprite.setPosition(6127, 250);
+            enemyArray.push_back(enemy1);
+            enemyArray.push_back(enemy1);
+
+            enemy0.sprite.setPosition(5725, 135);
+            enemyArray2.push_back(enemy0);
+            enemy0.sprite.setPosition(7475, 2098);
+            enemyArray2.push_back(enemy0);
+            enemy0.sprite.setPosition(7290, 2180);
+            enemyArray2.push_back(enemy0);
+            enemy0.sprite.setPosition(6587, 220);
+            enemyArray2.push_back(enemy0);
+
             backgroundSound.play();
+            backgroundSound.setLoop(true);
             while (window.isOpen())
             {        
                 dt = clockdt.restart().asSeconds();
@@ -615,6 +671,53 @@ int main()
                             enemyArray[counter].OnCollision(direction1);
                         counter++;
                     }
+
+                    counter = 0;
+                    for (iter44 = enemyArray2.begin(); iter44 != enemyArray2.end(); iter44++)
+                    {
+                        if (platform.GetCollider().CheckCollision(enemyArray2[counter].GetCollider(), direction1, 1.0f))
+                            enemyArray2[counter].OnCollision(direction1);
+                        counter++;
+                    }
+
+                    counter = 0;
+                    for (iter = shootArray.begin(); iter != shootArray.end(); iter++)
+                    {
+                        if (shootArray[counter].sprite.getGlobalBounds().intersects(platform.body.getGlobalBounds()))
+                        {
+                            shootArray[counter].destroy = true;
+                        }
+                        counter++;
+                    }
+
+                    counter = 0;
+                    for (iter = enemyshootArray.begin(); iter != enemyshootArray.end(); iter++)
+                    {
+                        if (enemyshootArray[counter].sprite.getGlobalBounds().intersects(platform.body.getGlobalBounds()))
+                        {
+                            enemyshootArray[counter].destroy = true;
+                        }
+                        counter++;
+                    }
+                }
+
+                for (Platform& platform : enemyplatforms)
+                {
+                    counter = 0;
+                    for (iter4 = enemyArray.begin(); iter4 != enemyArray.end(); iter4++)
+                    {
+                        if (platform.GetCollider().CheckCollision(enemyArray[counter].GetCollider(), direction1, 1.0f))
+                            enemyArray[counter].OnCollision(direction1);
+                        counter++;
+                    }
+
+                    counter = 0;
+                    for (iter44 = enemyArray2.begin(); iter44 != enemyArray2.end(); iter44++)
+                    {
+                        if (platform.GetCollider().CheckCollision(enemyArray2[counter].GetCollider(), direction1, 1.0f))
+                            enemyArray2[counter].OnCollision(direction1);
+                        counter++;
+                    }
                 }
 
                 for (Ladders& ladder : ladders)
@@ -626,15 +729,6 @@ int main()
                             Player1.velocity.y = 0;
                             Player1.sprite.move(0, -Player1.movementSpeed);
                         }
-                    }
-                    counter = 0;
-                    for (iter4 = enemyArray.begin(); iter4 != enemyArray.end(); iter4++)
-                    {
-                        if (enemyArray[counter].sprite.getGlobalBounds().intersects(ladder.rect.getGlobalBounds()))
-                        {
-                            enemyArray[counter].sprite.setPosition(ladder.rect.getPosition().x + enemyArray[counter].sprite.getGlobalBounds().width, ladder.rect.getPosition().y + enemyArray[counter].sprite.getGlobalBounds().height);
-                        }
-                        counter++;
                     }
                 }
 
@@ -664,6 +758,8 @@ int main()
                         if (pickupArray[counter].isCol == true)
                         {
                             Player1.hp += pickupArray[counter].hp;
+                            if (Player1.hp >= 100)
+                                Player1.hp = 100;
                         }
                         pickupArray[counter].destroy = true;
                     }
@@ -749,6 +845,24 @@ int main()
 
                         counter++;
                     }
+
+                    counter = 0;
+                    for (iter44 = enemyArray2.begin(); iter44 != enemyArray2.end(); iter44++)
+                    {
+                        if (Player1.sprite.getGlobalBounds().intersects(enemyArray2[counter].sprite.getGlobalBounds()))
+                        {
+                            // Text Display
+                            textDisplay1.text.setString(to_string(enemyArray2[counter].attackDamage));
+                            textDisplay1.text.setPosition(Player1.sprite.getPosition().x + Player1.sprite.getGlobalBounds().width / 2,
+                                Player1.sprite.getPosition().y - Player1.sprite.getGlobalBounds().height / 2);
+                            textDisplayArray.push_back(textDisplay1);
+
+                            Player1.hp -= enemyArray2[counter].attackDamage;
+                            cout << Player1.hp << endl;
+                        }
+
+                        counter++;
+                    }
                 }
 
                 if (sf::Keyboard::isKeyPressed(sf::Keyboard::Y))
@@ -780,6 +894,35 @@ int main()
                             if (enemyArray[counter2].hp <= 0)
                             {
                                 enemyArray[counter2].alive = false;
+                            }
+                        }
+                        counter2++;
+                    }
+                    counter++;
+                }
+
+                counter = 0;
+                for (iter = shootArray.begin(); iter != shootArray.end(); iter++)
+                {
+                    counter2 = 0;
+                    for (iter44 = enemyArray2.begin(); iter44 != enemyArray2.end(); iter44++)
+                    {
+                        if (shootArray[counter].sprite.getGlobalBounds().intersects(enemyArray2[counter2].sprite.getGlobalBounds()))
+                        {
+                            //cout << "Collision" << endl;
+                            shootArray[counter].destroy = true;
+                            hitSound.play();
+
+                            // Text Display
+                            textDisplay1.text.setString(to_string(Player1.attackDamage));
+                            textDisplay1.text.setPosition(enemyArray2[counter2].sprite.getPosition().x + enemyArray2[counter2].sprite.getGlobalBounds().width / 2,
+                                enemyArray2[counter2].sprite.getPosition().y - enemyArray2[counter2].sprite.getGlobalBounds().height / 2.0f);
+                            textDisplayArray.push_back(textDisplay1);
+
+                            enemyArray2[counter2].hp -= Player1.attackDamage;
+                            if (enemyArray2[counter2].hp <= 0)
+                            {
+                                enemyArray2[counter2].alive = false;
                             }
                         }
                         counter2++;
@@ -864,6 +1007,34 @@ int main()
                     counter++;
                 }
 
+                counter = 0;
+                for (iter44 = enemyArray2.begin(); iter44 != enemyArray2.end(); iter44++)
+                {
+                    if (enemyArray2[counter].alive == false)
+                    {
+                        cout << "Enemy has been dead" << endl;
+                        score += 20;
+                        if (generateRandom(2) == 1)
+                        {
+                            pickup1.sprite.setPosition(enemyArray2[counter].sprite.getPosition());
+                            pickupArray.push_back(pickup1);
+                        }
+                        if (generateRandom(4) == 1)
+                        {
+                            pickupFire.sprite.setPosition(enemyArray2[counter].sprite.getPosition().x - 10, enemyArray2[counter].sprite.getPosition().y);
+                            pickupFireArray.push_back(pickupFire);
+                        }
+                        if (generateRandom(4) == 1)
+                        {
+                            pickupFirerate.sprite.setPosition(enemyArray2[counter].sprite.getPosition().x + 10, enemyArray2[counter].sprite.getPosition().y);
+                            pickupFirerateArray.push_back(pickupFirerate);
+                        }
+                        enemyArray2.erase(iter44);
+                        break;
+                    }
+                    counter++;
+                }
+
                 // Delete Text Display
                 counter = 0;
                 for (iter8 = textDisplayArray.begin(); iter8 != textDisplayArray.end(); iter8++)
@@ -922,7 +1093,7 @@ int main()
                             if (generateRandom(10) == 1)
                             {
                                 shootEnemy.sprite.setPosition(enemyArray[counter].GetPosition().x + enemyArray[counter].sprite.getGlobalBounds().width / 2,
-                                    enemyArray[counter].GetPosition().y + enemyArray[counter].sprite.getGlobalBounds().height / 2);
+                                    enemyArray[counter].GetPosition().y + 10);
                                 shootEnemy.direction = 3;
                                 enemyshootArray.push_back(shootEnemy);
                                 enemyshootSound.play();
@@ -941,7 +1112,48 @@ int main()
                             if (generateRandom(10) == 1)
                             {
                                 shootEnemy.sprite.setPosition(enemyArray[counter].GetPosition().x + enemyArray[counter].sprite.getGlobalBounds().width / 2,
-                                    enemyArray[counter].GetPosition().y + enemyArray[counter].sprite.getGlobalBounds().height / 2);
+                                    enemyArray[counter].GetPosition().y + 10);
+                                shootEnemy.direction = 4;
+                                enemyshootArray.push_back(shootEnemy);
+                                enemyshootSound.play();
+                            }
+                        }
+                        counter++;
+                    }
+
+                    counter = 0;
+                    for (iter44 = enemyArray2.begin(); iter44 != enemyArray2.end(); iter44++)
+                    {
+                        // Player from left
+                        if (enemyArray2[counter].sprite.getPosition().x - Player1.GetPosition().x >= 0 && enemyArray2[counter].sprite.getPosition().x - Player1.GetPosition().x < 550 && abs(enemyArray2[counter].sprite.getPosition().y - Player1.GetPosition().y) <= 100)
+                        {
+                            enemyArray2[counter].direction = 3;
+                            enemyArray2[counter].counter = 0;
+                            if (enemyArray2[counter].sprite.getPosition().x - Player1.GetPosition().x < 350)
+                                enemyArray2[counter].direction = 1;
+                            if (generateRandom(10) == 1)
+                            {
+                                shootEnemy.sprite.setPosition(enemyArray2[counter].GetPosition().x + enemyArray2[counter].sprite.getGlobalBounds().width / 2,
+                                    enemyArray2[counter].GetPosition().y + 10);
+                                shootEnemy.direction = 3;
+                                enemyshootArray.push_back(shootEnemy);
+                                enemyshootSound.play();
+                            }
+                        }
+
+                        // Player from right
+                        if (Player1.GetPosition().x - enemyArray2[counter].sprite.getPosition().x >= 0 && Player1.GetPosition().x - enemyArray2[counter].sprite.getPosition().x < 550 && abs(enemyArray2[counter].sprite.getPosition().y - Player1.GetPosition().y) <= 100)
+                        {
+                            enemyArray2[counter].direction = 4;
+                            enemyArray2[counter].counter = 0;
+                            if (Player1.GetPosition().x - enemyArray2[counter].sprite.getPosition().x < 350)
+                            {
+                                enemyArray2[counter].direction = 2;
+                            }
+                            if (generateRandom(10) == 1)
+                            {
+                                shootEnemy.sprite.setPosition(enemyArray2[counter].GetPosition().x + enemyArray2[counter].sprite.getGlobalBounds().width / 2,
+                                    enemyArray2[counter].GetPosition().y + 10);
                                 shootEnemy.direction = 4;
                                 enemyshootArray.push_back(shootEnemy);
                                 enemyshootSound.play();
@@ -992,13 +1204,12 @@ int main()
                 //Update Player
                 Player1.update(dt);
                 cout << Player1.movementSpeed << endl;
+
                 // Update UI
                 view1.setCenter(Player1.GetPosition().x, Player1.GetPosition().y - window.getSize().y / 7);
-                coinsCount.setPosition(view1.getCenter().x + window.getSize().x / 2 - 200, 20);
-                playerHp.setPosition(view1.getCenter().x - window.getSize().x / 2 + 20, 30);
-                playerHpSlot.setPosition(view1.getCenter().x - window.getSize().x / 2 + 20, 30);
-                playerMana.setPosition(view1.getCenter().x - window.getSize().x / 2 + 250, 30);
-                playerManaSlot.setPosition(view1.getCenter().x - window.getSize().x / 2 + 250, 30);
+                Score.setPosition(view1.getCenter().x + 300, view1.getCenter().y - 280);
+                playerHp.setPosition(view1.getCenter().x - 350, view1.getCenter().y - 270);
+                playerHpSlot.setPosition(view1.getCenter().x - 350, view1.getCenter().y - 270);
 
                 window.setView(view1);
 
@@ -1010,10 +1221,20 @@ int main()
                     counter++;
                 }
 
+                counter = 0;
+                for (iter44 = enemyArray2.begin(); iter44 != enemyArray2.end(); iter44++)
+                {
+                    if(enemyArray2[counter].check == 1)
+                        enemyArray2[counter].update(0, 0, dt);
+                    if(enemyArray2[counter].check == 2)
+                        enemyArray2[counter].update(0, 230, dt);
+                    counter++;
+                }
+
                 // Update UI
                 playerHp.setSize(sf::Vector2f(Player1.hp * 2, 20));
                 playerMana.setSize(sf::Vector2f(Player1.mana * 2, 20));
-                coinsCount.setString("Coins : " + to_string(Player1.coins));
+                Score.setString("Scores : " + to_string(score));
 
                 ////////////////////////////////////////////////////////********* DRAW EVERYTHING *******/////////////////////////////////////////////////////////////////////
 
@@ -1063,6 +1284,13 @@ int main()
                     counter++;
                 }
 
+                counter = 0;
+                for (iter44 = enemyArray2.begin(); iter44 != enemyArray2.end(); iter44++)
+                {
+                    window.draw(enemyArray2[counter].sprite);
+                    counter++;
+                }
+
                 // Draw shoot
                 counter = 0;
                 for (iter = shootArray.begin(); iter != shootArray.end(); iter++)
@@ -1079,11 +1307,9 @@ int main()
                 }
 
                 // Draw UI
-                /*window.draw(coinsCount);
+                window.draw(Score);
                 window.draw(playerHpSlot);
                 window.draw(playerHp);
-                window.draw(playerManaSlot);
-                window.draw(playerMana);*/
 
                 // Draw Text
                 counter = 0;
