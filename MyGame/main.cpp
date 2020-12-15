@@ -581,7 +581,7 @@ int main()
                 enemy1.sprite.setPosition(generateRandomin(400, 2875), 200);
                 enemyArray.push_back(enemy1);
             }
-
+            cout << "HELLO" << endl;
             for (int i = 0; i < 3; i++)
             {
                 enemy1.sprite.setPosition(generateRandomin(3125, 3575), 1627);
