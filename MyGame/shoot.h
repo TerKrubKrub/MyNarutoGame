@@ -13,6 +13,7 @@ public:
 	int couterLifetime = 0;
 	int lifeTime = 50;
 	int counterAnimation = 0;
+	sf::Vector2f velocity;
 
 	shoot();
 	void update();

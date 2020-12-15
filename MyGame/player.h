@@ -17,6 +17,7 @@ public:
 	float fireRate = 0.5f;
 	bool powerupFirerate = false;
 	bool powerupFire = false;
+	int score = 0;
 	sf::Vector2f velocity;
 
 	player();
