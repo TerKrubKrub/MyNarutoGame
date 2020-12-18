@@ -1084,6 +1084,24 @@ int main()
                     }
                 }
 
+                if (Player1.sprite.getGlobalBounds().intersects(door1.getGlobalBounds()))
+                {
+                    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
+                        Player1.sprite.setPosition(10, 20);
+                }
+
+                if (Player1.sprite.getGlobalBounds().intersects(door2.getGlobalBounds()))
+                {
+                    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
+                        Player1.hp -= 100; // END GAME
+                }
+
+                if (Player1.sprite.getGlobalBounds().intersects(door3.getGlobalBounds()))
+                {
+                    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
+                        Player1.sprite.setPosition(10, 20);
+                }
+
                 if (clockEnemy.getElapsedTime().asSeconds() >= 0.1)
                 {
                     clockEnemy.restart();
