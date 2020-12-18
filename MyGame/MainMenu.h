@@ -4,12 +4,13 @@
 class MainMenu
 {
 public:
-	MainMenu(float width, float height);
+	MainMenu(float width, float height, sf::View view);
 
 	void Draw(sf::RenderWindow& window);
 	void DrawOver(sf::RenderWindow& window);
 	void moveUp();
 	void moveDown();
+	void update(sf::View view);
 
 	int mainMenuPressed()
 	{
