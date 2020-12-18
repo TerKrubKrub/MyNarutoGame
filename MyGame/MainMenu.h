@@ -7,6 +7,7 @@ public:
 	MainMenu(float width, float height);
 
 	void Draw(sf::RenderWindow& window);
+	void DrawOver(sf::RenderWindow& window);
 	void moveUp();
 	void moveDown();
 

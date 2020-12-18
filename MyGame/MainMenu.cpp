@@ -26,13 +26,25 @@ MainMenu::MainMenu(float width, float height)
 	mainMenu[2].setCharacterSize(50);
 	mainMenu[2].setPosition(500, 450);
 
+	// GAME OVER
+	mainMenu[3].setFont(font);
+	mainMenu[3].setFillColor(sf::Color::White);
+	mainMenu[3].setString("GAME OVER");
+	mainMenu[3].setCharacterSize(100);
+	mainMenu[3].setPosition(500, 300);
+
 	mainMenuSelected = 0;
 }
 
 void MainMenu::Draw(sf::RenderWindow& window)
 {
-	for (int i = 0; i < Max_main_menu; i++)
+	for (int i = 0; i < 3; i++)
 		window.draw(mainMenu[i]);
+}
+
+void MainMenu::DrawOver(sf::RenderWindow& window)
+{
+		window.draw(mainMenu[3]);
 }
 
 void MainMenu::moveUp()

@@ -473,7 +473,7 @@ int main()
     // Enemy Object
     class enemy enemy1;
     enemy1.sprite.setTexture(textureEnemy);
-    
+
     class enemy2 enemy0(0, 0);
     enemy0.sprite.setTexture(textureEnemy2);
 
@@ -565,14 +565,14 @@ int main()
                         State = mainmenu.mainMenuPressed();
                         break;
                     }
-                }              
-            }     
+                }
+            }
             window.clear();
             printf("%d", State);
             mainmenu.Draw(window);
             window.display();
         }
-        
+
         // Start the game loop
         if (State == 0)
         {
@@ -581,7 +581,7 @@ int main()
                 enemy1.sprite.setPosition(generateRandomin(400, 2875), 200);
                 enemyArray.push_back(enemy1);
             }
-
+            cout << "HELLO" << endl;
             for (int i = 0; i < 3; i++)
             {
                 enemy1.sprite.setPosition(generateRandomin(3125, 3575), 1627);
@@ -605,7 +605,7 @@ int main()
                 enemy0.sprite.setPosition(generateRandomin(4657, 4937), 995);
                 enemyArray2.push_back(enemy0);
                 enemy0.sprite.setPosition(generateRandomin(7000, 7500), 80);
-                enemyArray2.push_back(enemy0);  
+                enemyArray2.push_back(enemy0);
                 enemy0.sprite.setPosition(generateRandomin(8400, 8780), 2700);
                 enemyArray2.push_back(enemy0);
                 enemy1.sprite.setPosition(generateRandomin(8400, 8700), 2700);
@@ -637,7 +637,7 @@ int main()
             backgroundSound.play();
             backgroundSound.setLoop(true);
             while (window.isOpen())
-            {        
+            {
                 dt = clockdt.restart().asSeconds();
                 // Process events
                 sf::Event event;
@@ -1176,7 +1176,7 @@ int main()
                 {
                     enemyshootArray[counter].update(); // Update Shoot
                     counter++;
-                }              
+                }
 
                 // Delete Shoot
                 counter = 0;
@@ -1199,7 +1199,7 @@ int main()
                         break;
                     }
                     counter++;
-                }                
+                }
 
                 //Update Player
                 Player1.update(dt);
@@ -1224,9 +1224,9 @@ int main()
                 counter = 0;
                 for (iter44 = enemyArray2.begin(); iter44 != enemyArray2.end(); iter44++)
                 {
-                    if(enemyArray2[counter].check == 1)
+                    if (enemyArray2[counter].check == 1)
                         enemyArray2[counter].update(0, 0, dt);
-                    if(enemyArray2[counter].check == 2)
+                    if (enemyArray2[counter].check == 2)
                         enemyArray2[counter].update(0, 230, dt);
                     counter++;
                 }
