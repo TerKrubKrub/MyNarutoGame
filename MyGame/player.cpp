@@ -2,7 +2,7 @@
 
 player::player()
 {
-    sprite.setPosition(10000, 2878);
+    sprite.setPosition(300, 400);
     sprite.setTextureRect(sf::IntRect(6, 147, 37, 67));
     direction = 4;
 }
@@ -15,6 +15,7 @@ void player::update(float dt)
     }
     sprite.move(velocity * dt);
     this->updateMovement(dt);
+    cout << sprite.getPosition().x << "   " << sprite.getPosition().y << endl;
 }
 
 void player::updateMovement(float dt)

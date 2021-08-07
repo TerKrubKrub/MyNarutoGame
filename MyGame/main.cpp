@@ -1,4 +1,7 @@
+#define _CRT_SECURE_NO_WARNINGS
 #include <iostream>
+#include <sstream>
+#include <fstream>
 using namespace std;
 #include "SFML/Graphics.hpp"
 #include "player.h"
@@ -21,12 +24,10 @@ int main()
     sf::Clock clockdt;
     sf::Clock clock;
     sf::Clock clockCollideEnemy;
-    sf::Clock clockmana;
     sf::Clock clockEnemy;
     sf::Clock itemFire;
     sf::Clock itemFirerate;
 
-    int score = 0;
     float dt = 0.0f;
     int counter = 0;
     int counter2 = 0;
@@ -35,12 +36,18 @@ int main()
     sf::RenderWindow window(sf::VideoMode(1000, 600), "JIRAKAN KOOLLASING 63010136");
     window.setFramerateLimit(60);
 
-    class MainMenu mainmenu(window.getSize().x, window.getSize().y);
-    int State = -1;
-
     sf::View view1;
     view1.setSize(window.getSize().x, window.getSize().y);
     view1.setCenter(window.getSize().x / 2, window.getSize().y / 2);
+
+    class MainMenu mainmenu(window.getSize().x, window.getSize().y, view1);
+    int State = -1;
+
+    sf::String input;
+    sf::Text playerName;
+    sf::String name[5];
+    sf::Text PlayerName[5];
+    sf::Text PlayerScore[5];
 
     sf::Texture textureEnemy;
     if (!textureEnemy.loadFromFile("Resources/enemySpriteSheet.png")) EXIT_FAILURE;
@@ -102,7 +109,7 @@ int main()
 
     sf::Music backgroundSound;
     if (!backgroundSound.openFromFile("Resources/Sounds/backgroundSound.wav")) EXIT_FAILURE;
-    backgroundSound.setVolume(5.f);
+    backgroundSound.setVolume(15.f);
 
     sf::SoundBuffer bufferShootRasengan;
     if (!bufferShootRasengan.loadFromFile("Resources/Sounds/Shoot.wav")) EXIT_FAILURE;
@@ -526,62 +533,19 @@ int main()
     playerHpSlot.setOutlineColor(sf::Color::Black);
     playerHpSlot.setOutlineThickness(1);
 
-    sf::RectangleShape playerMana;
-    playerMana.setFillColor(sf::Color::Cyan);
-    playerMana.setPosition(250, 30);
-
-    sf::RectangleShape playerManaSlot;
-    playerManaSlot.setSize(sf::Vector2f(200, 20));
-    playerManaSlot.setPosition(250, 30);
-    playerManaSlot.setOutlineColor(sf::Color::Black);
-    playerManaSlot.setOutlineThickness(1);
-
     //Main Menu State
     while (window.isOpen())
     {
         // Process events
         sf::Event event;
-        if (State == -1)
-        {
-            while (window.pollEvent(event))
-            {
-                // Close window : exit
-                if (event.type == sf::Event::Closed)
-                    window.close();
-                if (event.type == sf::Event::KeyReleased)
-                {
-                    if (event.key.code == sf::Keyboard::Up or event.key.code == sf::Keyboard::W)
-                    {
-                        mainmenu.moveUp();
-                        break;
-                    }
-                    if (event.key.code == sf::Keyboard::Down or event.key.code == sf::Keyboard::S)
-                    {
-                        mainmenu.moveDown();
-                        break;
-                    }
-                    if (event.key.code == sf::Keyboard::Return)
-                    {
-                        State = mainmenu.mainMenuPressed();
-                        break;
-                    }
-                }
-            }
-            window.clear();
-            printf("%d", State);
-            mainmenu.Draw(window);
-            window.display();
-        }
-
         // Start the game loop
-        if (State == 0)
+        if (State == 3)
         {
-            for (int i = 0; i < 10; i++)
+            for (int i = 0; i < 6; i++)
             {
-                enemy1.sprite.setPosition(generateRandomin(400, 2875), 200);
+                enemy1.sprite.setPosition(generateRandomin(400, 2875), 100);
                 enemyArray.push_back(enemy1);
             }
-            cout << "HELLO" << endl;
             for (int i = 0; i < 3; i++)
             {
                 enemy1.sprite.setPosition(generateRandomin(3125, 3575), 1627);
@@ -595,8 +559,6 @@ int main()
                 enemy0.sprite.setPosition(generateRandomin(8400, 8780), 2700);
                 enemyArray2.push_back(enemy0);
                 enemy1.sprite.setPosition(generateRandomin(7550, 7900), 2700);
-                enemyArray.push_back(enemy1);
-                enemy1.sprite.setPosition(generateRandomin(8400, 8700), 2700);
                 enemyArray.push_back(enemy1);
             }
 
@@ -639,6 +601,10 @@ int main()
             while (window.isOpen())
             {
                 dt = clockdt.restart().asSeconds();
+                if (dt > 1 / 40.f)
+                {
+                    dt = 1 / 40.f;
+                }
                 // Process events
                 sf::Event event;
                 while (window.pollEvent(event))
@@ -651,8 +617,39 @@ int main()
 
                 if (Player1.hp <= 0)
                 {
-                    State = 3;
-                    window.close();
+                    FILE* fp;
+                    vector <pair<int, string>> userScore;
+                    char temp[255];
+                    int scoreH[6];
+                    string name[6];
+                    fp = fopen("./Score.txt", "r");
+                    for (int i = 0; i < 5; i++)
+                    {
+                        fscanf(fp, "%s", &temp);
+                        name[i] = temp;
+                        fscanf(fp, "%d", &scoreH[i]);
+                        userScore.push_back(make_pair(scoreH[i], name[i]));
+                        //cout << temp << " " << score;
+                    }
+                    scoreH[5] = Player1.score;
+                    name[5] = input;
+                    userScore.push_back(make_pair(scoreH[5], name[5]));
+                    sort(userScore.begin(), userScore.end());
+                    fclose(fp);
+                    fopen("./Score.txt", "w");
+                    for (int i = 5; i >= 1; i--)
+                    {
+                        strcpy(temp, userScore[i].second.c_str());
+                        fprintf(fp, "%s %d\n", temp, userScore[i].first);
+                    }
+                    fclose(fp);
+
+                    State = -1;
+                    Player1.hp = 100;
+                    Player1.score = 0;
+                    Player1.sprite.setPosition(20, -500);
+                    enemyArray.clear();
+                    enemyArray2.clear();
                     break;
                 }
                 // Clock
@@ -860,15 +857,13 @@ int main()
                             Player1.hp -= enemyArray2[counter].attackDamage;
                             cout << Player1.hp << endl;
                         }
-
                         counter++;
                     }
                 }
 
-                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Y))
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape))
                 {
-                    enemy1.sprite.setPosition(generateRandom(window.getSize().x), generateRandom(window.getSize().y));
-                    enemyArray.push_back(enemy1);
+                    window.close();
                 }
 
                 // Projectile Collides with Enemy
@@ -937,7 +932,7 @@ int main()
                     if (enemyshootArray[counter].sprite.getGlobalBounds().intersects(Player1.sprite.getGlobalBounds()))
                     {
                         hitSound.play();
-                        score -= 1;
+                        Player1.score -= 1;
                         enemyshootArray[counter].destroy = true;
                         Player1.hp -= enemyshootArray[counter].attackDamage;
                     }
@@ -985,7 +980,7 @@ int main()
                     if (enemyArray[counter].alive == false)
                     {
                         cout << "Enemy has been dead" << endl;
-                        score += 10;
+                        Player1.score += 10;
                         if (generateRandom(2) == 1)
                         {
                             pickup1.sprite.setPosition(enemyArray[counter].sprite.getPosition());
@@ -1013,7 +1008,7 @@ int main()
                     if (enemyArray2[counter].alive == false)
                     {
                         cout << "Enemy has been dead" << endl;
-                        score += 20;
+                        Player1.score += 20;
                         if (generateRandom(2) == 1)
                         {
                             pickup1.sprite.setPosition(enemyArray2[counter].sprite.getPosition());
@@ -1047,14 +1042,8 @@ int main()
                     counter++;
                 }
 
-                if (clockmana.getElapsedTime().asSeconds() >= 1)
-                {
-                    clockmana.restart();
-                    if (Player1.mana < 100) Player1.mana += 5;
-                }
-
                 // Shoot                   
-                if (sf::Mouse::isButtonPressed(sf::Mouse::Left))
+                if (sf::Keyboard::isKeyPressed(sf::Keyboard::J))
                 {
                     if (clock.getElapsedTime().asSeconds() >= Player1.fireRate)
                     {
@@ -1075,6 +1064,59 @@ int main()
                             shootArray.push_back(shoot1);
                         }
                     }
+                }
+
+                if (Player1.sprite.getGlobalBounds().intersects(door1.getGlobalBounds()))
+                {
+                    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
+                        Player1.sprite.setPosition(10, 20);
+                }
+
+                if (Player1.sprite.getGlobalBounds().intersects(door2.getGlobalBounds()))
+                {
+                    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
+                    {
+                        FILE* fp;
+                        vector <pair<int, string>> userScore;
+                        char temp[255];
+                        int scoreH[6];
+                        string name[6];
+                        fp = fopen("./Score.txt", "r");
+                        for (int i = 0; i < 5; i++)
+                        {
+                            fscanf(fp, "%s", &temp);
+                            name[i] = temp;
+                            fscanf(fp, "%d", &scoreH[i]);
+                            userScore.push_back(make_pair(scoreH[i], name[i]));
+                            //cout << temp << " " << score;
+                        }
+                        scoreH[5] = Player1.score;
+                        name[5] = input;
+                        userScore.push_back(make_pair(scoreH[5], name[5]));
+                        sort(userScore.begin(), userScore.end());
+                        fclose(fp);
+                        fopen("./Score.txt", "w");
+                        for (int i = 5; i >= 1; i--)
+                        {
+                            strcpy(temp, userScore[i].second.c_str());
+                            fprintf(fp, "%s %d\n", temp, userScore[i].first);
+                        }
+                        fclose(fp);
+
+                        State = -1;
+                        Player1.hp = 100;
+                        Player1.score = 0;
+                        Player1.sprite.setPosition(20, -500);
+                        enemyArray.clear();
+                        enemyArray2.clear();
+                        return 0; // END GAME
+                    }
+                }
+
+                if (Player1.sprite.getGlobalBounds().intersects(door3.getGlobalBounds()))
+                {
+                    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
+                        Player1.sprite.setPosition(10, 20);
                 }
 
                 if (clockEnemy.getElapsedTime().asSeconds() >= 0.1)
@@ -1203,7 +1245,7 @@ int main()
 
                 //Update Player
                 Player1.update(dt);
-                cout << Player1.movementSpeed << endl;
+                //cout << Player1.movementSpeed << endl;
 
                 // Update UI
                 view1.setCenter(Player1.GetPosition().x, Player1.GetPosition().y - window.getSize().y / 7);
@@ -1233,8 +1275,7 @@ int main()
 
                 // Update UI
                 playerHp.setSize(sf::Vector2f(Player1.hp * 2, 20));
-                playerMana.setSize(sf::Vector2f(Player1.mana * 2, 20));
-                Score.setString("Scores : " + to_string(score));
+                Score.setString("Scores : " + to_string(Player1.score));
 
                 ////////////////////////////////////////////////////////********* DRAW EVERYTHING *******/////////////////////////////////////////////////////////////////////
 
@@ -1320,10 +1361,134 @@ int main()
 
                     counter++;
                 }
-                //cout << "Player.y = " << Player1.GetPosition().y << endl;
-                cout << "x = " << window.mapPixelToCoords(sf::Mouse::getPosition(window)).x << " y = " << window.mapPixelToCoords(sf::Mouse::getPosition(window)).y << endl;
+                //cout <<"Player.x = " << Player1.GetPosition().x << " Player.y = " << Player1.GetPosition().y << endl;
+                //cout << "x = " << window.mapPixelToCoords(sf::Mouse::getPosition(window)).x << " y = " << window.mapPixelToCoords(sf::Mouse::getPosition(window)).y << endl;
                 window.display();
             }
+        }
+
+        if (State == -1)
+        {
+            while (window.pollEvent(event))
+            {
+                // Close window : exit
+                if (event.type == sf::Event::Closed)
+                    window.close();
+                if (event.type == sf::Event::KeyReleased)
+                {
+                    if (event.key.code == sf::Keyboard::Up or event.key.code == sf::Keyboard::W)
+                    {
+                        mainmenu.moveUp();
+                        break;
+                    }
+                    if (event.key.code == sf::Keyboard::Down or event.key.code == sf::Keyboard::S)
+                    {
+                        mainmenu.moveDown();
+                        break;
+                    }
+                    if (event.key.code == sf::Keyboard::Return)
+                    {
+                        State = mainmenu.mainMenuPressed();
+                        break;
+                    }
+                }
+            }
+            window.clear();
+            printf("%d", State);
+            mainmenu.update(view1);
+            mainmenu.Draw(window);
+            window.display();
+        }
+
+
+        if (State == 0)
+        {
+            playerName.setFillColor(sf::Color::White);
+            playerName.setFont(font);
+            playerName.setCharacterSize(25);
+            playerName.setPosition(window.getSize().x / 2, window.getSize().y / 2);
+
+            while (window.pollEvent(event))
+            {
+                if (event.type == sf::Event::Closed)
+                    window.close();
+                if (event.type == sf::Event::TextEntered)
+                {
+                    if (event.text.unicode < 128)
+                    {
+                        std::cout << "Text entered: " << (event.text.unicode) << std::endl;
+                        if (event.text.unicode == static_cast<sf::Uint32>(8) && input.getSize() > 0)
+                        {
+                            input.erase(input.getSize() - 1);
+                        }
+                        else
+                        {
+                            if (input.getSize() < 12 && event.text.unicode != 13)
+                            {
+                                if (event.text.unicode >= 97 && event.text.unicode <= 122)
+                                {
+                                    event.text.unicode -= 32;
+                                }
+                                if (event.text.unicode == 32)
+                                {
+                                    event.text.unicode = 95;
+                                }
+                                input += event.text.unicode;
+                            }
+                        }
+                    }
+                }
+            }
+            window.clear();
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
+                State = 3;
+            playerName.setString(input);
+            window.draw(playerName);
+            window.display();
+        }
+
+        if (State == 1)
+        {
+            while (window.pollEvent(event))
+            {
+                if (event.type == sf::Event::Closed)
+                    window.close();
+                FILE* fp = fopen("./score.txt", "r");
+                char temp[255];
+                int score[5];
+                vector <pair<int, string>> userScore;
+
+                for (int i = 0; i < 5; i++)
+                {
+                    fscanf(fp, "%s", &temp);
+                    name[i] = temp;
+                    PlayerName[i].setString(name[i]);
+                    fscanf(fp, "%d", &score[i]);
+                    PlayerScore[i].setString(std::to_string(score[i]));
+                    userScore.push_back(std::make_pair(score[i], name[i]));
+                }
+
+                for (int i = 0; i < 5; i++)
+                {
+                    PlayerName[i].setFont(font);
+                    PlayerName[i].setCharacterSize(22.f);
+                    PlayerName[i].setFillColor(sf::Color::White);
+                    PlayerName[i].setPosition(view1.getCenter().x - 140, view1.getCenter().y - window.getSize().y / 2.f + 100.f + (100 * i));
+                    PlayerScore[i].setFont(font);
+                    PlayerScore[i].setCharacterSize(22.f);
+                    PlayerScore[i].setFillColor(sf::Color::White);
+                    PlayerScore[i].setPosition(view1.getCenter().x + 100, view1.getCenter().y - window.getSize().y / 2.f + 100.f + (100 * i));
+                }
+            }
+            window.clear();
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Return))
+                State = -1;
+            for (int i = 0; i < 5; i++)
+            {
+                window.draw(PlayerName[i]);
+                window.draw(PlayerScore[i]);
+            }
+            window.display();
         }
     }
 
